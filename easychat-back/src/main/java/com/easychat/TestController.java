@@ -1,4 +1,4 @@
-package com.easychat.controller;
+package com.easychat;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
