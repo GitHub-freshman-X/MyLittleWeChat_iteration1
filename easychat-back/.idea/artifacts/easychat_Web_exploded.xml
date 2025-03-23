@@ -5,7 +5,7 @@
       <element id="javaee-facet-resources" facet="easychat/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="easychat" />
+          <element id="module-output" name="easychat-back" />
         </element>
       </element>
     </root>
