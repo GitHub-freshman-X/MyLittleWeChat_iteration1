@@ -1,10 +1,14 @@
 package com.easychat.service.impl;
 
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Resource;
 
+import com.easychat.entity.enums.BeautyAccountStatusEnum;
+import com.easychat.entity.enums.UserContacTypeEnum;
+import com.easychat.entity.po.UserInfoBeauty;
 import com.easychat.exception.BusinessException;
+import com.easychat.mappers.UserInfoBeautyMapper;
 import org.springframework.stereotype.Service;
 
 import com.easychat.entity.enums.PageSize;
@@ -26,6 +30,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Resource
 	private UserInfoMapper<UserInfo, UserInfoQuery> userInfoMapper;
 
+	@Resource
+	private UserInfoBeautyMapper <UserInfoBeauty,UserInfoQuery> userInfoBeautyMapper;
 	/**
 	 * 根据条件查询列表
 	 */
@@ -130,7 +136,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 
-
 	/**
 	 * 根据Email获取对象
 	 */
@@ -154,15 +159,32 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public Integer deleteUserInfoByEmail(String email) {
 		return this.userInfoMapper.deleteByEmail(email);
 	}
-
-	/*
-	* 根据邮箱注册
-	*/
 	@Override
-	public void register(String email, String nickName, String password){
-		UserInfo userInfo = this.userInfoMapper.selectByEmail(email);
-		if(userInfo == null){
-			throw new BusinessException("邮箱账号");
+	public Map<String,Object> register(String email, String nickName, String password) {
+		Map<String, Object> result = new HashMap<>();
+		UserInfo userInfo=this.userInfoMapper.selectByEmail(email);
+		if(userInfo==null){
+			String userId= StringTools.getUserID();
+
+			UserInfoBeauty beautyAccount=this.userInfoBeautyMapper.selectByEmail(email);
+			Boolean useBeautyAccount = null != beautyAccount && BeautyAccountStatusEnum.No_USE.getStatus().equals(beautyAccount.getStatus());
+			if(useBeautyAccount){
+				userId=UserContacTypeEnum.USER.getPrefix()+beautyAccount.getUserId();
+			}
+
+			userInfo=new UserInfo();
+			userInfo.setUserId(userId);
+			userInfo.setNickName(nickName);
+			userInfo.setEmail(email);
+			userInfo.setPassword(password);
+
 		}
+		else {
+			result.put("success",false);
+			result.put("errorMsg" ,"邮箱已存在");
+			return result;
+		}
+		return  result;
 	}
+
 }

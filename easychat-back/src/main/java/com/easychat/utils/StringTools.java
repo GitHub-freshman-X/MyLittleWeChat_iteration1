@@ -1,5 +1,10 @@
 package com.easychat.utils;
+import com.easychat.entity.constants.Constants;
+import com.easychat.entity.enums.UserContacTypeEnum;
 import com.easychat.exception.BusinessException;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.util.DigestUtils;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -51,5 +56,19 @@ public class StringTools {
         return false;
     }
 
-    public static String getUser
+    public static String getUserID(){
+        return UserContacTypeEnum.USER.getPrefix() + getRandomNumber(Constants.LENGTH_11);
+    }
+
+    public static String getRandomNumber(Integer count) {
+        return RandomStringUtils.random(count,false,true);
+    }
+
+    public static String getRandomString(Integer count) {
+        return RandomStringUtils.random(count,true,true);
+    }
+
+    public static final String encodeMd5(String originString) {
+        return StringTools.isEmpty(originString) ? null : DigestUtils.md5Hex(originString);
+    }
 }
