@@ -4,11 +4,17 @@ import java.util.*;
 
 import javax.annotation.Resource;
 
+import com.easychat.entity.config.Appconfig;
+import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.enums.BeautyAccountStatusEnum;
 import com.easychat.entity.enums.UserContacTypeEnum;
+import com.easychat.entity.enums.UserStatusEnum;
 import com.easychat.entity.po.UserInfoBeauty;
+import com.easychat.entity.query.UserInfoBeautyQuery;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.UserInfoBeautyMapper;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.ibatis.reflection.ArrayUtil;
 import org.springframework.stereotype.Service;
 
 import com.easychat.entity.enums.PageSize;
@@ -32,6 +38,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Resource
 	private UserInfoBeautyMapper <UserInfoBeauty,UserInfoQuery> userInfoBeautyMapper;
+
+	@Resource
+	private Appconfig appconfig;
 	/**
 	 * 根据条件查询列表
 	 */
@@ -160,31 +169,59 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return this.userInfoMapper.deleteByEmail(email);
 	}
 	@Override
-	public Map<String,Object> register(String email, String nickName, String password) {
-		Map<String, Object> result = new HashMap<>();
+	public void register(String email, String nickName, String password) {
 		UserInfo userInfo=this.userInfoMapper.selectByEmail(email);
-		if(userInfo==null){
-			String userId= StringTools.getUserID();
-
-			UserInfoBeauty beautyAccount=this.userInfoBeautyMapper.selectByEmail(email);
-			Boolean useBeautyAccount = null != beautyAccount && BeautyAccountStatusEnum.No_USE.getStatus().equals(beautyAccount.getStatus());
-			if(useBeautyAccount){
-				userId=UserContacTypeEnum.USER.getPrefix()+beautyAccount.getUserId();
-			}
-
-			userInfo=new UserInfo();
-			userInfo.setUserId(userId);
-			userInfo.setNickName(nickName);
-			userInfo.setEmail(email);
-			userInfo.setPassword(password);
-
+		if(null!=userInfo){
+			throw new BusinessException("邮箱账号已经存在");
 		}
-		else {
-			result.put("success",false);
-			result.put("errorMsg" ,"邮箱已存在");
-			return result;
+		String userId= StringTools.getUserID();
+		UserInfoBeauty beautyAccount=this.userInfoBeautyMapper.selectByEmail(email);
+		Boolean useBeautyAccount = null != beautyAccount && BeautyAccountStatusEnum.No_USE.getStatus().equals(beautyAccount.getStatus());
+		if(useBeautyAccount){
+			userId=UserContacTypeEnum.USER.getPrefix()+beautyAccount.getUserId();
 		}
-		return  result;
+		Date curDate=new Date();
+		userInfo=new UserInfo();
+		userInfo.setUserId(userId);
+		userInfo.setNickName(nickName);
+		userInfo.setEmail(email);
+		userInfo.setPassword(StringTools.encodeMd5(password));
+		userInfo.setCreateTime(curDate);
+		userInfo.setStatus(UserStatusEnum.ENABLE.getStatus());
+		userInfo.setLastOffTime(curDate.getTime());
+		this.userInfoMapper.insert(userInfo);
+		if(useBeautyAccount){
+			UserInfoBeauty updateBeauty=new UserInfoBeauty();
+			updateBeauty.setStatus(BeautyAccountStatusEnum.USEED.getStatus());
+			this.userInfoBeautyMapper.updateById(updateBeauty,beautyAccount.getId());
+		}
+		//TODO 创建机器人好友
 	}
 
+	@Override
+	public TokenUserInfoDto login(String email, String password) {
+		UserInfo userInfo=this.userInfoMapper.selectByEmail(email);
+
+		if(null==userInfo || !userInfo.getPassword().equals(password)){
+			throw new BusinessException("账号或密码错误");
+		}
+
+		if(UserStatusEnum.DISABLE.equals(userInfo.getStatus())){
+			throw new BusinessException("账号已禁用");
+		}
+		TokenUserInfoDto tokenUserInfoDto=getTokenUserInfoDto(userInfo);
+		return tokenUserInfoDto;
+	}
+	private TokenUserInfoDto getTokenUserInfoDto(UserInfo userInfo){
+		TokenUserInfoDto tokenUserInfoDto=new TokenUserInfoDto();
+		tokenUserInfoDto.setUserId(userInfo.getUserId());
+		tokenUserInfoDto.setNickName(userInfo.getNickName());
+		String adminEmail=appconfig.getAdminEmail();
+		if(!StringTools.isEmpty(adminEmail)&& ArrayUtils.contains(adminEmail.split(","),userInfo.getEmail())){
+			tokenUserInfoDto.setAdmin(true);
+		}else{
+			tokenUserInfoDto.setAdmin(false);
+		}
+		return tokenUserInfoDto;
+	}
 }

@@ -1,6 +1,7 @@
 package com.easychat.controller;
 
 import com.easychat.entity.constants.Constants;
+import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.vo.ResponseVO;
 
 import com.easychat.exception.BusinessException;
@@ -51,8 +52,11 @@ private UserInfoService userInfoService;
         return  getSuccessResponseVO(null);
     }
     @RequestMapping("/register")
-    public ResponseVO register(@NotEmpty String checkCodeKey, @NotEmpty @Email String email,
-                               @NotEmpty String password,@NotEmpty String nickName, String checkCode){
+    public ResponseVO register(@NotEmpty String checkCodeKey,
+                               @NotEmpty @Email String email,
+                               @NotEmpty String password,
+                               @NotEmpty String nickName,
+                               @NotEmpty String checkCode){
         try {
             if(!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
                 throw new BusinessException("图片验证码错误");
@@ -67,4 +71,23 @@ private UserInfoService userInfoService;
         }
     }
 
+    @RequestMapping("/login")
+    public ResponseVO login(@NotEmpty String checkCodeKey,
+                            @NotEmpty @Email String email,
+                            @NotEmpty String password,
+                            @NotEmpty String checkCode){
+        try {
+            if(!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
+                throw new BusinessException("图片验证码错误");
+            }
+
+            TokenUserInfoDto tokenUserInfoDto=userInfoService.login(email,password);
+
+
+            return getSuccessResponseVO(null);
+        }
+        finally {
+            redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey);
+        }
+    }
 }

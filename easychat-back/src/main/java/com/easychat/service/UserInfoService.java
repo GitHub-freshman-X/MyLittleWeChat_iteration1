@@ -3,6 +3,7 @@ package com.easychat.service;
 import java.util.List;
 import java.util.Map;
 
+import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.vo.PaginationResultVO;
@@ -90,5 +91,7 @@ public interface UserInfoService {
 	/*
 	* 根据邮箱注册
 	*/
-	Map<String,Object> register(String email, String nickName, String password);
+	void register(String email, String nickName, String password);
+
+	TokenUserInfoDto login(String email, String password);
 }
