@@ -1,4 +1,4 @@
-package redis;
+package com.easychat.redis;
 
 
 import org.springframework.context.annotation.Bean;
