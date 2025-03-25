@@ -5,19 +5,21 @@ import java.util.*;
 import javax.annotation.Resource;
 
 import com.easychat.entity.config.Appconfig;
+import com.easychat.entity.constants.Constants;
 import com.easychat.entity.dto.TokenUserInfoDto;
-import com.easychat.entity.enums.BeautyAccountStatusEnum;
-import com.easychat.entity.enums.UserContacTypeEnum;
-import com.easychat.entity.enums.UserStatusEnum;
+import com.easychat.entity.enums.*;
 import com.easychat.entity.po.UserInfoBeauty;
 import com.easychat.entity.query.UserInfoBeautyQuery;
+import com.easychat.entity.vo.UserInfoVO;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.UserInfoBeautyMapper;
+import com.easychat.redis.RedisComponent;
+import com.easychat.redis.RedisUtils;
+import com.easychat.utils.CopyTools;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.reflection.ArrayUtil;
 import org.springframework.stereotype.Service;
 
-import com.easychat.entity.enums.PageSize;
 import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.vo.PaginationResultVO;
@@ -25,6 +27,7 @@ import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.UserInfoMapper;
 import com.easychat.service.UserInfoService;
 import com.easychat.utils.StringTools;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -41,6 +44,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Resource
 	private Appconfig appconfig;
+
+	@Resource
+	private RedisComponent redisComponent;
+
+
 	/**
 	 * 根据条件查询列表
 	 */
@@ -168,7 +176,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public Integer deleteUserInfoByEmail(String email) {
 		return this.userInfoMapper.deleteByEmail(email);
 	}
+
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void register(String email, String nickName, String password) {
 		UserInfo userInfo=this.userInfoMapper.selectByEmail(email);
 		if(null!=userInfo){
@@ -189,6 +199,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfo.setCreateTime(curDate);
 		userInfo.setStatus(UserStatusEnum.ENABLE.getStatus());
 		userInfo.setLastOffTime(curDate.getTime());
+		userInfo.setJoinType(JoinTypeEnum.APPLY.getType());
 		this.userInfoMapper.insert(userInfo);
 		if(useBeautyAccount){
 			UserInfoBeauty updateBeauty=new UserInfoBeauty();
@@ -199,7 +210,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public TokenUserInfoDto login(String email, String password) {
+	public UserInfoVO login(String email, String password) {
 		UserInfo userInfo=this.userInfoMapper.selectByEmail(email);
 
 		if(null==userInfo || !userInfo.getPassword().equals(password)){
@@ -209,8 +220,23 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if(UserStatusEnum.DISABLE.equals(userInfo.getStatus())){
 			throw new BusinessException("账号已禁用");
 		}
+		//TODO 	查询我的群组
+		//TODO 查询我的联系人
+
 		TokenUserInfoDto tokenUserInfoDto=getTokenUserInfoDto(userInfo);
-		return tokenUserInfoDto;
+		Long LastHeartBeat = redisComponent.getUserHeartBeat(userInfo.getUserId());
+		if(null!=LastHeartBeat){
+			throw new BusinessException("此账号已经在别处登录，请退出再登录");
+		}
+		//保存登录信息到redis中
+		String token=StringTools.encodeMd5(tokenUserInfoDto.getUserId()+StringTools.getRandomString(Constants.LENGTH_20));
+		tokenUserInfoDto.setToken(token);
+        redisComponent.saveTokenUserInfoDto(tokenUserInfoDto);
+
+		UserInfoVO userInfoVO= CopyTools.copy(userInfo,UserInfoVO.class);
+		userInfoVO.setToken(tokenUserInfoDto.getToken());
+		userInfoVO.setAdmin(tokenUserInfoDto.getAdmin());
+		return userInfoVO;
 	}
 	private TokenUserInfoDto getTokenUserInfoDto(UserInfo userInfo){
 		TokenUserInfoDto tokenUserInfoDto=new TokenUserInfoDto();

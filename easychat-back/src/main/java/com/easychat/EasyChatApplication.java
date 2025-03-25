@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableAsync
-@SpringBootApplication(scanBasePackages = ("com.easychat"),exclude= DataSourceAutoConfiguration.class)
+@SpringBootApplication(scanBasePackages = ("com.easychat"))
 @MapperScan(basePackages = {"com.easychat.mappers"})
 @EnableTransactionManagement
 @EnableScheduling
