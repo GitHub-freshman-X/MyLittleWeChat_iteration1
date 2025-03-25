@@ -1,24 +1,51 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+const NODE_ENV = process.env.NODE_ENV
+
+const login_width=300;
+const login_height=370;
+const register_height=490;
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    // title: 'MyLittleWeChat',
+    icon: icon,
+    width: login_width,
+    height: login_height,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    titleBarStyle: 'hidden',
+    resizable: false,
+    frame: true,
+    transparent: true,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      contextIsolation: false,
     }
   })
 
+  ipcMain.on("loginOrRegister", (e, isLogin) => {
+    console.log("收到渲染进程消息："+isLogin);
+    mainWindow.setResizable(true);
+    if(isLogin){
+      mainWindow.setSize(login_width, login_height);
+    }else{
+      mainWindow.setSize(login_width, register_height);
+    }
+    mainWindow.setResizable(false);
+  })
+
+  if (NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
+
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    mainWindow.setTitle('EasyChat')
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
