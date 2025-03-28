@@ -14,7 +14,10 @@ const onLoginOrRegister = (callback) => {
 const onLoginSuccess = (callback) => {
   ipcMain.on("openChat", (e, config) => {
     store.initUserId(config.userId);
+    store.setUserData("token", config.token);
+    //todo 增加用户配置
     callback(config);
+    //todo 初始化ws 连接
   });
 }
 
