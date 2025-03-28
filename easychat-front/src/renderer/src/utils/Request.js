@@ -45,9 +45,9 @@ instance.interceptors.response.use(
       }
   
       // 正常请求
-      if (responseData.code === 200) {
+      if (responseData.code == 200) {
         return responseData;
-      } else if (responseData.code === 901) {
+      } else if (responseData.code == 901) {
         // 登录超时
         setTimeout(() => {
           window.ipcRenderer.send('reLogin');

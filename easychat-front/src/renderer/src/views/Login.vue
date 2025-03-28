@@ -41,14 +41,16 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item prop="checkcode">
-          <div class="check-code-panel"></div>
-          <el-input size="large" clearable placeholder="请输入验证码" v-model.trim="formData.checkCode" @focus="clearVerify">
-            <template #prefix>
-              <span class="iconfont icon-checkcode"></span>
-            </template>
-          </el-input>
-          <img: src="checkCodeUrl" class="check-code" @click="changeCheckCode" />
+        <el-form-item prop="checkCode">
+          <div class="check-code-panel">
+            <el-input size="large" clearable placeholder="请输入验证码" v-model.trim="formData.checkCode"
+              @focus="clearVerify">
+              <template #prefix>
+                <span class="iconfont icon-checkcode"></span>
+              </template>
+            </el-input>
+            <img: src="checkCodeUrl" class="check-code" @click="changeCheckCode" />
+          </div>
         </el-form-item>
 
         <el-form-item prop="checkcode">
@@ -70,6 +72,13 @@
 <script setup>
 import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
 const { proxy } = getCurrentInstance()
+import { useUserInfoStore } from '@/stores/UserInfoStore'
+const userInfoStore = useUserInfoStore()
+
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+import md5 from 'js-md5'
 
 const formData = ref({})
 const formDataRef = ref()
@@ -81,22 +90,25 @@ const formDataRef = ref()
 
 const isLogin = ref(true)
 const changeOpType = () => {
-  // window.ipcRenderer.send('loginOrRegister', !isLogin.value)
+  window.ipcRenderer.send('loginOrRegister', !isLogin.value)
   isLogin.value = !isLogin.value
+  // 输出isLogin的值
+  // console.log(isLogin.value)
   nextTick(() => {
     formDataRef.value.resetFields()
     formData.value = {}
     clearVerify()
+    changeCheckCode()
   })
 }
 
 // 获取验证码
 const checkCodeUrl = ref(null)
-const changeCheckCode = async() => {
+const changeCheckCode = async () => {
   let result = await proxy.Request({
-     url:proxy.Api.checkCode
+    url: proxy.Api.checkCode
   })
-  if(!result){
+  if (!result) {
     return;
   }
   checkCodeUrl.value = result.data.checkCode
@@ -105,7 +117,27 @@ const changeCheckCode = async() => {
 changeCheckCode()
 
 const errorMsg = ref('')
-const submit = () => {
+
+
+const checkValue = (type, value, msg) => {
+  if (proxy.Utils.isEmpty(value)) {
+    errorMsg.value = msg
+    return false
+  }
+  if (type && !proxy.Verify[type](value)) {
+    errorMsg.value = msg
+    return false
+  }
+  return true
+}
+
+const clearVerify = () => {
+  errorMsg.value = null
+}
+
+const showLoading = ref(false)
+
+const submit = async () => {
   clearVerify()
 
   if (!checkValue('checkEmail', formData.value.email, '请输入正确的邮箱')) {
@@ -126,23 +158,39 @@ const submit = () => {
   if (!checkValue(null, formData.value.checkCode, '请输入验证码')) {
     return
   }
+
+  let result = await proxy.Request({
+    url: isLogin.value ? proxy.Api.login : proxy.Api.register,
+    showLoading: isLogin.value ? false : true,
+    showError: false,
+    params: {
+      email: formData.value.email,
+      password: isLogin.value ? md5(formData.value.password) : formData.value.password,
+      checkCode: formData.value.checkCode,
+      nickName: formData.value.nickName,
+      checkCodeKey: localStorage.getItem('checkCodeKey')
+    },
+    errorCallback: (response) => {
+      showLoading.value = false
+      changeCheckCode()
+      errorMsg.value = response.info
+    }
+  })
+  if (!result) {
+    return;
+  }
+  if (isLogin.value) {
+    userInfoStore.setInfo(result.data)
+    localStorage.setItem('token', result.data.token)
+
+    // router.push('/main')
+
+  } else {
+    proxy.Message.success("注册成功")
+    changeOpType()
+  }
 }
 
-const checkValue = (type, value, msg) => {
-  if (proxy.Utils.isEmpty(value)) {
-    errorMsg.value = msg
-    return false
-  }
-  if (type && !proxy.Verify[type](value)) {
-    errorMsg.value = msg
-    return false
-  }
-  return true
-}
-
-const clearVerify = () => {
-  errorMsg.value = null
-}
 </script>
 
 <style lang="scss" scoped>

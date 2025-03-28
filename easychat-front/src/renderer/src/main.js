@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import ElementPlus from 'element-plus'
+import * as Pinia from 'pinia'
 
 import 'element-plus/dist/index.css'
 import '@/assets/cust-elementplus.scss'
@@ -20,7 +21,7 @@ const app = createApp(App)
 
 app.use(ElementPlus)
 app.use(router)
-
+app.use(Pinia.createPinia());
 app.config.globalProperties.Utils = Utils;
 app.config.globalProperties.Verify = Verify;
 app.config.globalProperties.Request = Request;
