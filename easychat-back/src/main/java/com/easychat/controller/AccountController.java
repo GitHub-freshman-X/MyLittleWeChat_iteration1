@@ -24,9 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@RestController("accountControler")
 @RequestMapping("/account")
-@Validated()
 public class AccountController  extends ABaseController{
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(AccountController.class);
@@ -41,7 +39,6 @@ private UserInfoService userInfoService;
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(100,42);
         String code =captcha.text();
         String checkCodeKey = UUID.randomUUID().toString();
-        redisUtils.setex(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey,code,Constants.REDIS_TIME_CHECK_1MIN*10);
 
         logger.info("验证码是（）",code);
         String checkCodeBase64 =captcha.toBase64();
@@ -79,11 +76,6 @@ private UserInfoService userInfoService;
             if(!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
                 throw new BusinessException("图片验证码错误");
             }
-
-            TokenUserInfoDto tokenUserInfoDto=userInfoService.login(email,password);
-
-
-            return getSuccessResponseVO(null);
         }
         finally {
             redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey);
