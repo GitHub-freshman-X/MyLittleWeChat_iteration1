@@ -4,10 +4,22 @@ import java.util.*;
 
 import javax.annotation.Resource;
 
+import com.easychat.entity.config.Appconfig;
+import com.easychat.entity.constants.Constants;
+import com.easychat.entity.dto.TokenUserInfoDto;
+import com.easychat.entity.enums.*;
+import com.easychat.entity.po.UserInfoBeauty;
+import com.easychat.entity.query.UserInfoBeautyQuery;
+import com.easychat.entity.vo.UserInfoVO;
 import com.easychat.exception.BusinessException;
+import com.easychat.mappers.UserInfoBeautyMapper;
+import com.easychat.redis.RedisComponent;
+import com.easychat.redis.RedisUtils;
+import com.easychat.utils.CopyTools;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.ibatis.reflection.ArrayUtil;
 import org.springframework.stereotype.Service;
 
-import com.easychat.entity.enums.PageSize;
 import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.vo.PaginationResultVO;
@@ -15,6 +27,7 @@ import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.UserInfoMapper;
 import com.easychat.service.UserInfoService;
 import com.easychat.utils.StringTools;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -25,6 +38,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Resource
 	private UserInfoMapper<UserInfo, UserInfoQuery> userInfoMapper;
+
+	@Resource
+	private UserInfoBeautyMapper <UserInfoBeauty,UserInfoQuery> userInfoBeautyMapper;
+
+	@Resource
+	private Appconfig appconfig;
+
+	@Resource
+	private RedisComponent redisComponent;
+
 
 	/**
 	 * 根据条件查询列表
@@ -130,7 +153,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 
-
 	/**
 	 * 根据Email获取对象
 	 */
@@ -154,22 +176,79 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public Integer deleteUserInfoByEmail(String email) {
 		return this.userInfoMapper.deleteByEmail(email);
 	}
+
 	@Override
-	public Map<String,Object> register(String email, String nickName, String password) {
-		Map<String, Object> result = new HashMap<>();
+	@Transactional(rollbackFor = Exception.class)
+	public void register(String email, String nickName, String password) {
+
 		UserInfo userInfo=this.userInfoMapper.selectByEmail(email);
-		if(userInfo==null){
-			String usrid= UUID.randomUUID().toString();
-
-
-
+		if(null!=userInfo){
+			throw new BusinessException("邮箱账号已经存在");
 		}
-		else {
-			result.put("success",false);
-			result.put("errorMsg" ,"邮箱已存在");
-			return result;
+		String userId= StringTools.getUserID();
+		UserInfoBeauty beautyAccount=this.userInfoBeautyMapper.selectByEmail(email);
+		Boolean useBeautyAccount = null != beautyAccount && BeautyAccountStatusEnum.No_USE.getStatus().equals(beautyAccount.getStatus());
+		if(useBeautyAccount){
+			userId=UserContacTypeEnum.USER.getPrefix()+beautyAccount.getUserId();
 		}
-		return  result;
+		Date curDate=new Date();
+		userInfo=new UserInfo();
+		userInfo.setUserId(userId);
+		userInfo.setNickName(nickName);
+		userInfo.setEmail(email);
+		userInfo.setPassword(StringTools.encodeMd5(password));
+		userInfo.setCreateTime(curDate);
+		userInfo.setStatus(UserStatusEnum.ENABLE.getStatus());
+		userInfo.setLastOffTime(curDate.getTime());
+		userInfo.setJoinType(JoinTypeEnum.APPLY.getType());
+		this.userInfoMapper.insert(userInfo);
+		if(useBeautyAccount){
+			UserInfoBeauty updateBeauty=new UserInfoBeauty();
+			updateBeauty.setStatus(BeautyAccountStatusEnum.USEED.getStatus());
+			this.userInfoBeautyMapper.updateById(updateBeauty,beautyAccount.getId());
+		}
+		//TODO 创建机器人好友
 	}
 
+	@Override
+	public UserInfoVO login(String email, String password) {
+		UserInfo userInfo=this.userInfoMapper.selectByEmail(email);
+
+		if(null==userInfo || !userInfo.getPassword().equals(password)){
+			throw new BusinessException("账号或密码错误");
+		}
+
+		if(UserStatusEnum.DISABLE.equals(userInfo.getStatus())){
+			throw new BusinessException("账号已禁用");
+		}
+		//TODO 	查询我的群组
+		//TODO 查询我的联系人
+
+		TokenUserInfoDto tokenUserInfoDto=getTokenUserInfoDto(userInfo);
+		Long LastHeartBeat = redisComponent.getUserHeartBeat(userInfo.getUserId());
+		if(null!=LastHeartBeat){
+			throw new BusinessException("此账号已经在别处登录，请退出再登录");
+		}
+		//保存登录信息到redis中
+		String token=StringTools.encodeMd5(tokenUserInfoDto.getUserId()+StringTools.getRandomString(Constants.LENGTH_20));
+		tokenUserInfoDto.setToken(token);
+        redisComponent.saveTokenUserInfoDto(tokenUserInfoDto);
+
+		UserInfoVO userInfoVO= CopyTools.copy(userInfo,UserInfoVO.class);
+		userInfoVO.setToken(tokenUserInfoDto.getToken());
+		userInfoVO.setAdmin(tokenUserInfoDto.getAdmin());
+		return userInfoVO;
+	}
+	private TokenUserInfoDto getTokenUserInfoDto(UserInfo userInfo){
+		TokenUserInfoDto tokenUserInfoDto=new TokenUserInfoDto();
+		tokenUserInfoDto.setUserId(userInfo.getUserId());
+		tokenUserInfoDto.setNickName(userInfo.getNickName());
+		String adminEmail=appconfig.getAdminEmail();
+		if(!StringTools.isEmpty(adminEmail)&& ArrayUtils.contains(adminEmail.split(","),userInfo.getEmail())){
+			tokenUserInfoDto.setAdmin(true);
+		}else{
+			tokenUserInfoDto.setAdmin(false);
+		}
+		return tokenUserInfoDto;
+	}
 }

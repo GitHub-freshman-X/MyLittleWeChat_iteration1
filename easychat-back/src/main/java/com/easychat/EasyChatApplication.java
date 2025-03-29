@@ -8,9 +8,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(scanBasePackages = {"com.easychat"})
-@MapperScan(basePackages = {"com.easychat.mappers"})
 @EnableAsync
+@SpringBootApplication(scanBasePackages = ("com.easychat"))
+@MapperScan(basePackages = {"com.easychat.mappers"})
 @EnableTransactionManagement
 @EnableScheduling
 public class EasyChatApplication {
