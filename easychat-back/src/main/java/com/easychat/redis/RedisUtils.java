@@ -19,7 +19,6 @@ public class RedisUtils<V> {
     private static final Logger logger = LoggerFactory.getLogger(RedisUtils.class);
 
 
-
     public void delete(String... key) {
         if(key != null && key.length > 0){
             if(key.length == 1){
@@ -32,7 +31,6 @@ public class RedisUtils<V> {
 
     }
     public  V get(String key) {
-
         logger.info("获取get key:{}", key);
         logger.info("获取get value:{}", redisTemplate.opsForValue().get(key));
         if(key==null){

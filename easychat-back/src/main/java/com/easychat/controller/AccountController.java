@@ -40,7 +40,7 @@ public class AccountController  extends ABaseController{
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(100,42);
         String code =captcha.text();
         String checkCodeKey = UUID.randomUUID().toString();
-        redisUtils.setex(checkCodeKey,code,1000);
+        redisUtils.setex(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey,code,Constants.REDIS_TIME_1MIN);
 
         logger.info("验证码是{}",code);
         String checkCodeBase64 =captcha.toBase64();
@@ -59,12 +59,12 @@ public class AccountController  extends ABaseController{
                                @NotEmpty String checkCode){
         try {
             if(!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
-                logger.info("正确的验证码是{}", redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey));
+                logger.info("正确的验证码是{}", redisUtils.get(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey));
                 logger.info("收到的验证码是{}",checkCode);
                 throw new BusinessException("图片验证码错误");
             }
 
-            userInfoService.register(email,password,nickName);
+            userInfoService.register(email,nickName,password);
             return getSuccessResponseVO(null);
         }
         finally {
@@ -78,7 +78,7 @@ public class AccountController  extends ABaseController{
                             @NotEmpty String password,
                             @NotEmpty String checkCode){
         try {
-            if(!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
+            if(!checkCode.equalsIgnoreCase((String) redisUtils.get(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
                 throw new BusinessException("图片验证码错误");
             }
             userInfoService.login(email, password);
