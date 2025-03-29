@@ -89,7 +89,35 @@ onLoginSuccess((config) => {
   }  
 });  
 
-
+winTitleOp((e, { action, data }) => {  
+  const webContents = e.sender;  
+  const win = BrowserWindow.fromWebContents(webContents);  
+  switch (action) {  
+    case "close": {  
+      if (data.closeType === 0) {  
+        win.close();  
+      } else {  
+        win.setSkipTaskbar(true);  
+        win.hide();  
+      }  
+      break;  
+    }  
+    case "minimize": {  
+      win.minimize();  
+      break;  
+    }  
+    case "maximize": {  
+      win.maximize();  
+    }  
+    case "unmaximize": {  
+      win.unmaximize();  
+      break;  
+    }  
+    case "top": {  
+      win.setAlwaysOnTop(data.top);  
+    }  
+  }  
+});  
 
 
 // This method will be called when Electron has finished
