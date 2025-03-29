@@ -12,3 +12,5 @@ const versions = reactive({ ...window.electron.process.versions })
     <li class="v8-version">V8 v{{ versions.v8 }}</li>
   </ul>
 </template>
+
+//原始文件
