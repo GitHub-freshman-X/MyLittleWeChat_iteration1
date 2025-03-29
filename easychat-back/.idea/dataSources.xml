@@ -13,6 +13,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+<<<<<<< Updated upstream
     <data-source source="LOCAL" name="easychat@127.0.0.1" uuid="4fc71c9c-73dd-42a3-ba87-062e63fa98b3">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
@@ -27,5 +28,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+=======
+>>>>>>> Stashed changes
   </component>
 </project>
