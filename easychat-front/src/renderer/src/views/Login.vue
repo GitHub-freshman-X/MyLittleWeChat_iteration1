@@ -1,7 +1,10 @@
 <template>
   <div class="login-panel">
     <div class="title drag">EasyChat</div>
-    <div class="login-form">
+    <div v-if="showLoading" class="loading-panel">
+      <img src="../assets/img/loading.gif" />
+    </div>
+    <div class="login-form" v-else>
       <div class="error-msg">{{ errorMsg }}</div>
       <el-form :model="formData" ref="formDataRef" label-width="0px" @submit.prevent>
         <!--input输入-->
@@ -158,7 +161,9 @@ const submit = async () => {
   if (!checkValue(null, formData.value.checkCode, '请输入验证码')) {
     return
   }
-
+  if(isLogin.value == true){
+    showLoading.value = true
+  }
   let result = await proxy.Request({
     url: isLogin.value ? proxy.Api.login : proxy.Api.register,
     showLoading: isLogin.value ? false : true,
@@ -183,7 +188,19 @@ const submit = async () => {
     userInfoStore.setInfo(result.data)
     localStorage.setItem('token', result.data.token)
 
-    // router.push('/main')
+    router.push('/main')
+
+    const screenWidth = window.screen.width
+    const screenHeight = window.screen.height
+    window.ipcRenderer.send('openChat', {
+      email: formData.value.email,
+      token: result.data.token,
+      userId: result.data.userId,
+      nickName: result.data.nickName,
+      admin: result.data.admin,
+      screenWidth: screenWidth,
+      screenHeight: screenHeight
+    })
 
   } else {
     proxy.Message.success("注册成功")

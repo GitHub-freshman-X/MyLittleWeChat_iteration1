@@ -4,6 +4,8 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 const NODE_ENV = process.env.NODE_ENV
 
+import { onLoginOrRegister, onLoginSuccess } from './ipc'
+
 const login_width=300;
 const login_height=370;
 const register_height=490;
@@ -28,17 +30,6 @@ function createWindow() {
     }
   })
 
-  ipcMain.on("loginOrRegister", (e, isLogin) => {
-    // console.log("收到渲染进程消息："+isLogin);
-    mainWindow.setResizable(true);
-    if(isLogin){
-      mainWindow.setSize(login_width, login_height);
-    }else{
-      mainWindow.setSize(login_width, register_height);
-    }
-    mainWindow.setResizable(false);
-  })
-
   if (NODE_ENV === 'development') {
     mainWindow.webContents.openDevTools();
   }
@@ -57,9 +48,39 @@ function createWindow() {
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    // mainWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#/Main`)
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    // mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'), {
+      hash: 'Login',
+    })
   }
+
+  // 监听 登陆注册
+  onLoginOrRegister((isLogin) => {
+    mainWindow.setResizable(true);
+    if(isLogin){
+      mainWindow.setSize(login_width, login_height);
+    }else{
+      mainWindow.setSize(login_width, register_height);
+    }
+    mainWindow.setResizable(false);
+  })
+
+  // 监听 登陆成功
+  onLoginSuccess((config) => {
+    mainWindow.setResizable(true);
+    mainWindow.setSize(850, 800);
+    // 居中显示
+    mainWindow.center();
+    // 可以最大化
+    mainWindow.setMaximizable(true);
+    // 设置最小窗口大小
+    mainWindow.setMinimumSize(800, 600);
+
+    if(config.admin){
+    }
+  })
 }
 
 // This method will be called when Electron has finished
