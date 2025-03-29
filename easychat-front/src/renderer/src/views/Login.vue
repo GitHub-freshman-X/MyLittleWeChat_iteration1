@@ -52,7 +52,7 @@
                 <span class="iconfont icon-checkcode"></span>
               </template>
             </el-input>
-            <img: src="checkCodeUrl" class="check-code" @click="changeCheckCode" />
+            <img :src="checkCodeUrl" class="check-code" @click="changeCheckCode" />
           </div>
         </el-form-item>
 
@@ -115,6 +115,8 @@ const changeCheckCode = async () => {
     return;
   }
   checkCodeUrl.value = result.data.checkCode
+  // console.log(result.data.checkCode)
+  // localStorage.setItem("checkCode", result.data.checkCode)
   localStorage.setItem("checkCodeKey", result.data.checkCodeKey)
 }
 changeCheckCode()

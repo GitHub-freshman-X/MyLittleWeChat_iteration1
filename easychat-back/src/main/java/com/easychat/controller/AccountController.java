@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@RestController
 @RequestMapping("/account")
 public class AccountController  extends ABaseController{
 
@@ -31,22 +32,25 @@ public class AccountController  extends ABaseController{
     @Resource
     private RedisUtils redisUtils;
 
-@Resource
-private UserInfoService userInfoService;
+    @Resource
+    private UserInfoService userInfoService;
 
     @RequestMapping("/checkCode")
     public ResponseVO checkCode(){
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(100,42);
         String code =captcha.text();
         String checkCodeKey = UUID.randomUUID().toString();
+        redisUtils.setex(checkCodeKey,code,1000);
 
-        logger.info("验证码是（）",code);
+        logger.info("验证码是{}",code);
         String checkCodeBase64 =captcha.toBase64();
         Map<String,String> result=new HashMap<String,String>();
+        result.put("checkCode", checkCodeBase64);
         result.put("checkCodeKey",checkCodeKey);
 
-        return  getSuccessResponseVO(null);
+        return  getSuccessResponseVO(result);
     }
+
     @RequestMapping("/register")
     public ResponseVO register(@NotEmpty String checkCodeKey,
                                @NotEmpty @Email String email,
@@ -55,8 +59,9 @@ private UserInfoService userInfoService;
                                @NotEmpty String checkCode){
         try {
             if(!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
+                logger.info("正确的验证码是{}", redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey));
+                logger.info("收到的验证码是{}",checkCode);
                 throw new BusinessException("图片验证码错误");
-
             }
 
             userInfoService.register(email,password,nickName);
@@ -76,6 +81,8 @@ private UserInfoService userInfoService;
             if(!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
                 throw new BusinessException("图片验证码错误");
             }
+            userInfoService.login(email, password);
+            return getSuccessResponseVO(null);
         }
         finally {
             redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey);
