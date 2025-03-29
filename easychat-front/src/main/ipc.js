@@ -11,6 +11,7 @@ const onLoginOrRegister = (callback) => {
   });
 }
 
+
 const onLoginSuccess = (callback) => {
   ipcMain.on("openChat", (e, config) => {
     store.initUserId(config.userId);

@@ -62,6 +62,36 @@ function createWindow() {
   }
 }
 
+//监听 登录注册  
+onLoginOrRegister((isLogin) => {  
+  mainWindow.setResizable(true);  
+  if (isLogin) {  
+    mainWindow.setSize(login_width, login_height);  
+  } else {  
+    mainWindow.setSize(login_width, register_height);  
+  }  
+  mainWindow.setResizable(false);  
+})  
+
+onLoginSuccess((config) => {  
+  mainWindow.setResizable(true);  
+  mainWindow.setSize(850, 800);  
+  //居中显示  
+  mainWindow.center();  
+  //可以最大化  
+  mainWindow.setMaximizable(true);  
+  //设置最小窗口大小  
+  mainWindow.setMinimumSize(800, 600);  
+
+  //TODO  管理后台窗口操作，托盘操作
+  if (config.admin) {  
+
+  }  
+});  
+
+
+
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
