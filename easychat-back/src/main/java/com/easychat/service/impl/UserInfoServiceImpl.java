@@ -238,6 +238,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfoVO.setAdmin(tokenUserInfoDto.getAdmin());
 		return userInfoVO;
 	}
+
 	private TokenUserInfoDto getTokenUserInfoDto(UserInfo userInfo){
 		TokenUserInfoDto tokenUserInfoDto=new TokenUserInfoDto();
 		tokenUserInfoDto.setUserId(userInfo.getUserId());

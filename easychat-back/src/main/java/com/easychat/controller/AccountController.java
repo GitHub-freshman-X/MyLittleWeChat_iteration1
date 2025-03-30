@@ -52,12 +52,13 @@ public class AccountController  extends ABaseController{
         String checkCodeKey = UUID.randomUUID().toString();
         redisUtils.setex(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey,code,Constants.REDIS_TIME_1MIN*10);
 
-        logger.info("验证码是（）",code);
+        logger.info("验证码是{}:",code);
         String checkCodeBase64 =captcha.toBase64();
         Map<String,String> result=new HashMap<String,String>();
+        result.put("checkCode", checkCodeBase64);
         result.put("checkCodeKey",checkCodeKey);
 
-        return  getSuccessResponseVO(null);
+        return  getSuccessResponseVO(result);
     }
     @RequestMapping("/register")
     public ResponseVO register(@NotEmpty String checkCodeKey,
@@ -71,7 +72,7 @@ public class AccountController  extends ABaseController{
 
             }
 
-            userInfoService.register(email,password,nickName);
+            userInfoService.register(email,nickName,password);
             return getSuccessResponseVO(null);
         }
         finally {
