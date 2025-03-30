@@ -1,10 +1,10 @@
 <template>
   <div class="login-panel">
     <div class="title drag">EasyChat</div>
-    <div v-if="showLoading" class="loading-panel">
+    <!-- <div v-if="showLoading" class="loading-panel">
       <img src="../assets/img/loading.gif" />
-    </div>
-    <div class="login-form" v-else>
+    </div> -->
+    <div class="login-form">
       <div class="error-msg">{{ errorMsg }}</div>
       <el-form :model="formData" ref="formDataRef" label-width="0px" @submit.prevent>
         <!--input输入-->
@@ -191,6 +191,7 @@ const submit = async () => {
     localStorage.setItem('token', result.data.token)
 
     router.push('/main')
+    console.log('结束了push to main')
 
     const screenWidth = window.screen.width
     const screenHeight = window.screen.height

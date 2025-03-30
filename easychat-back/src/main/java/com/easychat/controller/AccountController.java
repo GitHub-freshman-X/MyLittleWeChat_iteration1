@@ -3,6 +3,7 @@ package com.easychat.controller;
 import com.easychat.entity.constants.Constants;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.vo.ResponseVO;
+import com.easychat.entity.vo.UserInfoVO;
 import com.easychat.redis.RedisUtils;
 import com.easychat.exception.BusinessException;
 import com.easychat.service.UserInfoService;
@@ -40,9 +41,10 @@ public class AccountController  extends ABaseController{
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(100,42);
         String code =captcha.text();
         String checkCodeKey = UUID.randomUUID().toString();
-        redisUtils.setex(checkCodeKey,code,1000);
+        redisUtils.setex(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey,code,Constants.REDIS_TIME_1MIN*10);
+//        redisUtils.setex(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey,code,Constants.REDIS_TIME_1MIN*10);
 
-        logger.info("验证码是{}",code);
+//        logger.info("验证码是{}",code);
         String checkCodeBase64 =captcha.toBase64();
         Map<String,String> result=new HashMap<String,String>();
         result.put("checkCode", checkCodeBase64);
@@ -58,13 +60,14 @@ public class AccountController  extends ABaseController{
                                @NotEmpty String nickName,
                                @NotEmpty String checkCode){
         try {
+            //!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))
             if(!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
-                logger.info("正确的验证码是{}", redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey));
-                logger.info("收到的验证码是{}",checkCode);
+//                logger.info("正确的验证码是{}", redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey));
+//                logger.info("收到的验证码是{}",checkCode);
                 throw new BusinessException("图片验证码错误");
             }
-
-            userInfoService.register(email,password,nickName);
+//            logger.info("到这里了");
+            userInfoService.register(email,nickName,password);
             return getSuccessResponseVO(null);
         }
         finally {
@@ -81,8 +84,8 @@ public class AccountController  extends ABaseController{
             if(!checkCode.equalsIgnoreCase((String) redisUtils.get( Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))){
                 throw new BusinessException("图片验证码错误");
             }
-            userInfoService.login(email, password);
-            return getSuccessResponseVO(null);
+            UserInfoVO userInfoVO=userInfoService.login(email, password);
+            return getSuccessResponseVO(userInfoVO);
         }
         finally {
             redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey);

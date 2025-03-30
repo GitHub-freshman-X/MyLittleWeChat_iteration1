@@ -22,7 +22,7 @@ const router = createRouter({
       children: [{
         path: '/chat',
         name: '聊天',
-        component: ()=> import('@/vies/chat/Chat.vue')
+        component: ()=> import('@/views/chat/Chat.vue')
       }]
     }
   ]

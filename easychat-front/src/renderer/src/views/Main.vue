@@ -8,7 +8,7 @@
 
 <style lang="scss" scoped>
 .body {
-  background: purple;
+  background: pink;
   height: calc(100vh);
 }
 </style>

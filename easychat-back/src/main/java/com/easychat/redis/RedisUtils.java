@@ -2,10 +2,12 @@ package com.easychat.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +18,7 @@ import java.util.Collection;
 public class RedisUtils<V> {
     @Resource
     private RedisTemplate<String, V> redisTemplate;
+    private BoundValueOperations<String,Object> boundValueOps;
     private static final Logger logger = LoggerFactory.getLogger(RedisUtils.class);
 
 
@@ -31,13 +34,20 @@ public class RedisUtils<V> {
         }
 
     }
-    public  V get(String key) {
+    public  /*V*/Object get(String key) {
 
         logger.info("获取get key:{}", key);
-        logger.info("获取get value:{}", redisTemplate.opsForValue().get(key));
+        /*try {
+            Object value = boundValueOps.get();
+            logger.info("获取的值: {}", value);
+        } catch (Exception e) {
+            logger.error("获取值失败", e);
+        }*/
         if(key==null){
             return null;
         }else{
+            //return boundValueOps.get();
+
             return redisTemplate.opsForValue().get(key);
         }
     }
@@ -57,7 +67,9 @@ public class RedisUtils<V> {
         try {
             if(time>0){
                 logger.info("setex执行了，key : {}, value : {}, time : {}", key, value, time);
-                redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(key, value, Duration.ofSeconds(time));
+                //boundValueOps=(BoundValueOperations<String,Object>) redisTemplate.boundGeoOps(key);
+                //boundValueOps.set(value,time,TimeUnit.SECONDS);
             }
             else {
                 set(key, value);
