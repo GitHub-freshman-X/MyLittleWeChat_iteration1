@@ -72,4 +72,5 @@ public class StringTools {
     public static final String encodeMd5(String originString) {
         return StringTools.isEmpty(originString) ? null : DigestUtils.md5DigestAsHex(originString.getBytes(StandardCharsets.UTF_8));
     }
+
 }

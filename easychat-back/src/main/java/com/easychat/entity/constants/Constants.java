@@ -15,4 +15,6 @@ public class Constants {
     public static final Integer LENGTH_20 = 20;
     public static final String ROBOT_UID= UserContacTypeEnum.USER.getPrefix()+"robot";
     public static final String REDIS_KEY_SYS_SETTING = "easychat:syssetting:";
+
+    public static final String APPLY_INFO_TEMPLATE = "我是%s";
 }

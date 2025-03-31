@@ -19,8 +19,9 @@ public class RedisUtils<V> {
     private static final Logger logger = LoggerFactory.getLogger(RedisUtils.class);
 
 
+
     public void delete(String... key) {
-        if(key != null && key.length > 0){
+        if(key == null || key.length > 0){
             if(key.length == 1){
                 redisTemplate.delete(key[0]);
             }
@@ -31,13 +32,7 @@ public class RedisUtils<V> {
 
     }
     public  V get(String key) {
-        logger.info("获取get key:{}", key);
-        logger.info("获取get value:{}", redisTemplate.opsForValue().get(key));
-        if(key==null){
-            return null;
-        }else{
-            return redisTemplate.opsForValue().get(key);
-        }
+        return key == null ? null : redisTemplate.opsForValue().get(key);
     }
 
     public  boolean set(String key, V value) {
@@ -46,7 +41,7 @@ public class RedisUtils<V> {
             return true;
         }
         catch (Exception e) {
-            logger.error("设置redisKey：{}，value:{}失败", key, value);
+            logger.error("设置redisKey：{}，value:()失败", key, value);
             return false;
         }
 
@@ -54,7 +49,6 @@ public class RedisUtils<V> {
     public  boolean setex(String key, V value, long time) {
         try {
             if(time>0){
-                logger.info("setex执行了，key : {}, value : {}, time : {}", key, value, time);
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             }
             else {
@@ -98,7 +92,7 @@ public class RedisUtils<V> {
         }
     }
 
-    public long remove(String key, V value) {
+    public long remove(String key, Object value) {
         try{
             Long remove=redisTemplate.opsForList().remove(key,1,value);
             return remove;
