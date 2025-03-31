@@ -121,12 +121,14 @@ function createWindow() {
         win.minimize();
         break;
       }
-      case "unmaximize": {
-        win.unmaximize();
-        break;
-      }
       case "maximize": {
         win.maximize();
+        break;
+      }
+      case "unmaximize": {
+        // win.unmaximize();
+        win.setSize(850, 600)
+        win.center()
         break;
       }
       case "top": {

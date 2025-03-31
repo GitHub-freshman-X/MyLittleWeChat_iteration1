@@ -64,7 +64,6 @@ const minimize = () => {
 }
 
 const maximize = () => {
-  
   if (isMax.value) {
     isMax.value = false
     winOp('unmaximize')
