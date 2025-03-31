@@ -30,6 +30,9 @@
         </template>
         <template #right-content>
             <div class="title-panel drag">{{ rightTitle }}</div>
+            <router-view v-slot="{Component}">
+                <component :is="Component" ref="componentRef"></component>
+            </router-view>
         </template>
     </Layout>
 </template>
@@ -97,6 +100,21 @@ const partList = ref([
         "emptyMsg": "暂无好友"
     }
 ])
+
+const partJump = (data) =>{
+    if(data.showTitle){
+        rightTitle.value = data.name
+    }else{
+        rightTitle.value = null
+    }
+
+    router.push(data.path)
+
+    // 处理联系人好友申请
+    // if(){
+
+    // }
+}
 
 const rightTitle = ref()
 

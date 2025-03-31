@@ -10,6 +10,8 @@ import '@/assets/icon/iconfont.css'
 import '@/assets/base.scss'
 import WinOp from "@/components/WinOp.vue"
 import Layout from "@/components/Layout.vue"
+import ContentPanel from "@/components/ContentPanel.vue"
+
 
 import Utils from '@/utils/Utils.js'
 import Verify from '@/utils/Verify.js'
@@ -27,6 +29,7 @@ app.use(Pinia.createPinia());
 
 app.component('WinOp', WinOp)
 app.component('Layout', Layout)
+app.component('ContentPanel', ContentPanel)
 
 app.config.globalProperties.Utils = Utils;
 app.config.globalProperties.Verify = Verify;
