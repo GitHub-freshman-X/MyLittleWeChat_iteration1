@@ -14,13 +14,14 @@ import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.GroupInfoMapper;
 import com.easychat.service.GroupInfoService;
 import com.easychat.utils.StringTools;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
  *  业务接口实现
  */
 @Service("groupInfoService")
-public class GroupInfoServiceImpl implements GroupInfoService {
+public class  GroupInfoServiceImpl implements GroupInfoService {
 
 	@Resource
 	private GroupInfoMapper<GroupInfo, GroupInfoQuery> groupInfoMapper;
@@ -126,5 +127,11 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 	@Override
 	public Integer deleteGroupInfoByGroupId(String groupId) {
 		return this.groupInfoMapper.deleteByGroupId(groupId);
+	}
+
+	@Override
+	public void saveGroup(GroupInfo groupInfo, MultipartFile avatarFile, MultipartFile avatarCover){
+		
+
 	}
 }

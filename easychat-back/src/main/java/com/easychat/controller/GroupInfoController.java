@@ -31,7 +31,7 @@ public class GroupInfoController extends ABaseController {
 	public ResponseVO saveGroup(HttpServletRequest request,String groupId, @NotEmpty String groupName, String groupNotice, @NotNull Integer joinType, MultipartFile avatarFile,
 								MultipartFile avatarCover) {
 		TokenUserInfoDto tokenUserInfoDto= getTokenUserInfo(request);
-
 		return getSuccessResponseVO(null);
+
 	}
 }
