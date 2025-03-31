@@ -1,9 +1,9 @@
 <template>
   <div class="login-panel">
     <div class="title drag">EasyChat</div>
-    <!-- <div v-if="showLoading" class="loading-panel">
+    <div v-if="showLoading" class="loading-panel">
       <img src="../assets/img/loading.gif" />
-    </div> -->
+    </div>
     <div class="login-form">
       <div class="error-msg">{{ errorMsg }}</div>
       <el-form :model="formData" ref="formDataRef" label-width="0px" @submit.prevent>
@@ -70,6 +70,7 @@
       </el-form>
     </div>
   </div>
+  <WinOp :showSetTop="false" :showMin="false" :showMax="false" :closeType="0"></WinOp>
 </template>
 
 <script setup>
@@ -163,7 +164,7 @@ const submit = async () => {
   if (!checkValue(null, formData.value.checkCode, '请输入验证码')) {
     return
   }
-  if(isLogin.value == true){
+  if (isLogin.value == true) {
     showLoading.value = true
   }
   let result = await proxy.Request({
@@ -191,7 +192,6 @@ const submit = async () => {
     localStorage.setItem('token', result.data.token)
 
     router.push('/main')
-    console.log('结束了push to main')
 
     const screenWidth = window.screen.width
     const screenHeight = window.screen.height

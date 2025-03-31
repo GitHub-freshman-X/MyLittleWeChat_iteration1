@@ -25,11 +25,10 @@ const deletUserData = (key) => {
 }
 
 export default {
-    inittUserId,
+    initUserId,
     getUserId,
     setData,
     getData,
     setUserData,
-    getUserData,
     deletUserData
 }
