@@ -105,4 +105,7 @@ public interface UserInfoBeautyService {
 	 */
 	Integer deleteUserInfoBeautyByEmail(String email);
 
+
+	void  saveAccount(UserInfoBeauty beauty);
+
 }
