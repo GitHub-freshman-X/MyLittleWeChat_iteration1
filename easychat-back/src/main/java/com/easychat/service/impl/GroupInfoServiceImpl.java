@@ -181,6 +181,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 			userContact.setContactId(groupInfo.getGroupId());
             userContact.setUserId(groupInfo.getGroupOwnerId());
 			userContact.setCreateTime(curDate);
+			userContact.setLastUpdateTime(curDate);
 			this.userContactMapper.insert(userContact);
 
 			//TODO 创建对话
