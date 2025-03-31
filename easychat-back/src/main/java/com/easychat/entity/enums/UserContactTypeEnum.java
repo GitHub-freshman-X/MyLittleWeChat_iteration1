@@ -2,13 +2,13 @@ package com.easychat.entity.enums;
 
 import com.easychat.utils.StringTools;
 
-public enum UserContacTypeEnum {
+public enum UserContactTypeEnum {
     USER(0,"U","好友"),
     GROUP(1,"G","群");
     private Integer type;
     private String prefix;
     private String desc;
-    UserContacTypeEnum(Integer type, String prefix, String desc) {
+    UserContactTypeEnum(Integer type, String prefix, String desc) {
         this.type = type;
         this.prefix = prefix;
         this.desc = desc;
@@ -22,23 +22,23 @@ public enum UserContacTypeEnum {
     public String getDesc() {
         return desc;
     }
-    public static UserContacTypeEnum getByName(String name) {
+    public static UserContactTypeEnum getByName(String name) {
         try{
             if(StringTools.isEmpty(name)){
                 return null;
             }
-            return UserContacTypeEnum.valueOf(name.toUpperCase());
+            return UserContactTypeEnum.valueOf(name.toUpperCase());
         }catch (Exception e){
             return null;
         }
     }
-    public static UserContacTypeEnum getByPrefix(String prefix) {
+    public static UserContactTypeEnum getByPrefix(String prefix) {
         try{
             if(StringTools.isEmpty(prefix)||prefix.trim().length()==0){
                 return null;
             }
             prefix=prefix.substring(0,1);
-            for(UserContacTypeEnum typeEnum:UserContacTypeEnum.values()){
+            for(UserContactTypeEnum typeEnum: UserContactTypeEnum.values()){
                 if(typeEnum.getPrefix().equals(prefix)){
                     return typeEnum;
                 }

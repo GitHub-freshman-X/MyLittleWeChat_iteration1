@@ -9,15 +9,12 @@ import com.easychat.entity.constants.Constants;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.enums.*;
 import com.easychat.entity.po.UserInfoBeauty;
-import com.easychat.entity.query.UserInfoBeautyQuery;
 import com.easychat.entity.vo.UserInfoVO;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.UserInfoBeautyMapper;
 import com.easychat.redis.RedisComponent;
-import com.easychat.redis.RedisUtils;
 import com.easychat.utils.CopyTools;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.ibatis.reflection.ArrayUtil;
 import org.springframework.stereotype.Service;
 
 import com.easychat.entity.query.UserInfoQuery;
@@ -184,11 +181,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if(null!=userInfo){
 			throw new BusinessException("邮箱账号已经存在");
 		}
-		String userId= StringTools.getUserID();
+		String userId= StringTools.getUserId();
 		UserInfoBeauty beautyAccount=this.userInfoBeautyMapper.selectByEmail(email);
 		Boolean useBeautyAccount = null != beautyAccount && BeautyAccountStatusEnum.No_USE.getStatus().equals(beautyAccount.getStatus());
 		if(useBeautyAccount){
-			userId=UserContacTypeEnum.USER.getPrefix()+beautyAccount.getUserId();
+			userId= UserContactTypeEnum.USER.getPrefix()+beautyAccount.getUserId();
 		}
 		Date curDate=new Date();
 		userInfo=new UserInfo();
