@@ -1,4 +1,5 @@
 package com.easychat.entity.dto;
+import com.easychat.entity.enums.UserContactStatusEnum;
 
 public class UserContactSearchResultDto {
     private String contactId;
@@ -41,9 +42,8 @@ public class UserContactSearchResultDto {
         this.status = status;
     }
     public String getStatusName() {
-        //UserContactStatusEnum statusEnum = UserContactStatusEnum.getByStatus(status);
-        //return statusName ==null?null:statusEnum.getDesc();
-        return statusName;
+        UserContactStatusEnum statusEnum = UserContactStatusEnum.getByStatus(status);
+        return statusName ==null?null:statusEnum.getDesc();
     }
     public void setStatusName(String statusName) {
         this.statusName = statusName;

@@ -1,10 +1,12 @@
 package com.easychat.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.easychat.entity.query.GroupInfoQuery;
 import com.easychat.entity.po.GroupInfo;
 import com.easychat.entity.vo.PaginationResultVO;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -42,7 +44,7 @@ public interface GroupInfoService {
 	 */
 	Integer addOrUpdateBatch(List<GroupInfo> listBean);
 
-	/**
+	/**r
 	 * 多条件更新
 	 */
 	Integer updateByParam(GroupInfo bean,GroupInfoQuery param);
@@ -68,5 +70,7 @@ public interface GroupInfoService {
 	 * 根据GroupId删除
 	 */
 	Integer deleteGroupInfoByGroupId(String groupId);
+    void saveGroup(GroupInfo groupInfo, MultipartFile avatarFile,MultipartFile avatarCover) throws IOException;
+
 
 }

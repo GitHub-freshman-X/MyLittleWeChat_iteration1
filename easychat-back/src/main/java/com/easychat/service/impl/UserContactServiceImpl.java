@@ -1,10 +1,13 @@
 package com.easychat.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import com.easychat.entity.constants.Constants;
+import com.easychat.entity.dto.SysSettingDto;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.dto.UserContactSearchResultDto;
 import com.easychat.entity.enums.*;
@@ -16,7 +19,11 @@ import com.easychat.exception.BusinessException;
 import com.easychat.mappers.GroupInfoMapper;
 import com.easychat.mappers.UserContactApplyMapper;
 import com.easychat.mappers.UserInfoMapper;
+import com.easychat.redis.RedisComponent;
+import com.easychat.service.UserContactApplyService;
 import com.easychat.utils.CopyTools;
+import jodd.util.ArraysUtil;
+import org.apache.ibatis.reflection.ArrayUtil;
 import org.springframework.stereotype.Service;
 
 import com.easychat.entity.po.UserContact;
@@ -26,6 +33,8 @@ import com.easychat.service.UserContactService;
 import com.easychat.utils.StringTools;
 import org.springframework.transaction.annotation.Transactional;
 import org.yaml.snakeyaml.scanner.Constant;
+
+import static org.apache.ibatis.reflection.ArrayUtil.*;
 
 
 /**
@@ -45,6 +54,9 @@ public class UserContactServiceImpl implements UserContactService {
 
 	@Resource
 	private UserContactApplyMapper<UserContactApply, UserContactApplyQuery> userContactApplyMapper;
+
+	@Resource
+	private UserContactApplyService userContactApplyService;
 
 	/**
 	 * 根据条件查询列表
@@ -175,7 +187,7 @@ public class UserContactServiceImpl implements UserContactService {
 		resultDto.setContactType(typeEnum.toString());
 		resultDto.setContactId(contactId);
 		if(userId.equals(contactId)) {
-			//resultDto.setStatus(UserContactStatusEnum.FRIEND.getStatus());
+			resultDto.setStatus(UserContactStatusEnum.FRIEND.getStatus());
 			return resultDto;
 		}
 		//查询是否好友
@@ -197,10 +209,14 @@ public class UserContactServiceImpl implements UserContactService {
 		applyInfo=StringTools.isEmpty(applyInfo)? String.format(Constants.APPLY_INFO_TEMPLATE,tokenUserInfoDto.getNickName()) : applyInfo;
 		Long curTime = System.currentTimeMillis();
 		Integer joinType =null;
-		String reciveUserId = contactId;
+		String receiveUserId = contactId;
 		//查询对方好友是否已经添加，如果拉黑无法添加
 		UserContact userContact = userContactMapper.selectByUserIdAndContactId(applyUserId, contactId);
-		if(userContact != null&&UserContactStatusEnum.BLACKLIST_BE.getStatus().equals(userContact.getStatus())) {
+		if(userContact != null &&
+				ArraysUtil.contains(new Integer[]{
+						UserContactStatusEnum.BLACKLIST_BE.getStatus(),
+						UserContactStatusEnum.BLACKLIST_BE_FIRST.getStatus(),
+						},userContact.getStatus())) {
 			throw new BusinessException("对方已将你拉黑，无法添加");
 		}
 		if(UserContacTypeEnum.GROUP==typeEnum){
@@ -208,27 +224,27 @@ public class UserContactServiceImpl implements UserContactService {
 			if(groupInfo == null||GroupStatusEnum.DISSOLUTION.getStatus().equals(groupInfo)) {
 				throw new BusinessException("群聊不存在或已解散");
 			}
-			reciveUserId = groupInfo.getGroupId();
+			receiveUserId = groupInfo.getGroupId();
 			joinType =  groupInfo.getJoinType();
 		} else{
 			UserInfo userInfo = userInfoMapper.selectByUserId(contactId);
 			if(userInfo == null) {
-				throw new BusinessException(ResponseCodeEnum.CODE_600)
+				throw new BusinessException(ResponseCodeEnum.CODE_600);
 			}
 			joinType = userInfo.getJoinType();
 		}
 		//直接加入不用记录
 		if(JoinTypeEnum.JOIN.getType().equals(joinType)) {
-			//TODO 添加联系人
+			userContactApplyService.addContact(applyUserId,receiveUserId,contactId,typeEnum.getType(),applyInfo);
 			return joinType;
 		}
-		UserContactApply dbApply = this.userContactApplyMapper.selectByApplyUserIdAndReceiveUserIdAndContactId(applyUserId,reciveUserId,contactId);
+		UserContactApply dbApply = this.userContactApplyMapper.selectByApplyUserIdAndReceiveUserIdAndContactId(applyUserId,receiveUserId,contactId);
 		if(dbApply == null) {
 			UserContactApply contactApply = new UserContactApply();
 			contactApply.setApplyUserId(applyUserId);
 			contactApply.setContactType(typeEnum.getType());
 			contactApply.setContactId(contactId);
-			contactApply.setReceiveUserId(reciveUserId);
+			contactApply.setReceiveUserId(receiveUserId);
 			contactApply.setLastApplyTime(curTime);
 			contactApply.setStatus(UserContatctApplyStatusEnum.INIT.getStatus());
 			contactApply.setApplyInfo(applyInfo);
@@ -247,5 +263,25 @@ public class UserContactServiceImpl implements UserContactService {
 		}
 
 		return joinType;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void removeUserContact(String userId, String contactId, UserContactStatusEnum statusEnum){
+		//移除好友
+		UserContact userContact = new UserContact();
+		userContact.setStatus(statusEnum.getStatus());
+		userContactMapper.updateByUserIdAndContactId(userContact,userId,contactId);
+
+		//将好友中也移除自己
+		UserContact friendContact = new UserContact();
+		if(UserContactStatusEnum.DEL==statusEnum){
+			friendContact.setStatus(UserContactStatusEnum.DEL_EB.getStatus());
+		}else if(UserContactStatusEnum.BLACKLIST==statusEnum){
+			friendContact.setStatus(UserContactStatusEnum.BLACKLIST_BE.getStatus());
+		}
+		userContactMapper.updateByUserIdAndContactId(friendContact,contactId,userId);
+		//TODO 从我的好友列表缓存中删除好友
+		//TODO 从好友列表缓存中删除我
 	}
 }

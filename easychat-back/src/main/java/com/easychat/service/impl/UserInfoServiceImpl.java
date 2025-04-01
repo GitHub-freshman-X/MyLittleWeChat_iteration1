@@ -184,7 +184,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if(null!=userInfo){
 			throw new BusinessException("邮箱账号已经存在");
 		}
-		String userId= StringTools.getUserID();
+		String userId= StringTools.getUserId();
 		UserInfoBeauty beautyAccount=this.userInfoBeautyMapper.selectByEmail(email);
 		Boolean useBeautyAccount = null != beautyAccount && BeautyAccountStatusEnum.No_USE.getStatus().equals(beautyAccount.getStatus());
 		if(useBeautyAccount){
