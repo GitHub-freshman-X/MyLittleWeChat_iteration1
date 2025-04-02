@@ -9,7 +9,7 @@
       <div class="search-result">
         // 搜索结果展示
         <span class="contact-type">{{ contactTypeName }}</span>
-
+        <UserBaseInfo :userInfo="searchResult" :showArea="searchResult.contactType=='USER'"></UserBaseInfo>
       </div>
       <div class="on-btn" v-if="searchResult.contackId != userInfoStore.getInfo().userId">
         <el-button type="primary" 
@@ -28,9 +28,11 @@
     </div>
     <div v-if="!searchResult" class="no-data">没有搜索到任何结果</div>
   </ContentPanel>
+  <SearchAdd ref="searchAddRef" @reload="resetForm"></SearchAdd>
 </template>
 
 <script setup>
+import SearchAdd from './SearchAdd.vue';
 import { ref, reactive, getCurrentInstance, nextTick, computed } from 'vue';
 import ContentPanel from '../../components/ContentPanel.vue';
 const { proxy } = getCurrentInstance();
@@ -66,6 +68,11 @@ const search = () =>{
   if(!result){
     return;
   }
+}
+
+const searchAddRef = ref()
+const applyContact = () => {
+  searchAddRef.value.show(searchResult.value)
 }
 
 </script>

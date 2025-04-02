@@ -18,7 +18,18 @@
                             <div :class="['iconfont', sub.icon]" :style="{ background: sub.iconBgColor }"></div>
                             <div class="text">{{ sub.name }}</div>
                         </div>
-                        <template v-for="contact in item.contactData"> </template>
+                        <template v-for="contact in item.contactData"> 
+                            <div 
+                            :class="[
+                                'part-item', 
+                                contact[item.contactId]==route.query.contactId ? 'active' : ''
+                                ]"
+                                @click="contactDetail(contact, item)"
+                                >
+                                <Avatar :userId="contact[item.contactId]" :width="35"></Avatar>
+                                <div class="text">{{ contact[item.contactName] }}</div>
+                            </div>
+                        </template>
                         <template v-if="item.contactData && item.contactData.length == 0">
                             <div class="no-data">
                                 {{ item.emptyMsg }}
@@ -101,6 +112,7 @@ const partList = ref([
     }
 ])
 
+const rightTitle = ref()
 const partJump = (data) =>{
     if(data.showTitle){
         rightTitle.value = data.name
@@ -116,7 +128,26 @@ const partJump = (data) =>{
     // }
 }
 
-const rightTitle = ref()
+const loadContact = async()=>{
+    let result = await proxy.Request({
+       url:proxy.Api.loadContact,
+       params:{
+        contactType
+       }
+    })
+    if(!result){
+      return;
+    }
+
+    if(contactType=="GROUP"){
+        partList.value[2].contactData = result.data
+    }else if(contactType=="USER"){
+        partList.value[3].contactData = result.data
+
+    }
+}
+loadContact("USER")
+loadContact("GROUP")
 
 </script>
 
