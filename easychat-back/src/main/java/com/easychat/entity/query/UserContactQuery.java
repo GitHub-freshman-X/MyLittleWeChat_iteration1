@@ -53,6 +53,46 @@ public class UserContactQuery extends BaseParam {
 
 	private Boolean queryUserInfo;
 
+	private Boolean queryGroupInfo;
+
+	private Boolean excludeMyGroup;
+
+	private Integer[] statusArray;
+
+	private Boolean queryContactUserInfo;
+
+	public Integer[] getStatusArray() {
+		return statusArray;
+	}
+
+	public void setStatusArray(Integer[] statusArray) {
+		this.statusArray = statusArray;
+	}
+
+	public Boolean getExcludeMyGroup(){
+		return excludeMyGroup;
+	}
+
+	public void setExcludeMyGroup(Boolean excludeMyGroup){
+		this.excludeMyGroup = excludeMyGroup;
+	}
+
+	public Boolean getQueryContactUserInfo() {
+		return queryContactUserInfo;
+	}
+
+	public void setQueryContactUserInfo(Boolean queryContactUseInfo) {
+		this.queryContactUserInfo = queryContactUseInfo;
+	}
+
+	public void setQueryGroupInfo(Boolean queryGroupInfo){
+		this.queryGroupInfo = queryGroupInfo;
+	}
+
+	public Boolean getQueryGroupInfo(){
+		return queryGroupInfo;
+	}
+
 	public Boolean getQueryUserInfo() {
 		return queryUserInfo;
 	}
@@ -60,6 +100,7 @@ public class UserContactQuery extends BaseParam {
 	public void setQueryUserInfo(Boolean queryUserInfo) {
 		this.queryUserInfo = queryUserInfo;
 	}
+
 
 	public void setUserId(String userId){
 		this.userId = userId;
@@ -116,7 +157,6 @@ public class UserContactQuery extends BaseParam {
 	public String getCreateTimeStart(){
 		return this.createTimeStart;
 	}
-
 	public void setCreateTimeEnd(String createTimeEnd){
 		this.createTimeEnd = createTimeEnd;
 	}
@@ -148,7 +188,6 @@ public class UserContactQuery extends BaseParam {
 	public String getLastUpdateTimeStart(){
 		return this.lastUpdateTimeStart;
 	}
-
 	public void setLastUpdateTimeEnd(String lastUpdateTimeEnd){
 		this.lastUpdateTimeEnd = lastUpdateTimeEnd;
 	}

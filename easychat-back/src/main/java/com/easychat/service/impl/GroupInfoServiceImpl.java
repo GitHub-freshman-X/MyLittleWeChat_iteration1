@@ -12,7 +12,7 @@ import com.easychat.entity.constants.Constants;
 import com.easychat.entity.dto.SysSettingDto;
 import com.easychat.entity.enums.ResponseCodeEnum;
 import com.easychat.entity.enums.UserContactStatusEnum;
-import com.easychat.entity.enums.UserContactTypeEnum;
+import com.easychat.entity.enums.UserContacTypeEnum;
 import com.easychat.entity.po.UserContact;
 import com.easychat.entity.query.UserContactQuery;
 import com.easychat.exception.BusinessException;
@@ -177,7 +177,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 			//将群组添加为联系人
 			UserContact userContact = new UserContact();
 			userContact.setStatus(UserContactStatusEnum.FRIEND.getStatus());
-			userContact.setContactType(UserContactTypeEnum.GROUP.getType());
+			userContact.setContactType(UserContacTypeEnum.GROUP.getType());
 			userContact.setContactId(groupInfo.getGroupId());
             userContact.setUserId(groupInfo.getGroupOwnerId());
 			userContact.setCreateTime(curDate);

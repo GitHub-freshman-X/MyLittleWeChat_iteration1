@@ -1,6 +1,6 @@
 package com.easychat.utils;
 import com.easychat.entity.constants.Constants;
-import com.easychat.entity.enums.UserContactTypeEnum;
+import com.easychat.entity.enums.UserContacTypeEnum;
 import com.easychat.exception.BusinessException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.util.DigestUtils;
@@ -58,11 +58,11 @@ public class StringTools {
     }
 
     public static String getUserId(){
-        return UserContactTypeEnum.USER.getPrefix() + getRandomNumber(Constants.LENGTH_11);
+        return UserContacTypeEnum.USER.getPrefix() + getRandomNumber(Constants.LENGTH_11);
     }
 
     public static String getGroupId(){
-        return UserContactTypeEnum.GROUP.getPrefix() + getRandomNumber(Constants.LENGTH_11);
+        return UserContacTypeEnum.GROUP.getPrefix() + getRandomNumber(Constants.LENGTH_11);
     }
 
     public static String getRandomNumber(Integer count) {

@@ -50,7 +50,7 @@ public class UserContact implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date lastUpdateTime;
 
-    private String contactName;
+	private String contactName;
 
 	public String getContactName() {
 		return contactName;
