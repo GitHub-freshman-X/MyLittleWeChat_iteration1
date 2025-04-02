@@ -9,14 +9,14 @@
       <div class="search-result">
         // 搜索结果展示
         <span class="contact-type">{{ contactTypeName }}</span>
-        <UserBaseInfo :userInfo="searchResult" :showArea="searchResult.contactType=='USER'"></UserBaseInfo>
+        <!-- <UserBaseInfo :userInfo="searchResult" :showArea="searchResult.contactType=='USER'"></UserBaseInfo> -->
+         {{ searchResult.nickName }}
       </div>
       <div class="on-btn" v-if="searchResult.contackId != userInfoStore.getInfo().userId">
         <el-button type="primary" 
           v-if="
             searchResult.status == null ||
             searchResult.status == 0 ||
-            // searchResult.status == 1 ||
             searchResult.status == 2 || 
             searchResult.status == 3 ||
             searchResult.status == 4
@@ -40,6 +40,7 @@ import { useUserInfoStore } from '@/stores/UserInfoStore';
 const userInfoStore = useUserInfoStore();
 
 const contactTypeName = computed(() => {
+  console.log('contactTypeName')
   if(userInfoStore.getInfo().userId == searchResult.value.contactId){
     return "自己"
   }
@@ -54,17 +55,18 @@ const contactTypeName = computed(() => {
 
 const contactId = ref();
 const searchResult = ref({})
-const search = () =>{
+const search = async() =>{
   if(!contactId.value){
       proxy.Message.warning("请输入联系人ID");
       return;
   }
-  let result = proxy.Request({
+  let result = await proxy.Request({
      url:proxy.Api.search,
      params:{
-      contachId : contactId.value
+      contactId : contactId.value
      }
   })
+  // console.log(contactId.value)
   if(!result){
     return;
   }

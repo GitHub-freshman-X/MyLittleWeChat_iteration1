@@ -17,7 +17,7 @@
 import { ref, reactive, getCurrentInstance, nextTick, computed } from 'vue';
 const { proxy } = getCurrentInstance();
 import { useUserInfoStore } from '@/stores/UserInfoStore';
-const userInfoStore = userUserInfoStore()
+const userInfoStore = useUserInfoStore()
 
 const formData = ref({});
 const formDataRef = ref();
