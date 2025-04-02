@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick, computed } from 'vue';
+import { getCurrentInstance, computed } from 'vue';
 const { proxy } = getCurrentInstance();
 
 const props = defineProps({
@@ -34,7 +34,7 @@ const serverUrl = computed(() => {
   if(!props.fileId) {
     return;
   }
-  return ""
+  return ''
   // 获取本地服务的图片url
 })
 

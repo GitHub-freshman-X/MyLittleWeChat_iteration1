@@ -41,15 +41,15 @@
     </template>
     <template #right-content>
       <div class="title-panel drag">{{ rightTitle }}</div>
-      <router-view v-slot="{Component}">
-        <component :is="Component" ref="componentRef"></component>
-      </router-view>
+        <router-view v-slot="{Component}">
+          <component :is="Component" ref="componentRef"></component>
+        </router-view>
     </template>
   </Layout>
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick } from "vue"
+import { ref, getCurrentInstance } from "vue"
 const { proxy } = getCurrentInstance();
 
 import { useRouter, useRoute } from "vue-router"
@@ -72,7 +72,7 @@ const partList = ref([
         "iconBgColor": "#08bf61",
         "path": "/contact/contactNotice",
         "showTitle": true,
-        "countKey": "contactApplyCount"
+        "countKey": "contact/ApplyCount"
       }
     ]
   },
@@ -223,16 +223,15 @@ loadContact('USER')
         }
       }
     }
-
-
-  .title-panel {
-    width: 100%;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-    font-size: 18px;
-    color: #000000;
   }
+
+.title-panel {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-size: 18px;
+  color: #000000;
 }
 </style>

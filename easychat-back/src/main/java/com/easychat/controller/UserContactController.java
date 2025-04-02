@@ -125,7 +125,7 @@ public class UserContactController extends ABaseController{
 		return getSuccessResponseVO(joinType);
 	}
 
-	@RequestMapping("loadApply")
+	@RequestMapping("/loadApply")
 	@GlobalInterceptor
 	public ResponseVO loadApply(HttpServletRequest request, Integer pageNo) {
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
@@ -140,7 +140,7 @@ public class UserContactController extends ABaseController{
 		return getSuccessResponseVO(resultVO);
 	}
 
-	@RequestMapping("dealWithApply")
+	@RequestMapping("/dealWithApply")
 	@GlobalInterceptor
 	public ResponseVO dealWithApply(HttpServletRequest request, @NotNull Integer applyId,@NotNull Integer status) {
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
@@ -148,7 +148,7 @@ public class UserContactController extends ABaseController{
 		return getSuccessResponseVO(null);
 	}
 
-	@RequestMapping("loadContact")
+	@RequestMapping("/loadContact")
 	@GlobalInterceptor
 	public ResponseVO loadContact(HttpServletRequest request, @NotNull String contactType) {
 		UserContacTypeEnum contacTypeEnum = UserContacTypeEnum.getByName(contactType);
@@ -165,7 +165,7 @@ public class UserContactController extends ABaseController{
 			contactQuery.setQueryGroupInfo(true);
 			contactQuery.setExcludeMyGroup(true);
 		}
-		contactQuery.setOrderBy("last_apply_time desc");
+		contactQuery.setOrderBy("last_update_time desc");
 		contactQuery.setStatusArray(new Integer[]{
 				UserContactStatusEnum.FRIEND.getStatus(),
 				UserContactStatusEnum.DEL_EB.getStatus(),
@@ -181,7 +181,7 @@ public class UserContactController extends ABaseController{
 	 * @param contactId
 	 * @return
 	 */
-	@RequestMapping("getContactInfo")
+	@RequestMapping("/getContactInfo")
 	@GlobalInterceptor
 	public ResponseVO getContactInfo(HttpServletRequest request, @NotNull String contactId) {
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
@@ -202,7 +202,7 @@ public class UserContactController extends ABaseController{
 	 * @param contactId
 	 * @return
 	 */
-	@RequestMapping("getContactUserInfo")
+	@RequestMapping("/getContactUserInfo")
 	@GlobalInterceptor
 	public ResponseVO getContactUserInfo(HttpServletRequest request, @NotNull String contactId) {
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
@@ -219,7 +219,7 @@ public class UserContactController extends ABaseController{
 		return getSuccessResponseVO(userInfoVO);
 	}
 
-	@RequestMapping("delContact")
+	@RequestMapping("/delContact")
 	@GlobalInterceptor
 	public ResponseVO delContact(HttpServletRequest request, @NotNull String contactId) {
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
@@ -228,7 +228,7 @@ public class UserContactController extends ABaseController{
 		return getSuccessResponseVO(null);
 	}
 
-	@RequestMapping("addContact2BlackList")
+	@RequestMapping("/addContact2BlackList")
 	@GlobalInterceptor
 	public ResponseVO addContact2BlackList(HttpServletRequest request, @NotNull String contactId) {
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);

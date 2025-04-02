@@ -7,10 +7,8 @@
     <div v-if="searchResult && Object.keys(searchResult).length > 0"
       class="search-result-panel">
       <div class="search-result">
-        // 搜索结果展示
         <span class="contact-type">{{ contactTypeName }}</span>
-        <!-- <UserBaseInfo :userInfo="searchResult" :showArea="searchResult.contactType=='USER'"></UserBaseInfo> -->
-         {{ searchResult.nickName }}
+        <UserBaseInfo :userInfo="searchResult" :showArea="searchResult.contactType=='USER'"></UserBaseInfo>
       </div>
       <div class="on-btn" v-if="searchResult.contackId != userInfoStore.getInfo().userId">
         <el-button type="primary" 
@@ -21,26 +19,26 @@
             searchResult.status == 3 ||
             searchResult.status == 4
             "
-          @click="applyContact"> {{ searchResult.contactType=='USER' ? '添加联系人' : '申请加入群组' }}</el-button>
+          @click="applyContact"> {{ searchResult.contactType=='USER' ? '添加联系人' : '申请加入群组' }}
+        </el-button>
           <el-button type="primary" v-if="searchResult.status == 1" @click="sendMessage">发消息</el-button>
           <span v-if="searchResult.status==5 || searchResult.status==6">对方拉黑了你</span>
       </div>
     </div>
     <div v-if="!searchResult" class="no-data">没有搜索到任何结果</div>
   </ContentPanel>
-  <SearchAdd ref="searchAddRef" @reload="resetForm"></SearchAdd>
+  <SearchAdd ref="searchAddRef" @reload="resetFrom"></SearchAdd>
 </template>
 
 <script setup>
 import SearchAdd from './SearchAdd.vue';
-import { ref, reactive, getCurrentInstance, nextTick, computed } from 'vue';
+import { ref, getCurrentInstance, computed } from 'vue';
 import ContentPanel from '../../components/ContentPanel.vue';
 const { proxy } = getCurrentInstance();
 import { useUserInfoStore } from '@/stores/UserInfoStore';
 const userInfoStore = useUserInfoStore();
 
 const contactTypeName = computed(() => {
-  console.log('contactTypeName')
   if(userInfoStore.getInfo().userId == searchResult.value.contactId){
     return "自己"
   }
@@ -70,6 +68,7 @@ const search = async() =>{
   if(!result){
     return;
   }
+  searchResult.value = result.data
 }
 
 const searchAddRef = ref()
@@ -125,7 +124,7 @@ const applyContact = () => {
     }
   }
 
-  .op-btn {
+  .on-btn {
     border-radius: 5px;
     margin-top: 10px;
     padding: 10px;

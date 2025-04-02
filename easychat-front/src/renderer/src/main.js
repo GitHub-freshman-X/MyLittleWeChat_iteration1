@@ -9,10 +9,10 @@ import '@/assets/cust-elementplus.scss'
 import '@/assets/icon/iconfont.css'
 import '@/assets/base.scss'
 
-import Dialog from '@/components/Dialog.vue'
-import WinOp from "@/components/WinOp.vue"
-import Layout from "@/components/Layout.vue"
-import ContentPanel from "@/components/ContentPanel.vue"
+import MyDialog from '@/components/MyDialog.vue'
+import WinOp from '@/components/WinOp.vue'
+import Layout from '@/components/Layout.vue'
+import ContentPanel from '@/components/ContentPanel.vue'
 import ShowLocalImage from '@/components/ShowLocalImage.vue'
 import UserBaseInfo from '@/components/UserBaseInfo.vue'
 import Avatar from '@/components/Avatar.vue'
@@ -32,7 +32,7 @@ app.use(ElementPlus)
 app.use(router)
 app.use(Pinia.createPinia());
 
-app.component('Dialog', Dialog)
+app.component('MyDialog', MyDialog)
 app.component('WinOp', WinOp)
 app.component('Layout', Layout)
 app.component('ContentPanel', ContentPanel)
