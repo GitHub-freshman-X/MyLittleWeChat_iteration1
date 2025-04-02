@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Dialog :show="dialogConfig.show" :title="dialogConfig.title" :buttons="dialogConfig.buttons" width="400px"
+    <MyDialog :show="dialogConfig.show" :title="dialogConfig.title" :buttons="dialogConfig.buttons" width="400px"
       :showCancel="false" @close="dialogConfig.show = false">
       <el-form :model="formData" :rules="rules" ref="formDataRef" @submit.prevent>
         <!--input输入-->
@@ -9,12 +9,12 @@
             resize="none" show-word-limit maxlength="100"></el-input>
         </el-form-item>
       </el-form>
-    </Dialog>
+    </MyDialog>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick, computed } from 'vue';
+import { ref, reactive, getCurrentInstance, nextTick } from 'vue';
 const { proxy } = getCurrentInstance();
 import { useUserInfoStore } from '@/stores/UserInfoStore';
 const userInfoStore = useUserInfoStore()
@@ -30,13 +30,13 @@ const dialogConfig = reactive({
   title: "提交申请",
   buttons: [
     {
-      type: "danger",
+      type: "primary",
       text: "确定",
       click: (e) => {
         submitApply();
-      },
-    },
-  ],
+      }
+    }
+  ]
 });
 
 const emit = defineEmits('reload')
