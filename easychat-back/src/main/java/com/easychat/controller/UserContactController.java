@@ -131,7 +131,7 @@ public class UserContactController extends ABaseController{
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
 
 		UserContactApplyQuery applyQuery=new UserContactApplyQuery();
-		applyQuery.setOrderBy("last_update_time");
+		applyQuery.setOrderBy("last_apply_time");
 		applyQuery.setReceiveUserId(tokenUserInfoDto.getUserId());
 		applyQuery.setPageNo(pageNo);
 		applyQuery.setPageSize(PageSize.SIZE15.getSize());
