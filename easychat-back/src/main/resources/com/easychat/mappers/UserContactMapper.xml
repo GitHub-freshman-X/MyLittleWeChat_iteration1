@@ -84,31 +84,31 @@
 	<!-- 查询集合-->
 	<select id="selectList" resultMap="base_result_map" >
 		 SELECT u.*
-		 <if test="query.queryUserInfo or queryContactUserInfo">
-		      ,uc.nick_name contactName,uc.sex sex
+		 <if test="query.queryUserInfo or query.queryContactUserInfo">
+		      ,c.nick_name contactName,c.sex sex
 		 </if>
 		 <if test="query.queryGroupInfo">
 			  ,g.group_name contactName
 		 </if>
 		 FROM user_contact u
 		 <if test="query.queryUserInfo">
-		      inner join user_info uc on u.user_id = uc.user_id
+		      inner join user_info c on u.user_id = c.user_id
 		 </if>
 		 <if test="query.queryContactUserInfo">
-		      inner join user_info uc on u.contact_id = uc.user_id
+		      inner join user_info c on u.contact_id = c.user_id
 		 </if>
 		 <if test="query.queryGroupInfo">
-			  inner join group_info g on u.contact_id = g.user_id
+			  inner join group_info g on u.contact_id = g.group_id
 		      <if test="query.excludeMyGroup">
 		           and g.group_id != u.user_id
 			  </if>
 		 </if>
 		 <include refid="query_condition" />
-		 <if test="query.orderBy!=null">
+		 <if test="query.orderBy != null">
 			 order by ${query.orderBy}
 		 </if>
-		 <if test="query.simplePage!=null">
-			 limit #{query.simplePage.start},#{query.simplePage.end}
+		 <if test="query.simplePage != null">
+			 limit #{query.simplePage.start}, #{query.simplePage.end}
 		 </if>
 	</select>
 
