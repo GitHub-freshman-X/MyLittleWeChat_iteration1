@@ -184,7 +184,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if(null!=userInfo){
 			throw new BusinessException("邮箱账号已经存在");
 		}
-		String userId= StringTools.getUserId();
+		String userId= StringTools.getUserID();
 		UserInfoBeauty beautyAccount=this.userInfoBeautyMapper.selectByEmail(email);
 		Boolean useBeautyAccount = null != beautyAccount && BeautyAccountStatusEnum.No_USE.getStatus().equals(beautyAccount.getStatus());
 		if(useBeautyAccount){
@@ -238,7 +238,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfoVO.setAdmin(tokenUserInfoDto.getAdmin());
 		return userInfoVO;
 	}
-
 	private TokenUserInfoDto getTokenUserInfoDto(UserInfo userInfo){
 		TokenUserInfoDto tokenUserInfoDto=new TokenUserInfoDto();
 		tokenUserInfoDto.setUserId(userInfo.getUserId());
