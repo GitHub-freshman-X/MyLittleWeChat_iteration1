@@ -21,4 +21,7 @@ public class Constants {
     public static final String FILE_FOLDER_AVATAR_NAME="avatar/";
     public static final String IMAGE_SUFFIX = ".png";
     public static final String COVER_IMAGE_SUFFIX = "_cover.png";
+    public static final String REGEX_PASSWORD="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%!^&*]).{8,18}$";
+
+
 }

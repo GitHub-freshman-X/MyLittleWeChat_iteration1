@@ -1,5 +1,7 @@
 package com.easychat.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import javax.annotation.Resource;
@@ -28,6 +30,7 @@ import com.easychat.mappers.UserInfoMapper;
 import com.easychat.service.UserInfoService;
 import com.easychat.utils.StringTools;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -250,5 +253,27 @@ public class UserInfoServiceImpl implements UserInfoService {
 			tokenUserInfoDto.setAdmin(false);
 		}
 		return tokenUserInfoDto;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void updateUserInfo(UserInfo userInfo, MultipartFile avatarFile, MultipartFile avatarCover)throws IOException {
+		if(avatarFile!=null){
+			String baseFolder= appconfig.getProjectFolder()+Constants.FILE_FOLDER_FILE;
+			File targetFileFolder=new File(baseFolder+Constants.FILE_FOLDER_AVATAR_NAME);
+			if(!targetFileFolder.exists()){
+				targetFileFolder.mkdirs();
+			}
+			String filePath=targetFileFolder.getPath()+"/"+userInfo.getUserId()+Constants.IMAGE_SUFFIX;
+			avatarFile.transferTo(new File(filePath));
+			avatarCover.transferTo(new File(filePath+Constants.COVER_IMAGE_SUFFIX));
+		}
+		UserInfo dbInfo = this.userInfoMapper.selectByUserId(userInfo.getUserId());
+		this.userInfoMapper.updateByUserId(userInfo,userInfo.getUserId());
+		String contactNameUpdate=null;
+		   if(dbInfo.getNickName().equals(userInfo.getNickName())){
+			   contactNameUpdate=userInfo.getNickName();
+		   }
+		   //TODO:更新会话信息中的昵称信息
 	}
 }

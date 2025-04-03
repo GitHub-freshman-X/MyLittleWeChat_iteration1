@@ -236,6 +236,7 @@ public class UserContactServiceImpl implements UserContactService {
 		//直接加入不用记录
 		if(JoinTypeEnum.JOIN.getType().equals(joinType)) {
 			userContactApplyService.addContact(applyUserId,receiveUserId,contactId,typeEnum.getType(),applyInfo);
+			userContactApplyService.addContact(receiveUserId,applyUserId,applyUserId,typeEnum.getType(),applyInfo);
 			return joinType;
 		}
 		UserContactApply dbApply = this.userContactApplyMapper.selectByApplyUserIdAndReceiveUserIdAndContactId(applyUserId,receiveUserId,contactId);
