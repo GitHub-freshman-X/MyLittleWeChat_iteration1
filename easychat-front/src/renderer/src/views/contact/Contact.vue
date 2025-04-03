@@ -20,7 +20,7 @@
               <div :class="['iconfont', sub.icon]" :style="{ background: sub.iconBgColor }"></div>
               <div class="text">{{ sub.name }}</div>
             </div>
-            <template v-for="contact in item.contactData" :key="contact.name">
+            <template v-for="contact in item.contactData" :key="contact.contactId">
               <div 
               :class="[
                 'part-item',
@@ -28,7 +28,8 @@
               ]"
               @click="contactDetail(contact, item)"
               >
-              <Avatar :userId="contact[item.contactId]" :width="35"></Avatar>
+              <!-- <Avatar :userId="contact[item.contactId]" :width="35"></Avatar> -->
+               <Avatar :userId="contact[item.contactId]" :width="35"></Avatar>
               <div class="text">{{ contact[item.contactName] }}</div>
             </div>
             </template>
@@ -141,6 +142,10 @@ const loadContact = async(contactType)=> {
 }
 loadContact('GROUP')
 loadContact('USER')
+
+const contactDetail = () => {
+  
+}
 
 </script>
 
