@@ -29,10 +29,13 @@
 
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
+import { ref, getCurrentInstance, onMounted } from 'vue'
 const { proxy } = getCurrentInstance()
 import { useRouter } from 'vue-router'
 const router = useRouter()
+
+import { useUserInfoStore } from '@/stores/UserInfoStore'
+const userInfoStore = useUserInfoStore()
 
 const menuList = ref([
   {
@@ -62,6 +65,20 @@ const changeMenu = (item) => {
   currentMenu.value = item
   router.push(item.path)
 }
+
+// const getLoginInfo = async() => {
+//   let result = await proxy.Request({
+//      url: proxy.Api.getUserInfo
+//   })
+//   if(!result){
+//     return;
+//   }
+//   userInfoStore.setInfo(result.data)
+// }
+
+// onMounted(() => {
+//   getLoginInfo()
+// })
 
 </script>
 

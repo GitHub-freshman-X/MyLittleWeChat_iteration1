@@ -50,12 +50,20 @@
 </template>
 
 <script setup>
-import { ref, getCurrentInstance } from "vue"
+import { ref, getCurrentInstance, watch } from "vue"
 const { proxy } = getCurrentInstance();
 
 import { useRouter, useRoute } from "vue-router"
 const router = useRouter()
 const route = useRoute()
+
+import { useContactStateStore } from "../../stores/ContactStateStore";
+const contactStateStore = useContactStateStore()
+
+const searchKey = ref()
+const search = () => {
+
+}
 
 const partList = ref([
   {
@@ -142,6 +150,23 @@ const loadContact = async(contactType)=> {
 }
 loadContact('GROUP')
 loadContact('USER')
+
+watch(() =>contactStateStore.contactReload,
+ (newVal, oldVal) => {
+  if(!newVal){
+    return;
+  }
+  switch(newVal){
+    case 'USER':{
+      loadContact(newVal)
+      break;
+    }
+    case 'GROUP':{
+      loadContact(newVal)
+      break;
+    }
+  }
+ }, { immediate: true, deep: true });
 
 const contactDetail = () => {
   
