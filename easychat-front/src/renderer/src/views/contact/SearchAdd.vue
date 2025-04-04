@@ -3,7 +3,6 @@
     <MyDialog :show="dialogConfig.show" :title="dialogConfig.title" :buttons="dialogConfig.buttons" width="400px"
       :showCancel="false" @close="dialogConfig.show = false">
       <el-form :model="formData" :rules="rules" ref="formDataRef" @submit.prevent>
-        <!--input输入-->
         <el-form-item label="" prop="">
           <el-input type="textarea" :rows="5" clearable placeholder="输入申请信息，更容易被通过" v-model.trim="formData.applyInfo"
             resize="none" show-word-limit maxlength="100"></el-input>
@@ -19,25 +18,25 @@ const { proxy } = getCurrentInstance();
 import { useUserInfoStore } from '@/stores/UserInfoStore';
 const userInfoStore = useUserInfoStore()
 
-const formData = ref({});
-const formDataRef = ref();
-const rules = {
-  title: [{ required: true, message: "请输入内容" }],
-};
-
-const dialogConfig = reactive({
+const dialogConfig = ref({
   show: false,
-  title: "提交申请",
+  title: '提交申请',
   buttons: [
     {
-      type: "primary",
-      text: "确定",
+      type: 'primary',
+      text: '确定',
       click: (e) => {
         submitApply();
       }
     }
   ]
-});
+})
+
+const formData = ref({});
+const formDataRef = ref();
+const rules = {
+  title: [{ required: true, message: "请输入内容" }],
+};
 
 const emit = defineEmits('reload')
 const submitApply = async() => {
@@ -67,6 +66,7 @@ const show = (data) => {
   dialogConfig.value.show = true
   nextTick(()=> {
     formDataRef.value.resetFields()
+    formData.value = Object.assign({}, data)
     formData.value.applyInfo = "我是"+userInfoStore.getInfo().nickName
   })
 }

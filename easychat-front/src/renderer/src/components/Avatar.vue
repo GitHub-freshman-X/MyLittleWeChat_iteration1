@@ -18,12 +18,12 @@
       @show="getContactInfo"
       ref="popoverRef">
       <template #reference>
-        <AvaterBase
+        <AvatarBase
           :userId="userId"
           :width="width"
           :borderRadius="borderRadius"
           :showDetail="false">
-        </AvaterBase>
+        </AvatarBase>
       </template>
       <template #default>
         <div class="popover-user-panel">
@@ -48,7 +48,7 @@ import { useUserInfoStore } from '@/stores/UserInfoStore';
 const userInfoStore = useUserInfoStore();
 
 const props = defineProps({
-  userid: {
+  userId: {
     type: String
   },
   width: {
@@ -65,12 +65,12 @@ const props = defineProps({
 })
 
 const userInfo = ref({})
-const getContactInfo = () =>{
+const getContactInfo = async() =>{
   userInfo.value.userId = props.userId
   if(userInfoStore.getInfo().userId == props.userId){
     userInfo.value = userInfoStore.getInfo()
   }else{
-    let result = proxy.Request({
+    let result = await proxy.Request({
        url: proxy.Api.getContactInfo,
        params:{
         contactId: props.userId

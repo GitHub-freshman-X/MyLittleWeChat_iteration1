@@ -43,7 +43,7 @@ const contactTypeName = computed(() => {
     return "自己"
   }
   if(searchResult.value.contactType == 'USER'){
-    return "用户"                                                        
+    return "用户"
   }
   if(searchResult.value.contactType == 'GROUP'){
     return "群组"
