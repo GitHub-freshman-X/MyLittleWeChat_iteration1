@@ -57,8 +57,12 @@ public class StringTools {
         return false;
     }
 
-    public static String getUserID(){
+    public static String getUserId(){
         return UserContacTypeEnum.USER.getPrefix() + getRandomNumber(Constants.LENGTH_11);
+    }
+
+    public static String getGroupId(){
+        return UserContacTypeEnum.GROUP.getPrefix() + getRandomNumber(Constants.LENGTH_11);
     }
 
     public static String getRandomNumber(Integer count) {
