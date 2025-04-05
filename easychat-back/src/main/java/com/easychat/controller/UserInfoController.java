@@ -10,6 +10,7 @@ import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.vo.ResponseVO;
 import com.easychat.entity.vo.UserInfoVO;
+import com.easychat.mappers.UserInfoMapper;
 import com.easychat.service.UserInfoService;
 import com.easychat.utils.StringTools;
 import com.easychat.utils.CopyTools;
@@ -32,6 +33,7 @@ public class UserInfoController extends ABaseController{
 
 	@Resource
 	private UserInfoService userInfoService;
+
 
 	// 定义获取用户信息的接口
 	@RequestMapping("/getUserInfo")
