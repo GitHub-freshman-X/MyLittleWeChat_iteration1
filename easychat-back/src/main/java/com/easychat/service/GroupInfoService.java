@@ -70,6 +70,6 @@ public interface GroupInfoService {
 	 */
 	Integer deleteGroupInfoByGroupId(String groupId);
     void saveGroup(GroupInfo groupInfo, MultipartFile avatarFile,MultipartFile avatarCover);
-
+void dissolutionGroup(String groupOwnerId,String groupId);
 
 }

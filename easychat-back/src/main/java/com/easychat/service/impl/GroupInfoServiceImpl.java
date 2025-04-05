@@ -4,6 +4,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.easychat.entity.enums.ResponseCodeEnum;
+import com.easychat.entity.enums.UserContacTypeEnum;
+import com.easychat.entity.po.UserContact;
+import com.easychat.entity.query.UserContactQuery;
+import com.easychat.entity.query.UserInfoQuery;
+import com.easychat.exception.BusinessException;
 import org.springframework.stereotype.Service;
 
 import com.easychat.entity.enums.PageSize;
@@ -14,6 +20,7 @@ import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.GroupInfoMapper;
 import com.easychat.service.GroupInfoService;
 import com.easychat.utils.StringTools;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -134,4 +141,24 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 		
 
 	}
+
+
+	@Override
+	@Transactional(rollbackFor =Exception.class)
+	public void dissolutionGroup(String groupOwnerId,String groupId) {
+		GroupInfo dbInfo=this.groupInfoMapper.selectByGroupId(groupId);
+		if (dbInfo==null||dbInfo.getGroupOwnerId().equals(groupOwnerId)){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		GroupInfo updateInfo=new GroupInfo();
+		updateInfo.setStatus(GroupStatusEnum.DISSOLUTION.getStatus());
+		this.groupInfoMapper.updateByGroupId(updateInfo,groupId);
+		UserContactQuery userContactQuery=new UserContactQuery();
+		userContactQuery.setContactId(groupId);
+		userContactQuery.setContactType(UserContacTypeEnum.GROUP.getType());
+		UserContact updateUserContact=new UserContact();
+		updateUserContact.setStatus(UserContactStatusEnum.DEL.getStatus());
+		this.userContactMapper.updateByParam(updateUserContact,userContactQuery);
+	}
+
 }
