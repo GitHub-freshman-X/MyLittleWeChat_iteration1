@@ -1,6 +1,7 @@
 package com.easychat;
 
 import com.easychat.redis.RedisUtils;
+import com.easychat.websocket.netty.NeeyWebSocketStarter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,15 @@ public class InitRun implements ApplicationRunner {
     @Autowired
     private RedisUtils redisUtils;
 
+    @Resource
+    private NeeyWebSocketStarter neeyWebSocketStarter;
+
     @Override
     public void run(ApplicationArguments args) {
         try{
             dataSource.getConnection();
             redisUtils.get("test");
+            new Thread(neeyWebSocketStarter).start();
             logger.info("服务启动成功，可以开始了");
         } catch (SQLException e) {
             logger.error("数据库配置错误，请检查");
