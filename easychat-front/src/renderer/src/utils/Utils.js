@@ -1,18 +1,10 @@
 const isEmpty = (str)=>{
-  if(str==null || str=='' || str==undefined){
-    return true;
-  }
-  return false;
-}
-
-const getAreaInfo = (data) => {
-  if(isEmpty(data)) {
-    return "-"
-  }
-  return data.replace(","," ")
+    if(str==null || str=='' || str==undefined){
+        return true;
+    }
+    return false;
 }
 
 export default{
-  isEmpty,
-  getAreaInfo
+    isEmpty
 }

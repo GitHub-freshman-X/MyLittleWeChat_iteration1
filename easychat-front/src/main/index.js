@@ -1,10 +1,10 @@
-import { app, shell, BrowserWindow, Menu, Tray } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 const NODE_ENV = process.env.NODE_ENV
 
-import { onLoginOrRegister, onLoginSuccess, winTitleOp } from './ipc'
+import { onLoginOrRegister, onLoginSuccess } from './ipc'
 
 const login_width=300;
 const login_height=370;
@@ -48,26 +48,13 @@ function createWindow() {
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    // mainWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#/Main`)
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    // mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'), {
+      hash: 'Login',
+    })
   }
-
-  const tray = new Tray(icon);
-  const contextMenu = [
-    {
-      label: '退出easyChat', click: function() {
-        app.exit();
-      }
-    }
-  ]
-
-  const menu = Menu.buildFromTemplate(contextMenu);
-  tray.setToolTip('easyChat')
-  tray.setContextMenu(menu);
-  tray.on("click", ()=>{
-    mainWindow.setSkipTaskbar(false);
-    mainWindow.show();
-  })
 
   // 监听 登陆注册
   onLoginOrRegister((isLogin) => {
@@ -83,61 +70,17 @@ function createWindow() {
   // 监听 登陆成功
   onLoginSuccess((config) => {
     mainWindow.setResizable(true);
-    mainWindow.setSize(850, 600);
+    mainWindow.setSize(850, 800);
     // 居中显示
     mainWindow.center();
     // 可以最大化
     mainWindow.setMaximizable(true);
     // 设置最小窗口大小
-    mainWindow.setMinimumSize(600, 400);
+    mainWindow.setMinimumSize(800, 600);
 
     if(config.admin){
     }
-
-    contextMenu.unshift({
-      label:"用户" + config.nickName, click: function(){
-
-      }
-    })
-
-    tray.setContextMenu(Menu.buildFromTemplate(contextMenu));
   })
-
-  winTitleOp((e, { action, data }) => {
-    const webContents = e.sender
-    // 获取当前窗口
-    const win = BrowserWindow.fromWebContents(webContents)
-    switch(action){
-      case "close":{
-        if(data.closeType==0){
-          win.close();
-        }else {
-          win.setSkipTaskbar(true);
-          win.hide();
-        }
-        break;
-      }
-      case "minimize": {
-        win.minimize();
-        break;
-      }
-      case "maximize": {
-        win.maximize();
-        break;
-      }
-      case "unmaximize": {
-        // win.unmaximize();
-        win.setSize(850, 600)
-        win.center()
-        break;
-      }
-      case "top": {
-        win.setAlwaysOnTop(data.top);
-        break;
-      }
-    }
-  })
-
 }
 
 // This method will be called when Electron has finished

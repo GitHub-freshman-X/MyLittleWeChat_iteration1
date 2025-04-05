@@ -216,7 +216,6 @@ public class UserInfoQuery extends BaseParam {
 	public String getCreateTimeStart(){
 		return this.createTimeStart;
 	}
-
 	public void setCreateTimeEnd(String createTimeEnd){
 		this.createTimeEnd = createTimeEnd;
 	}

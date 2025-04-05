@@ -4,7 +4,7 @@
     <div v-if="showLoading" class="loading-panel">
       <img src="../assets/img/loading.gif" />
     </div>
-    <div class="login-form">
+    <div class="login-form" v-else>
       <div class="error-msg">{{ errorMsg }}</div>
       <el-form :model="formData" ref="formDataRef" label-width="0px" @submit.prevent>
         <!--input输入-->
@@ -70,7 +70,6 @@
       </el-form>
     </div>
   </div>
-  <WinOp :showSetTop="false" :showMin="false" :showMax="false" :closeType="0"></WinOp>
 </template>
 
 <script setup>
@@ -164,7 +163,7 @@ const submit = async () => {
   if (!checkValue(null, formData.value.checkCode, '请输入验证码')) {
     return
   }
-  if (isLogin.value == true) {
+  if(isLogin.value == true){
     showLoading.value = true
   }
   let result = await proxy.Request({
