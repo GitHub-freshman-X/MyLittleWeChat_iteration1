@@ -276,4 +276,22 @@ public class UserInfoServiceImpl implements UserInfoService {
 		   }
 		   //TODO:更新会话信息中的昵称信息
 	}
+
+	@Override
+	public void updateUserStatus(Integer status, String userid) {
+		UserStatusEnum userStatusEnum=UserStatusEnum.getByStatus(status);
+		if(userStatusEnum==null){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+
+		UserInfo userInfo=new UserInfo();
+		userInfo.setStatus(userStatusEnum.getStatus());
+		this.userInfoMapper.updateByUserId(userInfo,userid);
+	}
+
+	@Override
+	public void forceOffLine(String userid) {
+
+
+	}
 }
