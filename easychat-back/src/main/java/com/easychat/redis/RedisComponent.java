@@ -7,6 +7,7 @@ import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Component("redisComponent")
 public class RedisComponent {
@@ -23,6 +24,15 @@ public class RedisComponent {
     public Long getUserHeartBeat(String userId) {
         return (Long) redisUtils.get(Constants.REDIS_KEY_WS_USER_HEART_BEAT+userId);
     }
+
+    public void saveHeartBeat(String userId) {
+        redisUtils.setex(Constants.REDIS_KEY_WS_USER_HEART_BEAT+userId,System.currentTimeMillis(),Constants.REDIS_KEY_EXPIRES_HEART_BEAT);
+    }
+
+    public void removeUserHeartBeat(String userId) {
+        redisUtils.delete(Constants.REDIS_KEY_WS_USER_HEART_BEAT+userId);
+    }
+
     public void saveTokenUserInfoDto(TokenUserInfoDto tokenUserInfoDto) {
         redisUtils.setex(Constants.REDIS_KEY_WS_TOKEN +tokenUserInfoDto.getToken(),tokenUserInfoDto,Constants.REDIS_KEY_EXPIRES_DAY*2);
         redisUtils.setex(Constants.REDIS_KEY_WS_TOKEN_USERID +tokenUserInfoDto.getToken(),tokenUserInfoDto.getToken(),Constants.REDIS_KEY_EXPIRES_DAY*2);
@@ -43,7 +53,20 @@ public class RedisComponent {
         redisUtils.set(Constants.REDIS_KEY_SYS_SETTING, sysSettingDto);
     }
 
-    public void saveChannel(String UserId, Channel channel) {
-        redisUtils.set(Constants.REDIS_KEY_WS_TOKEN+UserId,channel);
+    // 清空联系人
+    public void cleanUserContact(String userId) {
+        redisUtils.delete(Constants.REDIS_KEY_USER_CONTACT + userId);
     }
+
+    // 批量添加联系人
+    public void addUserContactBatch(String userId, List<String> contactIdList) {
+        redisUtils.lpushAll(Constants.REDIS_KEY_USER_CONTACT + userId, contactIdList, Constants.REDIS_KEY_TOKEN_EXPIRES);
+    }
+
+    // 批量添加联系人
+    public List<String> getUserContactList(String userId) {
+        return (List<String>) redisUtils.get(Constants.REDIS_KEY_USER_CONTACT + userId);
+    }
+
+
 }
