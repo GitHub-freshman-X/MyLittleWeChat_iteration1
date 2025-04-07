@@ -1,6 +1,7 @@
 package com.easychat.entity.query;
 
 
+import java.util.List;
 
 /**
  * 聊天消息表参数
@@ -85,6 +86,25 @@ public class ChatMessageQuery extends BaseParam {
 	 */
 	private Integer status;
 
+	private List<String> contactIdList;
+
+	private Long lastReceiveTime;
+
+	public Long getLastReceiveTime(){
+		return lastReceiveTime;
+	}
+
+	public void setLastReceiveTime(Long lastReceiveTime){
+		this.lastReceiveTime = lastReceiveTime;
+	}
+
+	public List<String> getContactIdList() {
+		return contactIdList;
+	}
+
+	public void setContactIdList(List<String> contactIdList) {
+		this.contactIdList = contactIdList;
+	}
 
 	public void setMessageId(Long messageId){
 		this.messageId = messageId;
