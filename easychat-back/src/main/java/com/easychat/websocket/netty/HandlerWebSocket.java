@@ -4,7 +4,10 @@ import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.redis.RedisComponent;
 import com.easychat.utils.StringTools;
 import com.easychat.websocket.ChannelContextUtils;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.util.Attribute;
@@ -47,7 +50,7 @@ public class HandlerWebSocket extends SimpleChannelInboundHandler<TextWebSocketF
         Channel channel = ctx.channel();
         Attribute<String> attribute = channel.attr(AttributeKey.valueOf(channel.id().toString()));
         String userId = attribute.get();
-        logger.info("收到userId{}的消息:{}", userId,textWebSocketFrame.text());
+        //logger.info("收到userId{}的消息:{}", userId,textWebSocketFrame.text());
         redisComponent.saveHeartBeat(userId);
     }
 
@@ -66,8 +69,7 @@ public class HandlerWebSocket extends SimpleChannelInboundHandler<TextWebSocketF
                 ctx.channel().close();
                 return;
             }
-
-            channelContextUtils.addContext(tokenUserInfoDto.getUserId(),ctx.channel());
+            channelContextUtils.addContext(tokenUserInfoDto.getUserId(), ctx.channel());
         }
     }
 

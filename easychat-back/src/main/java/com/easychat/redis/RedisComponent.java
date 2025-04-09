@@ -53,6 +53,10 @@ public class RedisComponent {
         redisUtils.set(Constants.REDIS_KEY_SYS_SETTING, sysSettingDto);
     }
 
+    public void saveChannel(String UserId, Channel channel) {
+        redisUtils.set(Constants.REDIS_KEY_WS_TOKEN+UserId,channel);
+    }
+
     // 清空联系人
     public void cleanUserContact(String userId) {
         redisUtils.delete(Constants.REDIS_KEY_USER_CONTACT + userId);
@@ -65,8 +69,7 @@ public class RedisComponent {
 
     // 批量添加联系人
     public List<String> getUserContactList(String userId) {
-        return (List<String>) redisUtils.get(Constants.REDIS_KEY_USER_CONTACT + userId);
+        return (List<String>) redisUtils.getQueueList(Constants.REDIS_KEY_USER_CONTACT + userId);
     }
-
 
 }

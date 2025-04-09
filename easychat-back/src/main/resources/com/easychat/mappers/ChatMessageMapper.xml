@@ -111,6 +111,12 @@
 			<if test="query.fileNameFuzzy!= null  and query.fileNameFuzzy!=''">
 				 and  c.file_name like concat('%', #{query.fileNameFuzzy}, '%')
 			</if>
+			<if test="query.lastReceiveTime != null">
+				 and send_time>=#{query.lastReceiveTime}
+			</if>
+		    <if test="query.contactIdList != null and query.contactIdList.size()>0">
+			     and contact_id in (<foreach collection="query.contactIdList" separator="," item="item">#{item}</foreach> )
+		    </if>
 	 </where>
 	</sql>
 

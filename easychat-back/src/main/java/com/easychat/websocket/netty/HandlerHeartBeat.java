@@ -22,7 +22,7 @@ public class HandlerHeartBeat extends ChannelDuplexHandler {
                 Channel channel = ctx.channel();
                 Attribute<String> attribute = channel.attr(AttributeKey.valueOf(channel.id().toString()));
                 String userId = attribute.get();
-                logger.info("用户{}心跳超时",userId);
+                logger.info("心跳超时");
                 ctx.close();
             }else if(event.state() == IdleState.READER_IDLE){//视频READER_IDLE
                 ctx.writeAndFlush("heart");
