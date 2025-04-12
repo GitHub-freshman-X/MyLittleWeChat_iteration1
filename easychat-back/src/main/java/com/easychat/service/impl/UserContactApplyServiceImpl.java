@@ -6,20 +6,27 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.easychat.entity.constants.Constants;
+import com.easychat.entity.dto.MessageSendDto;
 import com.easychat.entity.dto.SysSettingDto;
+import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.enums.*;
+import com.easychat.entity.po.GroupInfo;
 import com.easychat.entity.po.UserContact;
-import com.easychat.entity.query.UserContactQuery;
+import com.easychat.entity.po.UserInfo;
+import com.easychat.entity.query.*;
 import com.easychat.exception.BusinessException;
+import com.easychat.mappers.GroupInfoMapper;
 import com.easychat.mappers.UserContactMapper;
+import com.easychat.mappers.UserInfoMapper;
 import com.easychat.redis.RedisComponent;
 import com.easychat.service.UserContactService;
+import com.easychat.websocket.MessageHandler;
+import jodd.util.ArraysUtil;
 import org.springframework.stereotype.Service;
 
-import com.easychat.entity.query.UserContactApplyQuery;
 import com.easychat.entity.po.UserContactApply;
 import com.easychat.entity.vo.PaginationResultVO;
-import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.UserContactApplyMapper;
 import com.easychat.service.UserContactApplyService;
 import com.easychat.utils.StringTools;
@@ -171,8 +178,8 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void dealWithApply(String userId,Integer applyId,Integer status) {
-		UserContatctApplyStatusEnum statusEnum = UserContatctApplyStatusEnum.getByStatus(status);
-		if (statusEnum == null||UserContatctApplyStatusEnum.INIT==statusEnum) {
+		UserContactApplyStatusEnum statusEnum = UserContactApplyStatusEnum.getByStatus(status);
+		if (statusEnum == null|| UserContactApplyStatusEnum.INIT==statusEnum) {
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
 		UserContactApply applyInfo = this.userContactApplyMapper.selectByApplyId(applyId);
@@ -185,18 +192,18 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 
 		UserContactApplyQuery applyQuery = new UserContactApplyQuery();
 		applyQuery.setApplyId(applyId);
-		applyQuery.setStatus(UserContatctApplyStatusEnum.INIT.getStatus());
+		applyQuery.setStatus(UserContactApplyStatusEnum.INIT.getStatus());
 
 		Integer count = this.userContactApplyMapper.updateByParam(updateInfo, applyQuery);
 		if(count == 0){
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
-		if(UserContatctApplyStatusEnum.PASS.getStatus().equals(status)){
+		if(UserContactApplyStatusEnum.PASS.getStatus().equals(status)){
 			this.addContact(applyInfo.getApplyUserId(),applyInfo.getReceiveUserId(),applyInfo.getContactId(),applyInfo.getContactType(),applyInfo.getApplyInfo());
 			return;
 		}
 
-		if(UserContatctApplyStatusEnum.BLACKLIST == statusEnum){
+		if(UserContactApplyStatusEnum.BLACKLIST == statusEnum){
 			Date currentDate = new Date();
 			UserContact userContact = new UserContact();
 			userContact.setUserId(applyInfo.getApplyUserId());

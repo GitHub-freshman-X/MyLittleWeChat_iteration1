@@ -8,7 +8,6 @@ import com.easychat.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class JsonUtils {
@@ -16,7 +15,7 @@ public class JsonUtils {
 
     public static SerializerFeature[] FEATURES = new SerializerFeature[]{SerializerFeature.WriteMapNullValue,};
 
-    public static String convertObj2json(Object obj) {return JSON.toJSONString(obj, FEATURES);}
+    public static String convertObj2Json(Object obj) {return JSON.toJSONString(obj, FEATURES);}
 
     public static <T> T convertJson2obj(String json, Class<T> classz) {
         try{
