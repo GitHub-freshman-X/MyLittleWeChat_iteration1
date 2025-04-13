@@ -1,5 +1,6 @@
 package com.easychat.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.vo.PaginationResultVO;
 import com.easychat.entity.vo.UserInfoVO;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -95,4 +97,10 @@ public interface UserInfoService {
 	void register(String email, String nickName, String password);
 
 	UserInfoVO login(String email, String password);
+
+	void updateUserInfo(UserInfo userInfo, MultipartFile avatarfile,MultipartFile avatarCover)throws IOException;
+
+	void updateUserStatus(Integer status, String userid);
+
+	void forceOffLine(String userId);
 }

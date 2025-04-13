@@ -65,6 +65,14 @@ public class UserContactApplyQuery extends BaseParam {
 
 	private String applyInfoFuzzy;
 
+	private Long lastApplyTimestamp;
+
+	public Long getLastApplyTimestamp(){
+		return lastApplyTimestamp;
+	}
+	public void setLastApplyTimestamp(Long lastApplyTimestamp) {
+		this.lastApplyTimestamp = lastApplyTimestamp;
+	}
 
 	public void setApplyId(Integer applyId){
 		this.applyId = applyId;

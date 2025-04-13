@@ -13,7 +13,6 @@ import com.easychat.entity.query.UserContactQuery;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.UserContactMapper;
 import com.easychat.redis.RedisComponent;
-import com.easychat.service.UserContactService;
 import org.springframework.stereotype.Service;
 
 import com.easychat.entity.query.UserContactApplyQuery;
@@ -171,8 +170,8 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void dealWithApply(String userId,Integer applyId,Integer status) {
-		UserContatctApplyStatusEnum statusEnum = UserContatctApplyStatusEnum.getByStatus(status);
-		if (statusEnum == null||UserContatctApplyStatusEnum.INIT==statusEnum) {
+		UserContactApplyStatusEnum statusEnum = UserContactApplyStatusEnum.getByStatus(status);
+		if (statusEnum == null|| UserContactApplyStatusEnum.INIT==statusEnum) {
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
 		UserContactApply applyInfo = this.userContactApplyMapper.selectByApplyId(applyId);
@@ -185,18 +184,18 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 
 		UserContactApplyQuery applyQuery = new UserContactApplyQuery();
 		applyQuery.setApplyId(applyId);
-		applyQuery.setStatus(UserContatctApplyStatusEnum.INIT.getStatus());
+		applyQuery.setStatus(UserContactApplyStatusEnum.INIT.getStatus());
 
 		Integer count = this.userContactApplyMapper.updateByParam(updateInfo, applyQuery);
 		if(count == 0){
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
-		if(UserContatctApplyStatusEnum.PASS.getStatus().equals(status)){
+		if(UserContactApplyStatusEnum.PASS.getStatus().equals(status)){
 			this.addContact(applyInfo.getApplyUserId(),applyInfo.getReceiveUserId(),applyInfo.getContactId(),applyInfo.getContactType(),applyInfo.getApplyInfo());
 			return;
 		}
 
-		if(UserContatctApplyStatusEnum.BLACKLIST == statusEnum){
+		if(UserContactApplyStatusEnum.BLACKLIST == statusEnum){
 			Date currentDate = new Date();
 			UserContact userContact = new UserContact();
 			userContact.setUserId(applyInfo.getApplyUserId());

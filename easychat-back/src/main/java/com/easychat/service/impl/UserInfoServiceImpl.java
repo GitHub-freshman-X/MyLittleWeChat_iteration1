@@ -1,6 +1,9 @@
 package com.easychat.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -8,13 +11,17 @@ import com.easychat.entity.config.Appconfig;
 import com.easychat.entity.constants.Constants;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.enums.*;
+import com.easychat.entity.po.UserContact;
 import com.easychat.entity.po.UserInfoBeauty;
+import com.easychat.entity.query.UserContactQuery;
 import com.easychat.entity.query.UserInfoBeautyQuery;
 import com.easychat.entity.vo.UserInfoVO;
 import com.easychat.exception.BusinessException;
+import com.easychat.mappers.UserContactMapper;
 import com.easychat.mappers.UserInfoBeautyMapper;
 import com.easychat.redis.RedisComponent;
 import com.easychat.redis.RedisUtils;
+import com.easychat.service.UserContactService;
 import com.easychat.utils.CopyTools;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.reflection.ArrayUtil;
@@ -28,6 +35,7 @@ import com.easychat.mappers.UserInfoMapper;
 import com.easychat.service.UserInfoService;
 import com.easychat.utils.StringTools;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -48,6 +56,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Resource
 	private RedisComponent redisComponent;
 
+	@Resource
+	private UserContactMapper<UserContact, UserContactQuery> userContactMapper;
+
+
+	@Resource
+	private UserContactService userContactService;
 
 	/**
 	 * 根据条件查询列表
@@ -206,7 +220,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 			updateBeauty.setStatus(BeautyAccountStatusEnum.USEED.getStatus());
 			this.userInfoBeautyMapper.updateById(updateBeauty,beautyAccount.getId());
 		}
-		//TODO 创建机器人好友
+
+		userContactService.addContact4Robot(userId);
 	}
 
 	@Override
@@ -220,8 +235,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if(UserStatusEnum.DISABLE.equals(userInfo.getStatus())){
 			throw new BusinessException("账号已禁用");
 		}
-		//TODO 	查询我的群组
-		//TODO 查询我的联系人
+		// 查询联系人
+		UserContactQuery contactQuery = new UserContactQuery();
+		contactQuery.setUserId(userInfo.getUserId());
+		contactQuery.setStatus(UserContactStatusEnum.FRIEND.getStatus());
+		List<UserContact> contactList = userContactMapper.selectList(contactQuery);
+		List<String> contactIdList = contactList.stream().map(item -> item.getContactId()).collect(Collectors.toList());
+		redisComponent.cleanUserContact(userInfo.getUserId());
+		redisComponent.addUserContactBatch(userInfo.getUserId(), contactIdList);
 
 		TokenUserInfoDto tokenUserInfoDto=getTokenUserInfoDto(userInfo);
 		Long LastHeartBeat = redisComponent.getUserHeartBeat(userInfo.getUserId());
@@ -250,5 +271,45 @@ public class UserInfoServiceImpl implements UserInfoService {
 			tokenUserInfoDto.setAdmin(false);
 		}
 		return tokenUserInfoDto;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void updateUserInfo(UserInfo userInfo, MultipartFile avatarFile, MultipartFile avatarCover)throws IOException {
+		if(avatarFile!=null){
+			String baseFolder= appconfig.getProjectFolder()+Constants.FILE_FOLDER_FILE;
+			File targetFileFolder=new File(baseFolder+Constants.FILE_FOLDER_AVATAR_NAME);
+			if(!targetFileFolder.exists()){
+				targetFileFolder.mkdirs();
+			}
+			String filePath=targetFileFolder.getPath()+"/"+userInfo.getUserId()+Constants.IMAGE_SUFFIX;
+			avatarFile.transferTo(new File(filePath));
+			avatarCover.transferTo(new File(filePath+Constants.COVER_IMAGE_SUFFIX));
+		}
+		UserInfo dbInfo = this.userInfoMapper.selectByUserId(userInfo.getUserId());
+		this.userInfoMapper.updateByUserId(userInfo,userInfo.getUserId());
+		String contactNameUpdate=null;
+		   if(dbInfo.getNickName().equals(userInfo.getNickName())){
+			   contactNameUpdate=userInfo.getNickName();
+		   }
+		   //TODO:更新会话信息中的昵称信息
+	}
+
+	@Override
+	public void updateUserStatus(Integer status, String userid) {
+		UserStatusEnum userStatusEnum=UserStatusEnum.getByStatus(status);
+		if(userStatusEnum==null){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+
+		UserInfo userInfo=new UserInfo();
+		userInfo.setStatus(userStatusEnum.getStatus());
+		this.userInfoMapper.updateByUserId(userInfo,userid);
+	}
+
+	@Override
+	public void forceOffLine(String userid) {
+
+
 	}
 }
