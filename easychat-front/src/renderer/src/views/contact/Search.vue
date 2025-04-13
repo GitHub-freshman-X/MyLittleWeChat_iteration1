@@ -76,11 +76,6 @@ const applyContact = () => {
   searchAddRef.value.show(searchResult.value)
 }
 
-const resetFrom = ()=> {
-  searchResult.value = {}
-  contactId.value = undefined
-}
-
 </script>
 
 <style lang="scss" scoped>
