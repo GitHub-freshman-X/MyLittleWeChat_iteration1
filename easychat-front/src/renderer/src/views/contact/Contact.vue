@@ -67,57 +67,57 @@ const search = () => {
 
 const partList = ref([
   {
-    "partName": "新朋友",
-    "children": [
+    partName: "新朋友",
+    children: [
       {
-        "name": "搜好友",
-        "icon": "icon-search",
-        "iconBgColor": "#fa9d3b",
-        "path": "/contact/search"
+        name: "搜好友",
+        icon: "icon-search",
+        iconBgColor: "#fa9d3b",
+        path: "/contact/search"
       },
       {
-        "name": "新的朋友",
-        "icon": "icon-plane",
-        "iconBgColor": "#08bf61",
-        "path": "/contact/contactNotice",
-        "showTitle": true,
-        "countKey": "contact/ApplyCount"
+        name: "新的朋友",
+        icon: "icon-plane",
+        iconBgColor: "#08bf61",
+        path: "/contact/contactNotice",
+        showTitle: true,
+        countKey: "contact/ApplyCount"
       }
     ]
   },
   {
-    "partName": "我的群聊",
-    "children": [
+    partName: "我的群聊",
+    children: [
       {
-        "name": "新建群聊",
-        "icon": "icon-add-group",
-        "iconBgColor": "#1485ee",
-        "path": "/contact/createGroup"
+        name: "新建群聊",
+        icon: "icon-add-group",
+        iconBgColor: "#1485ee",
+        path: "/contact/createGroup"
       }
     ],
-    "contactId": "groupId",
-    "contactName": "groupName",
-    "showTitle": true,
-    "contactData": [],
-    "contactPath": "/contact/groupDetail"
+    contactId: "groupId",
+    contactName: "groupName",
+    showTitle: true,
+    contactData: [],
+    contactPath: "/contact/groupDetail"
   },
   {
-    "partName": "我加入的群聊",
-    "contactId": "contactId",
-    "contactName": "contactName",
-    "showTitle": true,
-    "contactData": [],
-    "contactPath": "/contact/groupDetail",
-    "emptyMsg": "暂未加入群聊"
+    partName: "我加入的群聊",
+    contactId: "contactId",
+    contactName: "contactName",
+    showTitle: true,
+    contactData: [],
+    contactPath: "/contact/groupDetail",
+    emptyMsg: "暂未加入群聊"
   },
   {
-    "partName": "我的好友",
-    "children": [],
-    "contactId": "contactId",
-    "contactName": "contactName",
-    "contactData": [],
-    "contactPath": "/contact/userDetail",
-    "emptyMsg": "暂无好友"
+    partName: "我的好友",
+    children: [],
+    contactId: "contactId",
+    contactName: "contactName",
+    contactData: [],
+    contactPath: "/contact/userDetail",
+    emptyMsg: "暂无好友"
   }
 ])
 
@@ -147,6 +147,7 @@ const loadContact = async(contactType)=> {
   }else if(contactType=='USER'){
     partList.value[3].contactData = result.data
   }
+  console.log('loadContact')
 }
 loadContact('GROUP')
 loadContact('USER')
@@ -187,10 +188,7 @@ watch(() =>contactStateStore.contactReload,
       loadMyGroup()
       break;
     }
-    case 'USER':{
-      loadContact(newVal)
-      break;
-    }
+    case 'USER':
     case 'GROUP':{
       loadContact(newVal)
       break;

@@ -51,9 +51,11 @@
       </div>
     </div>
   </ContentPanel>
+  <GroupEditDialog ref="groupEditDialogRef" @reloadGroupInfo="getGroupInfo"></GroupEditDialog>
 </template>
 
 <script setup>
+import GroupEditDialog from "./GroupEditDialog.vue";
 import { ref, reactive, getCurrentInstance, nextTick, watch } from "vue"
 const { proxy } = getCurrentInstance();
 import { useRoute, useRouter } from "vue-router"
@@ -92,7 +94,12 @@ watch(
   { immediate: true, deep: true}
 )
 
-const leaveGroup=() => {
+const groupEditDialogRef  = ref()
+const editGroupInfo= () => {
+  groupEditDialogRef.value.show(groupInfo.value)
+}
+
+const leaveGroup= () => {
   console.log(userInfoStore.getInfo().userId)
 }
 

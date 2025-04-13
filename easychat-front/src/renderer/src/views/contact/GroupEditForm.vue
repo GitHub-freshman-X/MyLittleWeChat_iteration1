@@ -37,7 +37,7 @@ const formDataRef = ref();
 const rules = {
   groupName: [{ required: true, message: '请输入群名称' }],
   joinType: [{ required: true, message: '请选择加入权限' }],
-  avatarFile: [{required: true, message: '请选择头像'}]
+  // avatarFile: [{required: true, message: '请选择头像'}]
 };
 
 const emit = defineEmits(['editBack'])
@@ -63,9 +63,17 @@ const submit = async () => {
     }
     formDataRef.value.resetFields()
     contactInfoStore.setContactReload('MY')
-
   });
 }
+
+const show = (data)=> {
+  formDataRef.value.resetFields();
+  formData.value = Object.assign({}, data)
+  formData.value.avatarFile = data.groupId
+}
+defineExpose({
+  show
+})
 
 </script>
 
