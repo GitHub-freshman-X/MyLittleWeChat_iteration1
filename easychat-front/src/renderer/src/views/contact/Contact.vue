@@ -143,10 +143,37 @@ const loadContact = async(contactType)=> {
 loadContact('GROUP')
 loadContact('USER')
 
-const contactDetail = () => {
-  
+const loadMyGroup = async() => {
+  let result = await proxy.Request({
+     url:proxy.Api.loadMyGroup,
+     showLoading: false,
+  })
+  if(!result){
+    return;
+  }
+  partList.value[1].contactData = result.data
 }
+loadMyGroup()
 
+
+watch(
+  () => contactStateStore.contactReload,
+  (newVal, oldVal) => {
+    if (!newVal) {
+      return
+    }
+    switch (newVal) {
+      case "MY":
+        loadMyGroup();
+        break
+      case 'USER':
+      case 'GROUP':
+        loadContact(newVal)
+        break
+    }
+  },
+  { immediate: true, deep: true }
+)
 </script>
 
 <style lang="scss" scoped>
