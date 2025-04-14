@@ -1,12 +1,12 @@
 package com.easychat.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import com.easychat.entity.constants.Constants;
-import com.easychat.entity.dto.MessageSendDto;
 import com.easychat.entity.dto.SysSettingDto;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.dto.UserContactSearchResultDto;
@@ -18,7 +18,6 @@ import com.easychat.mappers.*;
 import com.easychat.redis.RedisComponent;
 import com.easychat.service.UserContactApplyService;
 import com.easychat.utils.CopyTools;
-import com.easychat.websocket.ChannelContextUtils;
 import jodd.util.ArraysUtil;
 import org.springframework.stereotype.Service;
 
@@ -60,9 +59,6 @@ public class UserContactServiceImpl implements UserContactService {
 
 	@Resource
 	private ChatMessageMapper<ChatMessage,ChatMessageQuery> chatMessageMapper;
-
-	@Resource
-	private ChannelContextUtils channelContextUtils;
 
 	/**
 	 * 根据条件查询列表
@@ -253,24 +249,22 @@ public class UserContactServiceImpl implements UserContactService {
 			contactApply.setContactId(contactId);
 			contactApply.setReceiveUserId(receiveUserId);
 			contactApply.setLastApplyTime(curTime);
-			contactApply.setStatus(UserContactApplyStatusEnum.INIT.getStatus());
+			contactApply.setStatus(UserContatctApplyStatusEnum.INIT.getStatus());
 			contactApply.setApplyInfo(applyInfo);
 			this.userContactApplyMapper.insert(contactApply);
 		}else{
 			//更新状态
 			UserContactApply contactApply = new UserContactApply();
-			contactApply.setStatus(UserContactApplyStatusEnum.INIT.getStatus());
+			contactApply.setStatus(UserContatctApplyStatusEnum.INIT.getStatus());
 			contactApply.setLastApplyTime(curTime);
 			contactApply.setApplyInfo(applyInfo);
 			this.userContactApplyMapper.updateByApplyId(contactApply,dbApply.getApplyId());
 		}
 
-		if (dbApply == null || !UserContactApplyStatusEnum.INIT.getStatus().equals(dbApply.getStatus())) {
-			MessageSendDto messageSendDto = new MessageSendDto();
-			messageSendDto.setMessageType(MessageTypeEnum.CONTACT_APPLY.getType());
-			messageSendDto.setMessageContent(applyInfo);
-			messageSendDto.setContactId(receiveUserId);
+		if(dbApply==null||!UserContatctApplyStatusEnum.INIT.getStatus().equals(dbApply.getStatus())) {
+			//TODO 发送ws消息
 		}
+
 		return joinType;
 	}
 
@@ -328,7 +322,7 @@ public class UserContactServiceImpl implements UserContactService {
 		chatSessionUser.setSessionId(sessionId);
 		this.chatSessionUserMapper.insert(chatSessionUser);
 
-		//增加聊天消息
+		//创建消息
 		ChatMessage chatMessage = new ChatMessage();
 		chatMessage.setSessionId(sessionId);
 		chatMessage.setMessageType(MessageTypeEnum.CHAT.getType());

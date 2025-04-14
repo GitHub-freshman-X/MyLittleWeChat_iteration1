@@ -6,20 +6,19 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.easychat.entity.dto.MessageSendDto;
 import com.easychat.entity.dto.SysSettingDto;
 import com.easychat.entity.enums.*;
-import com.easychat.entity.po.UserContact;
-import com.easychat.entity.query.UserContactQuery;
+import com.easychat.entity.po.*;
+import com.easychat.entity.query.*;
 import com.easychat.exception.BusinessException;
-import com.easychat.mappers.UserContactMapper;
+import com.easychat.mappers.*;
 import com.easychat.redis.RedisComponent;
+import com.easychat.utils.CopyTools;
+import com.easychat.websocket.MessageHandler;
 import org.springframework.stereotype.Service;
 
-import com.easychat.entity.query.UserContactApplyQuery;
-import com.easychat.entity.po.UserContactApply;
 import com.easychat.entity.vo.PaginationResultVO;
-import com.easychat.entity.query.SimplePage;
-import com.easychat.mappers.UserContactApplyMapper;
 import com.easychat.service.UserContactApplyService;
 import com.easychat.utils.StringTools;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +38,21 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 
 	@Resource
 	private RedisComponent redisComponent;
+
+	@Resource
+	private ChatSessionMapper<ChatSession, ChatSessionQuery> chatSessionMapper;
+
+	@Resource
+	private ChatSessionUserMapper<ChatSessionUser, ChatSessionUserQuery> chatSessionUserMapper;
+
+	@Resource
+	private ChatMessageMapper<ChatMessage,ChatMessageQuery> chatMessageMapper;
+
+	@Resource
+	private UserInfoMapper<UserInfo, UserInfoQuery> userInfoMapper;
+
+	@Resource
+	private MessageHandler messageHandler;
 
 	/**
 	 * 根据条件查询列表
@@ -170,8 +184,8 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void dealWithApply(String userId,Integer applyId,Integer status) {
-		UserContactApplyStatusEnum statusEnum = UserContactApplyStatusEnum.getByStatus(status);
-		if (statusEnum == null|| UserContactApplyStatusEnum.INIT==statusEnum) {
+		UserContatctApplyStatusEnum statusEnum = UserContatctApplyStatusEnum.getByStatus(status);
+		if (statusEnum == null||UserContatctApplyStatusEnum.INIT==statusEnum) {
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
 		UserContactApply applyInfo = this.userContactApplyMapper.selectByApplyId(applyId);
@@ -184,18 +198,18 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 
 		UserContactApplyQuery applyQuery = new UserContactApplyQuery();
 		applyQuery.setApplyId(applyId);
-		applyQuery.setStatus(UserContactApplyStatusEnum.INIT.getStatus());
+		applyQuery.setStatus(UserContatctApplyStatusEnum.INIT.getStatus());
 
 		Integer count = this.userContactApplyMapper.updateByParam(updateInfo, applyQuery);
 		if(count == 0){
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
-		if(UserContactApplyStatusEnum.PASS.getStatus().equals(status)){
+		if(UserContatctApplyStatusEnum.PASS.getStatus().equals(status)){
 			this.addContact(applyInfo.getApplyUserId(),applyInfo.getReceiveUserId(),applyInfo.getContactId(),applyInfo.getContactType(),applyInfo.getApplyInfo());
 			return;
 		}
 
-		if(UserContactApplyStatusEnum.BLACKLIST == statusEnum){
+		if(UserContatctApplyStatusEnum.BLACKLIST == statusEnum){
 			Date currentDate = new Date();
 			UserContact userContact = new UserContact();
 			userContact.setUserId(applyInfo.getApplyUserId());
@@ -220,7 +234,7 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 				throw new BusinessException("成员已满，无法加入");
 			}
 		}
-		Date currentDate = new Date();
+		Date curDate = new Date();
 		//同意，双方添加好友
 		List<UserContact> contactList = new ArrayList<>();
 		//申请人添加对方
@@ -228,8 +242,8 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 		userContact.setUserId(applyUserId);
 		userContact.setContactId(contactId);
 		userContact.setContactType(contactType);
-		userContact.setCreateTime(currentDate);
-		userContact.setLastUpdateTime(currentDate);
+		userContact.setCreateTime(curDate);
+		userContact.setLastUpdateTime(curDate);
 		userContact.setStatus(UserContactStatusEnum.FRIEND.getStatus());
 		contactList.add(userContact);
 		//如果申请好友，接收人添加好友，群组不用添加对方好友
@@ -238,15 +252,78 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 			userContact.setUserId(applyUserId);
 			userContact.setContactId(contactId);
 			userContact.setContactType(contactType);
-			userContact.setCreateTime(currentDate);
-			userContact.setLastUpdateTime(currentDate);
+			userContact.setCreateTime(curDate);
+			userContact.setLastUpdateTime(curDate);
 			userContact.setStatus(UserContactStatusEnum.FRIEND.getStatus());
 			contactList.add(userContact);
 		}
 		//批量加入
 		userContactMapper.insertOrUpdateBatch(contactList);
-		//TODO 如果是好友，接受人也添加申请人为好友 添加缓存
+		if(UserContactTypeEnum.USER.getType().equals(contactType)){
+		 redisComponent.addUserContact(receiveUserId, applyUserId);
+		}
+		redisComponent.addUserContact(applyUserId,contactId);
 
-		//TODO 创建会话，发送消息
+		//创建对话
+		String sessionId =null;
+		if(UserContactTypeEnum.USER.getType().equals(contactType)){
+			sessionId = StringTools.getChatSessionId4User(new String[]{applyUserId, contactId}) ;
+		}else {
+			sessionId = StringTools.getChatSessionId4Group(contactId);
+		}
+
+		List<ChatSessionUser> chatSessionUserList = new ArrayList<>();
+		if (UserContactTypeEnum.USER.getType().equals(contactType)) {
+			// 创建会话
+			ChatSession chatSession = new ChatSession();
+			chatSession.setSessionId(sessionId);
+			chatSession.setLastMessage(applyInfo);
+			chatSession.setLastReceiveTime(curDate.getTime());
+			this.chatSessionMapper.insertOrUpdate(chatSession);
+
+			// 申请人session
+			ChatSessionUser applySessionUser = new ChatSessionUser();
+			applySessionUser.setUserId(applyUserId);
+			applySessionUser.setContactId(contactId);
+			applySessionUser.setSessionId(sessionId);
+			UserInfo contactUser = this.userInfoMapper.selectByUserId(contactId);
+			applySessionUser.setContactName(contactUser.getNickName());
+			chatSessionUserList.add(applySessionUser);
+
+			// 接受人session
+			ChatSessionUser contactSessionUser = new ChatSessionUser();
+			contactSessionUser.setUserId(contactId);
+			contactSessionUser.setContactId(applyUserId);
+			contactSessionUser.setSessionId(sessionId);
+			UserInfo applyUserInfo = this.userInfoMapper.selectByUserId(applyUserId);
+			contactSessionUser.setContactName(applyUserInfo.getNickName());
+			chatSessionUserList.add(contactSessionUser);
+			this.chatSessionUserMapper.insertOrUpdateBatch(chatSessionUserList);
+
+			// 记录消息表
+			ChatMessage chatMessage = new ChatMessage();
+			chatMessage.setSessionId(sessionId);
+			chatMessage.setMessageType(MessageTypeEnum.ADD_FRIEND.getType());
+			chatMessage.setMessageContent(applyInfo);
+			chatMessage.setSendUserId(applyUserId);
+			chatMessage.setSendUserNickName(applyUserInfo.getNickName());
+			chatMessage.setSendTime(curDate.getTime());
+			chatMessage.setContactId(contactId);
+			chatMessage.setContactType(UserContactTypeEnum.USER.getType());
+			chatMessageMapper.insert(chatMessage);
+
+			MessageSendDto messageSendDto = CopyTools.copy(chatMessage, MessageSendDto.class);
+            // 发送给接受还有申请人
+			messageHandler.sendMessage(messageSendDto);
+
+            // 既是申请人，发送人就是接受人，联系人就是申请人
+			messageSendDto.setMessageType(MessageTypeEnum.ADD_FRIEND_SELF.getType());
+			messageSendDto.setContactId(applyUserId);
+			messageSendDto.setExtendData(contactUser);
+			messageHandler.sendMessage(messageSendDto);
+
+		}else{
+
+		}
 	}
 }

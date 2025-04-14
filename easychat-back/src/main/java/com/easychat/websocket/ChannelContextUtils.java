@@ -4,7 +4,7 @@ import com.easychat.entity.dto.MessageSendDto;
 import com.easychat.entity.dto.WsInitData;
 import com.easychat.entity.enums.MessageTypeEnum;
 import com.easychat.entity.enums.UserContacTypeEnum;
-import com.easychat.entity.enums.UserContactApplyStatusEnum;
+import com.easychat.entity.enums.UserContatctApplyStatusEnum;
 import com.easychat.entity.po.*;
 import com.easychat.entity.query.ChatMessageQuery;
 import com.easychat.entity.query.ChatSessionUserQuery;
@@ -126,7 +126,7 @@ public class ChannelContextUtils {
         UserContactApplyQuery applyQuery = new UserContactApplyQuery();
         applyQuery.setReceiveUserId(userId);
         applyQuery.setLastApplyTimestamp(lastOfflineTime);
-        applyQuery.setStatus(UserContactApplyStatusEnum.INIT.getStatus());
+        applyQuery.setStatus(UserContatctApplyStatusEnum.INIT.getStatus());
         Integer applyCount = userContactApplyMapper.selectCount(applyQuery);
         wsInitData.setApplyCount(applyCount);
 
@@ -140,17 +140,26 @@ public class ChannelContextUtils {
     }
 
     //发送消息
-    public void sendMsg(MessageSendDto messageSendDto, String receiveId) {
-        if (receiveId == null) {
+    public static void sendMsg(MessageSendDto messageSendDto,String reciveId) {
+        if(reciveId==null){
             return;
         }
-        Channel sendChannel = USER_CONTEXT_MAP.get(receiveId);
-        if (sendChannel == null) {
+        Channel userChannel = USER_CONTEXT_MAP.get(reciveId);
+        if(userChannel ==null){
             return;
         }
-        messageSendDto.setContactId(messageSendDto.getSendUserId());
-        messageSendDto.setContactName(messageSendDto.getSendUserNickName());
-        sendChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.convertObj2Json(messageSendDto)));
+        //相对于客户端而言，联系人就是发送人，所以这里转化一下
+        if (MessageTypeEnum.ADD_FRIEND_SELF.getType().equals(messageSendDto.getMessageType())) {
+            UserInfo userInfo = (UserInfo) messageSendDto.getExtendData();
+            messageSendDto.setMessageType(MessageTypeEnum.ADD_FRIEND.getType());
+            messageSendDto.setContactId(userInfo.getUserId());
+            messageSendDto.setContactName(userInfo.getNickName());
+            messageSendDto.setExtendData(null);
+        } else {
+            messageSendDto.setContactId(messageSendDto.getSendUserId());
+            messageSendDto.setContactName(messageSendDto.getSendUserNickName());
+        }
+        userChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.convertObj2Json(messageSendDto)));
     }
 
 

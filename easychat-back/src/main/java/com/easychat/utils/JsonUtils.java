@@ -17,7 +17,7 @@ public class JsonUtils {
 
     public static String convertObj2Json(Object obj) {return JSON.toJSONString(obj, FEATURES);}
 
-    public static <T> T convertJson2obj(String json, Class<T> classz) {
+    public static <T> T convertJson2Obj(String json, Class<T> classz) {
         try{
             return JSON.parseObject(json, classz);
         }catch (Exception e){

@@ -1,7 +1,7 @@
 package com.easychat.entity.po;
 
-import com.easychat.entity.enums.UserContactApplyStatusEnum;
-
+import com.easychat.entity.enums.UserContatctApplyStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 
 
@@ -56,7 +56,7 @@ public class UserContactApply implements Serializable {
 	private String statusName;
 
 	public String getStatusName() {
-		UserContactApplyStatusEnum statusEnum = UserContactApplyStatusEnum.getByStatus(status);
+		UserContatctApplyStatusEnum statusEnum = UserContatctApplyStatusEnum.getByStatus(status);
 		return statusName==null?null:statusEnum.getDesc();
 	}
 

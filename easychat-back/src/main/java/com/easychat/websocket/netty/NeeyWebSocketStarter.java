@@ -1,7 +1,6 @@
 package com.easychat.websocket.netty;
 
 import com.easychat.entity.config.Appconfig;
-import com.easychat.utils.StringTools;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -67,11 +66,6 @@ public class NeeyWebSocketStarter implements Runnable {
                             pipeline.addLast(handlerWebSocket);
                         }
                     });
-            Integer wsPort=appconfig.getWsPort();
-            String wsPortStr=System.getProperty("ws.port");
-            if(!StringTools.isEmpty(wsPortStr)){
-                wsPort = Integer.parseInt(wsPortStr);
-            }
             ChannelFuture channelFuture = serverBootstrap.bind(appconfig.getWsPort()).sync();
             logger.info("netty服务启动成功，port:{}",appconfig.getWsPort());
             channelFuture.channel().closeFuture().sync();
