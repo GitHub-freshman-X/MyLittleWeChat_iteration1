@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
+import { ref, reactive, getCurrentInstance, nextTick, onMounted } from 'vue'
 const { proxy } = getCurrentInstance()
 import { useUserInfoStore } from '@/stores/UserInfoStore'
 const userInfoStore = useUserInfoStore()
@@ -204,12 +204,24 @@ const submit = async () => {
       screenWidth: screenWidth,
       screenHeight: screenHeight
     })
+    window.ipcRenderer.send('setLocalStore',{key:'devWsDomain',value:proxy.Api.devWsDomain})
 
+    window.ipcRenderer.send('getLocalStore','devWsDomain')
   } else {
     proxy.Message.success("注册成功")
     changeOpType()
   }
 }
+const init=()=>{
+  window.ipcRenderer.send("setLocalStore",{key:'prodDomain',value:proxy.Api.prodDomain})
+  window.ipcRenderer.send("setLocalStore",{key:'devDomain',value:proxy.Api.devDomain})
+  window.ipcRenderer.send("setLocalStore",{key:'prodWsomain',value:proxy.Api.prodWsmain})
+  window.ipcRenderer.send("setLocalStore",{key:'devWsDomain',value:proxy.Api.devWsDomain})
+}
+
+onMounted(()=>{
+  init()
+})
 
 </script>
 
