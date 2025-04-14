@@ -6,6 +6,7 @@ const NODE_ENV = process.env.NODE_ENV
 
 import { onLoginOrRegister, onLoginSuccess, winTitleOp,onSetLocalStore,onGetLocalStore } from './ipc'
 
+import { createTable } from './db/ADB'
 import {initWs}from './wsClient'
 
 import { on } from 'events'

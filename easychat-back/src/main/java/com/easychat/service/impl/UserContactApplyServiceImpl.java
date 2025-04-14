@@ -235,8 +235,8 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 		//如果申请好友，接收人添加好友，群组不用添加对方好友
 		if(UserContacTypeEnum.USER.getType().equals(contactType)){
 			userContact = new UserContact();
-			userContact.setUserId(applyUserId);
-			userContact.setContactId(contactId);
+			userContact.setUserId(receiveUserId);
+			userContact.setContactId(applyUserId);
 			userContact.setContactType(contactType);
 			userContact.setCreateTime(currentDate);
 			userContact.setLastUpdateTime(currentDate);

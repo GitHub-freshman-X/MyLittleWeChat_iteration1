@@ -68,7 +68,7 @@ const createWs = () => {
 
   setInterval(() => {
     if(ws != null && ws.readyState == 1){
-      console.log("心跳包发送成功" );
+      // console.log("心跳包发送成功" );
       ws.send("heart beat");
     }
   },5000);
