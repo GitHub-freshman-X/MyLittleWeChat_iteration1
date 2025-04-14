@@ -61,11 +61,19 @@ const submit = async () => {
     } else {
       proxy.Message.success("创建群组成功");
     }
-    formDataRef.value.resetFields();
+    formDataRef.value.resetFields()
     contactInfoStore.setContactReload('MY')
-
   });
 }
+
+const show = (data)=> {
+  formDataRef.value.resetFields();
+  formData.value = Object.assign({}, data)
+  formData.value.avatarFile = data.groupId
+}
+defineExpose({
+  show
+})
 
 </script>
 

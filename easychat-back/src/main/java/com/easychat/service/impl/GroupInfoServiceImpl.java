@@ -164,7 +164,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 			}
 
 			if(null==avatarFile){
-				throw new BusinessException(ResponseCodeEnum.CODE_600);
+				//throw new BusinessException(ResponseCodeEnum.CODE_600);
 			}
 
 			groupInfo.setCreateTime(curDate);
