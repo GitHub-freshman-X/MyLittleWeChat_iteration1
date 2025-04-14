@@ -1,0 +1,15 @@
+2025-04-13 14:55:18 [DEBUG][org.springframework.boot.availability.ApplicationAvailabilityBean][onApplicationEvent][77]-> Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC
+2025-04-13 14:55:18 [DEBUG][org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext][doClose][1049]-> Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@49dc7102, started on Sun Apr 13 14:41:56 GMT+08:00 2025
+2025-04-13 14:55:18 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][stop][365]-> Stopping beans in phase 2147483647
+2025-04-13 14:55:18 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][lambda$doStop$3][238]-> Bean 'webServerGracefulShutdown' completed its stop procedure
+2025-04-13 14:55:18 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][stop][365]-> Stopping beans in phase 2147483646
+2025-04-13 14:55:19 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][lambda$doStop$3][238]-> Bean 'webServerStartStop' completed its stop procedure
+2025-04-13 14:55:19 [DEBUG][org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler][shutdown][218]-> Shutting down ExecutorService 'taskScheduler'
+2025-04-13 14:55:19 [DEBUG][org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor][shutdown][218]-> Shutting down ExecutorService 'applicationTaskExecutor'
+2025-04-13 14:55:19 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 1 thread-local buffer(s) from thread: lettuce-nioEventLoop-6-1
+2025-04-13 14:55:19 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 1 thread-local buffer(s) from thread: lettuce-nioEventLoop-6-3
+2025-04-13 14:55:19 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 1 thread-local buffer(s) from thread: lettuce-nioEventLoop-6-5
+2025-04-13 14:55:19 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 1 thread-local buffer(s) from thread: lettuce-nioEventLoop-6-4
+2025-04-13 14:55:19 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 1 thread-local buffer(s) from thread: lettuce-nioEventLoop-6-2
+2025-04-13 14:55:19 [INFO][com.zaxxer.hikari.HikariDataSource][close][350]-> HikariCPDataSource - Shutdown initiated...
+2025-04-13 14:55:19 [INFO][com.zaxxer.hikari.HikariDataSource][close][352]-> HikariCPDataSource - Shutdown completed.

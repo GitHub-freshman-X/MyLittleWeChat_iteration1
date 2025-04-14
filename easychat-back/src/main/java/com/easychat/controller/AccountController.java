@@ -1,30 +1,25 @@
 package com.easychat.controller;
 
 import com.easychat.entity.constants.Constants;
-import com.easychat.entity.dto.TokenUserInfoDto;
-import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.vo.ResponseVO;
 import com.easychat.entity.vo.UserInfoVO;
 import com.easychat.redis.RedisComponent;
 import com.easychat.redis.RedisUtils;
 import com.easychat.exception.BusinessException;
 import com.easychat.service.UserInfoService;
-import com.easychat.utils.CopyTools;
+import com.easychat.websocket.MessageHandler;
 import com.wf.captcha.ArithmeticCaptcha;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.Base64;
+import javax.validation.constraints.Pattern;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -44,6 +39,8 @@ public class AccountController  extends ABaseController{
     @Resource
     private UserInfoService userInfoService;
 
+    @Resource
+    private MessageHandler messageHandler;
 
     @RequestMapping("/checkCode")
     public ResponseVO checkCode(){
@@ -63,7 +60,7 @@ public class AccountController  extends ABaseController{
     @RequestMapping("/register")
     public ResponseVO register(@NotEmpty String checkCodeKey,
                                @NotEmpty @Email String email,
-                               @NotEmpty String password,
+                               @NotEmpty @Pattern(regexp = Constants.REGEX_PASSWORD) String password,
                                @NotEmpty String nickName,
                                @NotEmpty String checkCode){
         try {
@@ -101,6 +98,7 @@ public class AccountController  extends ABaseController{
     public ResponseVO login(){
        return getSuccessResponseVO(redisComponent.getSysSetting());
     }
+
 
 
 

@@ -79,12 +79,27 @@
 			<if test="query.applyInfoFuzzy!= null  and query.applyInfoFuzzy!=''">
 				 and  u.apply_info like concat('%', #{query.applyInfoFuzzy}, '%')
 			</if>
+	        <if test="query.lastApplyTimestamp != null">
+	             and  u.last_apply_time>=#{query.lastApplyTimestamp}
+	        </if>
 	 </where>
 	</sql>
 
 	<!-- 查询集合-->
 	<select id="selectList" resultMap="base_result_map" >
-		 SELECT <include refid="base_column_list" /> FROM user_contact_apply u <include refid="query_condition" />
+		 SELECT u.*
+		 <if test="query.queryContactInfo">
+		     ,CASE
+			 WHEN u.contact_type = 0 THEN uu.nick_name
+			 WHEN u.contact_type = 1 THEN g.group_name
+			 END AS contactName
+		 </if>
+		 FROM user_contact_apply u
+		 <if test="query.queryContactInfo">
+			 LEFT JOIN user_info uu ON uu.user_id = u.apply_user_id and u.receive_user_id = #{query.receiveUserId}
+			 LEFT JOIN group_info g ON g.group_id = u.contact_id and u.receive_user_id = #{query.receiveUserId}
+		 </if>
+		 <include refid="query_condition" />
 		 <if test="query.orderBy!=null">
 			 order by ${query.orderBy}
 		 </if>

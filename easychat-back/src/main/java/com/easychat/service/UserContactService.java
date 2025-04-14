@@ -2,6 +2,9 @@ package com.easychat.service;
 
 import java.util.List;
 
+import com.easychat.entity.dto.TokenUserInfoDto;
+import com.easychat.entity.dto.UserContactSearchResultDto;
+import com.easychat.entity.enums.UserContactStatusEnum;
 import com.easychat.entity.query.UserContactQuery;
 import com.easychat.entity.po.UserContact;
 import com.easychat.entity.vo.PaginationResultVO;
@@ -69,4 +72,11 @@ public interface UserContactService {
 	 */
 	Integer deleteUserContactByUserIdAndContactId(String userId,String contactId);
 
+	UserContactSearchResultDto searchContact(String userId, String contactId);
+
+	Integer applyAdd(TokenUserInfoDto tokenUserInfoDto,String contactId,String applyInfo);
+
+	void removeUserContact(String userId, String contactId, UserContactStatusEnum statusEnum);
+
+	void addContact4Robot(String userId);
 }

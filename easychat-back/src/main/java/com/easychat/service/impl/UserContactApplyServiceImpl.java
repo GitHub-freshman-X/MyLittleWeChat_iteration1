@@ -1,12 +1,20 @@
 package com.easychat.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.easychat.entity.dto.SysSettingDto;
+import com.easychat.entity.enums.*;
+import com.easychat.entity.po.UserContact;
+import com.easychat.entity.query.UserContactQuery;
+import com.easychat.exception.BusinessException;
+import com.easychat.mappers.UserContactMapper;
+import com.easychat.redis.RedisComponent;
 import org.springframework.stereotype.Service;
 
-import com.easychat.entity.enums.PageSize;
 import com.easychat.entity.query.UserContactApplyQuery;
 import com.easychat.entity.po.UserContactApply;
 import com.easychat.entity.vo.PaginationResultVO;
@@ -14,6 +22,7 @@ import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.UserContactApplyMapper;
 import com.easychat.service.UserContactApplyService;
 import com.easychat.utils.StringTools;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -24,6 +33,12 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 
 	@Resource
 	private UserContactApplyMapper<UserContactApply, UserContactApplyQuery> userContactApplyMapper;
+
+	@Resource
+	private UserContactMapper<UserContact, UserContactQuery> userContactMapper;
+
+	@Resource
+	private RedisComponent redisComponent;
 
 	/**
 	 * 根据条件查询列表
@@ -150,5 +165,88 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 	@Override
 	public Integer deleteUserContactApplyByApplyUserIdAndReceiveUserIdAndContactId(String applyUserId, String receiveUserId, String contactId) {
 		return this.userContactApplyMapper.deleteByApplyUserIdAndReceiveUserIdAndContactId(applyUserId, receiveUserId, contactId);
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void dealWithApply(String userId,Integer applyId,Integer status) {
+		UserContactApplyStatusEnum statusEnum = UserContactApplyStatusEnum.getByStatus(status);
+		if (statusEnum == null|| UserContactApplyStatusEnum.INIT==statusEnum) {
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		UserContactApply applyInfo = this.userContactApplyMapper.selectByApplyId(applyId);
+		if(applyInfo == null||!userId.equals(applyInfo.getReceiveUserId())) {
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		UserContactApply updateInfo = new UserContactApply();
+		updateInfo.setStatus(statusEnum.getStatus());
+		updateInfo.setLastApplyTime(System.currentTimeMillis());
+
+		UserContactApplyQuery applyQuery = new UserContactApplyQuery();
+		applyQuery.setApplyId(applyId);
+		applyQuery.setStatus(UserContactApplyStatusEnum.INIT.getStatus());
+
+		Integer count = this.userContactApplyMapper.updateByParam(updateInfo, applyQuery);
+		if(count == 0){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		if(UserContactApplyStatusEnum.PASS.getStatus().equals(status)){
+			this.addContact(applyInfo.getApplyUserId(),applyInfo.getReceiveUserId(),applyInfo.getContactId(),applyInfo.getContactType(),applyInfo.getApplyInfo());
+			return;
+		}
+
+		if(UserContactApplyStatusEnum.BLACKLIST == statusEnum){
+			Date currentDate = new Date();
+			UserContact userContact = new UserContact();
+			userContact.setUserId(applyInfo.getApplyUserId());
+			userContact.setContactId(applyInfo.getContactId());
+			userContact.setContactType(applyInfo.getContactType());
+			userContact.setCreateTime(currentDate);
+			userContact.setStatus(UserContactStatusEnum.BLACKLIST_BE_FIRST.getStatus());
+			userContact.setLastUpdateTime(currentDate);
+			userContactMapper.insertOrUpdate(userContact);
+		}
+	}
+
+	@Override
+	public void addContact(String applyUserId,String receiveUserId,String contactId,Integer contactType,String applyInfo){
+		if(UserContacTypeEnum.GROUP.getType().equals(contactType)){
+			UserContactQuery userContactQuery = new UserContactQuery();
+			userContactQuery.setContactId(contactId);
+			userContactQuery.setStatus(UserContactStatusEnum.FRIEND.getStatus());
+			Integer count = userContactMapper.selectCount(userContactQuery);
+			SysSettingDto sysSettingDto = redisComponent.getSysSetting();
+			if(count>=sysSettingDto.getMaxGroupMemberCount()){
+				throw new BusinessException("成员已满，无法加入");
+			}
+		}
+		Date currentDate = new Date();
+		//同意，双方添加好友
+		List<UserContact> contactList = new ArrayList<>();
+		//申请人添加对方
+		UserContact userContact = new UserContact();
+		userContact.setUserId(applyUserId);
+		userContact.setContactId(contactId);
+		userContact.setContactType(contactType);
+		userContact.setCreateTime(currentDate);
+		userContact.setLastUpdateTime(currentDate);
+		userContact.setStatus(UserContactStatusEnum.FRIEND.getStatus());
+		contactList.add(userContact);
+		//如果申请好友，接收人添加好友，群组不用添加对方好友
+		if(UserContacTypeEnum.USER.getType().equals(contactType)){
+			userContact = new UserContact();
+			userContact.setUserId(receiveUserId);
+			userContact.setContactId(applyUserId);
+			userContact.setContactType(contactType);
+			userContact.setCreateTime(currentDate);
+			userContact.setLastUpdateTime(currentDate);
+			userContact.setStatus(UserContactStatusEnum.FRIEND.getStatus());
+			contactList.add(userContact);
+		}
+		//批量加入
+		userContactMapper.insertOrUpdateBatch(contactList);
+		//TODO 如果是好友，接受人也添加申请人为好友 添加缓存
+
+		//TODO 创建会话，发送消息
 	}
 }

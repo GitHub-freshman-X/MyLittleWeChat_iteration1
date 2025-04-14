@@ -75,6 +75,7 @@ public class GroupInfoQuery extends BaseParam {
 	public  void setQueryMemberConut(Boolean queryMemberConut) {
 		this.queryMemberConut = queryMemberConut;
 	}
+
 	public void setGroupId(String groupId){
 		this.groupId = groupId;
 	}

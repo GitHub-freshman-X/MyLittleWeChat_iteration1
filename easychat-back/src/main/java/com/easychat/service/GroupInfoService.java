@@ -1,5 +1,6 @@
 package com.easychat.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.easychat.entity.query.GroupInfoQuery;
@@ -69,7 +70,6 @@ public interface GroupInfoService {
 	 * 根据GroupId删除
 	 */
 	Integer deleteGroupInfoByGroupId(String groupId);
-    void saveGroup(GroupInfo groupInfo, MultipartFile avatarFile,MultipartFile avatarCover);
-void dissolutionGroup(String groupOwnerId,String groupId);
-
+    void saveGroup(GroupInfo groupInfo, MultipartFile avatarFile,MultipartFile avatarCover) throws IOException;
+	void dissolutionGroup(String groupOwnerId,String groupId);
 }

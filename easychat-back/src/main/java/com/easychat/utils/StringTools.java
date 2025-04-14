@@ -3,11 +3,13 @@ import com.easychat.entity.constants.Constants;
 import com.easychat.entity.enums.UserContacTypeEnum;
 import com.easychat.exception.BusinessException;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.DigestUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 
 public class StringTools {
@@ -57,8 +59,12 @@ public class StringTools {
         return false;
     }
 
-    public static String getUserID(){
+    public static String getUserId(){
         return UserContacTypeEnum.USER.getPrefix() + getRandomNumber(Constants.LENGTH_11);
+    }
+
+    public static String getGroupId(){
+        return UserContacTypeEnum.GROUP.getPrefix() + getRandomNumber(Constants.LENGTH_11);
     }
 
     public static String getRandomNumber(Integer count) {
@@ -71,5 +77,20 @@ public class StringTools {
 
     public static final String encodeMd5(String originString) {
         return StringTools.isEmpty(originString) ? null : DigestUtils.md5DigestAsHex(originString.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static final String cleanHtmlTag(String content) {
+        if(isEmpty(content)){
+            return content;
+        }
+        content = content.replace("<","&lt");
+        content = content.replace("\r\n","<br>");
+        content = content.replace("\n","<br>");
+        return content;
+    }
+
+    public static final String getChatSessionId4User(String[] userIds) {
+        Arrays.sort(userIds);
+        return encodeMd5(StringUtils.join(userIds,""));
     }
 }

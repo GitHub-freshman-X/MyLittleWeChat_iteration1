@@ -4,7 +4,7 @@
     <div v-if="showLoading" class="loading-panel">
       <img src="../assets/img/loading.gif" />
     </div>
-    <div class="login-form" v-else>
+    <div class="login-form">
       <div class="error-msg">{{ errorMsg }}</div>
       <el-form :model="formData" ref="formDataRef" label-width="0px" @submit.prevent>
         <!--input输入-->
@@ -70,10 +70,11 @@
       </el-form>
     </div>
   </div>
+  <WinOp :showSetTop="false" :showMin="false" :showMax="false" :closeType="0"></WinOp>
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick } from 'vue'
+import { ref, reactive, getCurrentInstance, nextTick, onMounted } from 'vue'
 const { proxy } = getCurrentInstance()
 import { useUserInfoStore } from '@/stores/UserInfoStore'
 const userInfoStore = useUserInfoStore()
@@ -163,7 +164,7 @@ const submit = async () => {
   if (!checkValue(null, formData.value.checkCode, '请输入验证码')) {
     return
   }
-  if(isLogin.value == true){
+  if (isLogin.value == true) {
     showLoading.value = true
   }
   let result = await proxy.Request({
@@ -203,12 +204,24 @@ const submit = async () => {
       screenWidth: screenWidth,
       screenHeight: screenHeight
     })
+    window.ipcRenderer.send('setLocalStore',{key:"devWsDomain",value:proxy.Api.devWsDomain})
 
+    window.ipcRenderer.send('getLocalStore','devWsDomain');
   } else {
     proxy.Message.success("注册成功")
     changeOpType()
   }
 }
+const init=()=>{ 
+    window.ipcRenderer.send("setLocalStore",{key:'prodDomain',value:proxy.Api.prodDomain})
+    window.ipcRenderer.send("setLocalStore",{key:'devDomain',value:proxy.Api.devDomain})
+    window.ipcRenderer.send("setLocalStore",{key:'prodWsDomain',value:proxy.Api.prodWsDomain})
+    window.ipcRenderer.send("setLocalStore",{key:'devWsDomain',value:proxy.Api.devWsDomain})
+}
+
+onMounted(()=>{
+  init()
+})
 
 </script>
 

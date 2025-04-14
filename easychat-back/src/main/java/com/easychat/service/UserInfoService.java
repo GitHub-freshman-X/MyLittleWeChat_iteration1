@@ -98,9 +98,9 @@ public interface UserInfoService {
 
 	UserInfoVO login(String email, String password);
 
-	void updateUserInfo(UserInfo userInfo, MultipartFile avatarFile,MultipartFile avatarCover) throws IOException;
+	void updateUserInfo(UserInfo userInfo, MultipartFile avatarfile,MultipartFile avatarCover)throws IOException;
 
-void updateUserStatus(Integer status, String userid);
+	void updateUserStatus(Integer status, String userid);
 
-void forceOffLine(String userId);
+	void forceOffLine(String userId);
 }

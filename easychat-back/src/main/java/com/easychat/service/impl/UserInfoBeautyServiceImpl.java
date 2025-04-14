@@ -10,7 +10,6 @@ import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.UserInfoMapper;
-import com.sun.deploy.nativesandbox.comm.Response;
 import org.springframework.stereotype.Service;
 
 import com.easychat.entity.enums.PageSize;
@@ -32,9 +31,8 @@ public class UserInfoBeautyServiceImpl implements UserInfoBeautyService {
 	@Resource
 	private UserInfoBeautyMapper<UserInfoBeauty, UserInfoBeautyQuery> userInfoBeautyMapper;
 
-
 	@Resource
-	private UserInfoMapper<UserInfo, UserInfoQuery>    userInfoMapper;
+	private UserInfoMapper<UserInfo, UserInfoQuery> userInfoMapper;
 	/**
 	 * 根据条件查询列表
 	 */
@@ -186,8 +184,7 @@ public class UserInfoBeautyServiceImpl implements UserInfoBeautyService {
 		return this.userInfoBeautyMapper.deleteByEmail(email);
 	}
 
-
-@Override
+	@Override
 	public void saveAccount(UserInfoBeauty beauty) {
 		if(beauty.getId()!=null){
 			UserInfoBeauty dbIfon=this.userInfoBeautyMapper.selectById(beauty.getId());
@@ -208,30 +205,30 @@ public class UserInfoBeautyServiceImpl implements UserInfoBeautyService {
 
 
 		dbIfon=this.userInfoBeautyMapper.selectByUserId(beauty.getUserId());
-	    if(beauty.getId()==null&&dbIfon!=null){
-		    throw new BusinessException("靓号邮箱已存在");
-	    }
-	    if(beauty.getId()!=null&&dbIfon!=null&&dbIfon.getId()!=null&&!beauty.getId().equals(dbIfon.getId())){
-		    throw new BusinessException("靓号邮箱已存在");
-	    }
-        //判断邮箱是否已经注册
+		if(beauty.getId()==null&&dbIfon!=null){
+			throw new BusinessException("靓号邮箱已存在");
+		}
+		if(beauty.getId()!=null&&dbIfon!=null&&dbIfon.getId()!=null&&!beauty.getId().equals(dbIfon.getId())){
+			throw new BusinessException("靓号邮箱已存在");
+		}
+		//判断邮箱是否已经注册
 
-	    UserInfo userInfo=this.userInfoMapper.selectByEmail(beauty.getEmail());
+		UserInfo userInfo=this.userInfoMapper.selectByEmail(beauty.getEmail());
 
 		if(userInfo!=null){
-		    throw  new BusinessException("靓号邮箱已被注册");
+			throw  new BusinessException("靓号邮箱已被注册");
 		}
 		userInfo=this.userInfoMapper.selectByUserId(beauty.getUserId());
-	    if(userInfo!=null){
-		   throw  new BusinessException("靓号已被注册");
-	    }
-        if(beauty.getId()!=null){
-	       this.userInfoBeautyMapper.updateById(beauty, beauty.getId());
-        }else {
+		if(userInfo!=null){
+			throw  new BusinessException("靓号已被注册");
+		}
+		if(beauty.getId()!=null){
+			this.userInfoBeautyMapper.updateById(beauty, beauty.getId());
+		}else {
 			beauty.setStatus(BeautyAccountStatusEnum.No_USE.getStatus());
-	       this.userInfoBeautyMapper.insert(beauty);
-        }
+			this.userInfoBeautyMapper.insert(beauty);
+		}
 
-    }
+	}
 
 }

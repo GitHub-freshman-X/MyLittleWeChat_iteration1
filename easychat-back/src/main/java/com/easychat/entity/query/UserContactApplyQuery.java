@@ -20,6 +20,15 @@ public class UserContactApplyQuery extends BaseParam {
 
 	private String applyUserIdFuzzy;
 
+	private Boolean queryContactInfo;
+
+	public Boolean getQueryContactInfo() {
+		return queryContactInfo;
+	}
+	public void setQueryContactInfo(Boolean queryContactInfo) {
+		this.queryContactInfo = queryContactInfo;
+	}
+
 	/**
 	 * 接收人ID
 	 */
@@ -56,6 +65,15 @@ public class UserContactApplyQuery extends BaseParam {
 
 	private String applyInfoFuzzy;
 
+	private Long lastApplyTimestamp;
+
+
+	public Long getLastApplyTimestamp(){
+		return lastApplyTimestamp;
+	}
+	public void setLastApplyTimestamp(Long lastApplyTimestamp) {
+		this.lastApplyTimestamp = lastApplyTimestamp;
+	}
 
 	public void setApplyId(Integer applyId){
 		this.applyId = applyId;
