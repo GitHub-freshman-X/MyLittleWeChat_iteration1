@@ -31,8 +31,11 @@
         <el-button @click="logout">退出登录</el-button>
       </div>
     </div>
-    <div v-else>
+    <div v-if="showType==1">
       <UserInfoEdit :data="userInfo" @editBack="editBack"></UserInfoEdit>
+    </div>
+    <div v-if="showType==2">
+      <UserInfoPassword @editBack="editBack"></UserInfoPassword>
     </div>
     <div ></div>
   </ContentPanel>
@@ -40,6 +43,7 @@
 
 <script setup>
 import UserInfoEdit from "./UserInfoEdit.vue";
+import UserInfoPassword from "./UserInfoPassword.vue";
 import { ref, reactive, getCurrentInstance, nextTick } from "vue"
 const { proxy } = getCurrentInstance();
 import { useRoute, useRouter } from "vue-router"
