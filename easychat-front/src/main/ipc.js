@@ -4,7 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
-
+import {initWs}from './wsClient'
 const onLoginOrRegister = (callback) => {
   ipcMain.on("loginOrRegister", (e, isLogin) => {
     callback(isLogin)
@@ -17,7 +17,8 @@ const onLoginSuccess = (callback) => {
     store.initUserId(config.userId);
     store.setUserData("token", config.token);
     callback(config);
-  });
+    initWs(config,e.sender);
+    });
 }
 
 const winTitleOp = (callback)=> {
@@ -35,7 +36,7 @@ const onSetLocalStore=()=>{
 
 const onGetLocalStore=()=>{
   ipcMain.on("getLocalStore", (e, key) => {
-    console.log("收到渲染进程的获取事件key",key);
+    //console.log("收到渲染进程的获取事件key",key);
     e.sender.send("getLocalStoreCallback", "主进程返回的内容："+store.getData(key));
   })
 }

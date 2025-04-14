@@ -5,6 +5,9 @@ import icon from '../../resources/icon.png?asset'
 const NODE_ENV = process.env.NODE_ENV
 
 import { onLoginOrRegister, onLoginSuccess, winTitleOp,onSetLocalStore,onGetLocalStore } from './ipc'
+
+import {initWs}from './wsClient'
+
 import { on } from 'events'
 const login_width=300;
 const login_height=370;
