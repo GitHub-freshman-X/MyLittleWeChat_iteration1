@@ -135,4 +135,8 @@ public class GroupInfo implements Serializable {
 	public void setMemberCount(Integer memberCount) {
 		this.memberCount = memberCount;
 	}
+
+	public Integer getMemberCount() {
+		return memberCount;
+	}
 }

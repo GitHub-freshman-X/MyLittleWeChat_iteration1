@@ -53,13 +53,33 @@ const router = createRouter({
           path: '/contact/groupDetail',
           name: "群聊详情",
           component: () => import('@/views/contact/GroupDetail.vue')
+        },
+        {
+          path: '/contact/contactNotice',
+          name: "新的朋友",
+          component: () => import('@/views/contact/ContactApply.vue')
         }
       ]
       },
       {
         path: '/setting',
         name: "设置",
-        component: () => import('@/views/setting/Setting.vue')
+        redirect: "/setting/userInfo",
+        component: () => import('@/views/setting/Setting.vue'),
+        children:[{
+          path: '/setting/userInfo',
+          name: "个人信息",
+          component: () => import('@/views/setting/UserInfo.vue')
+        },{
+          path: '/setting/fileManage',
+          name: "文件管理",
+          component: () => import('@/views/setting/FileManage.vue')
+        },{
+          path: '/setting/about',
+          name: "关于",
+          component: () => import('@/views/setting/About.vue')
+        }
+      ]
       }]
     }
   ]

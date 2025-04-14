@@ -14,8 +14,8 @@
         <el-radio :label="0">直接加入</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="公告" prop="groupNotive">
-      <el-input clearable placeholder="请输入群公告" v-model.trim="formData.groupNotive" type="textarea" rows="5"
+    <el-form-item label="公告" prop="groupNotice">
+      <el-input clearable placeholder="请输入群公告" v-model.trim="formData.groupNotice" type="textarea" rows="5"
         maxlength="300" :show-word-limit="true" resize="none"></el-input>
     </el-form-item>
     <el-form-item>
@@ -74,6 +74,10 @@ const show = (data)=> {
 defineExpose({
   show
 })
+
+const saveCover = ()=> {
+  
+}
 
 </script>
 
