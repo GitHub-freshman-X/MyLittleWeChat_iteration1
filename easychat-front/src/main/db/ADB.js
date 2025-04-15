@@ -14,6 +14,8 @@ if(!fs.existsSync(dbFolder)){
 
 const db = new sqlite3.Database(dbFolder + "local.db");
 
+const globalColumnsMap = {};
+
 const createTable = ()=> {
   return new Promise(async (resolve, reject)=> {
     // 创建表
@@ -39,20 +41,19 @@ const createTable = ()=> {
   })
 }
 
-const queryAll =(sql, params) =>{
-  return new Promise((resolve, reject) => {
-    const stmt = db.prepare(sql);
-    stmt.all(params, function(err, row){
-      if(err){
-        resolve([])
-      }
-      row.forEach((item,  index) => {
-        row[index] = convertDbObject2BizObj(item)
-      })
-      resolve(row)
-    })
-    stmt.finalize()
-  })
+const initTableColumnsMap = async()=>{
+  let sql = `select name from sqlite_master where type='table' and name!='sqlite_sequence'`;
+  let tables = await queryAll(sql, []);
+  for(let i=0; i<tables.length; ++i){
+    sql = `pragma table_info(${tables[i].name})`;
+    let columns = await queryAll(sql, []);
+    const columnMapItem = {};
+    for(let j=0; j<columns.length; ++j){
+      columnMapItem[toCamelCase(columns[j].name)] = columns[j].type;
+    }
+    globalColumnsMap[tables[i].name] = columnMapItem;
+  }
+  console.log(globalColumnsMap)
 }
 
 const convertDbObject2BizObj = (data) => {
@@ -72,9 +73,84 @@ const toCamelCase = (str)=>{
   })
 }
 
+
+const queryAll =(sql, params) =>{
+  return new Promise((resolve, reject) => {
+    const stmt = db.prepare(sql);
+    stmt.all(params, function(err, row){
+      if(err){
+        resolve([])
+      }
+      row.forEach((item,  index) => {
+        row[index] = convertDbObject2BizObj(item)
+      })
+      resolve(row)
+    })
+    stmt.finalize()
+  })
+}
+
+const queryCount = (sql, params) =>{
+  return new Promise((resolve, reject) => {
+    const stmt = db.prepare(sql);
+    stmt.get(params, function(err, row){
+      if(err){
+        resolve(0)
+      }
+      resolve(Array.from(Object.values(row))[0])
+    })
+    stmt.finalize()
+  })
+}
+
+const queryOne = (sql, params) =>{
+  return new Promise((resolve, reject) => {
+    const stmt = db.prepare(sql);
+    stmt.get(params, function(err, row){
+      if(err){
+        resolve({})
+      }
+      resolve(convertDbObject2BizObj(row))
+    })
+    stmt.finalize()
+  })
+}
+
+const run = (sql, params)=>{
+  return new Promise((resolve, reject) => {
+    const stmt = db.prepare(sql);
+    stmt.run(params, function(err, row){
+      if(err){
+        resolve("操作数据库失败")
+      }
+      row.forEach((item,  index) => {
+        row[index] = convertDbObject2BizObj(item)
+      })
+      resolve(this.changes)
+    })
+    stmt.finalize()
+  })
+}
+
+const insert = (sqlPrefix, tableName, data)=>{
+  const columnsMap = globalColumnsMap[tableName]
+  const dbColums = [];
+  const params = []
+  for(let item in data){
+    if(data[item]!=undefined && columnsMap[item]!=undefined){
+      dbColums.push(columnsMap[item]);
+      params.push(data[item]);
+    }
+  }
+  const preper = "?".repeat(dbColums.length).split("").join(",")
+  const sql = `${sqlPrefix} ${tableName} (${dbColums.join(",")}) values (${preper})`;
+  return run(sql, params)
+}
+
 const init = ()=>{
   db.serialize(async()=>{
     await createTable()
+    await initTableColumnsMap()
   })
 }
 

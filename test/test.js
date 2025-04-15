@@ -1,28 +1,60 @@
-const toCamelCase = (str)=>{
-  return str.replace(/_([a-z])/g, function(match, p1){
-    return String.fromCharCode(p1.charCodeAt(0) - 32);
-  })
+
+const globalColumnsMap = {
+  chat_message: {
+    userId: 'varchar',
+    messageId: 'bigint',
+    sessionId: 'varchar',
+    messageType: 'INTEGER',
+    messageContent: 'varchar',
+    contactType: 'INTEGER',
+    sendUserId: 'varchar',
+    sendUserNickName: 'varchar',
+    sendTime: 'bigint',
+    status: 'INTEGER',
+    fileSize: 'bigint',
+    fileName: 'varchar',
+    filePath: 'varchar',
+    fileType: 'INTEGER'
+  },
+  chat_session_user: {
+    userId: 'varchar',
+    contactId: 'varchar(11)',
+    contactType: 'INTEGER',
+    sessionId: 'varchar(11)',
+    status: 'INTEGER',
+    contactName: 'varchar(20)',
+    lastMessage: 'varchar(500)',
+    lastReceiveTime: 'bigint',
+    noReadCount: 'INTEGER',
+    memberCount: 'INTEGER',
+    topType: 'INTEGER'
+  },
+  user_setting: {
+    userId: 'varchar',
+    email: 'varchar',
+    sysSetting: 'varchar',
+    contactNoRead: 'INTEGER',
+    serverPort: 'INTEGER'
+  }
 }
 
-const convertDbObject2BizObj = (data) => {
-  if(!data){
-    return null;
-  }
-  const bizData = {}
+const insert = (sqlPrefix, tableName, data)=>{
+  const columnsMap = globalColumnsMap[tableName]
+  const dbColums = [];
+  const params = []
   for(let item in data){
-    bizData[toCamelCase(item)] = data[item]
+    if(data[item]!=undefined && columnsMap[item]!=undefined){
+      dbColums.push(columnsMap[item]);
+      params.push(data[item]);
+    }
   }
-  return bizData
+  const preper = "?".repeat(dbColums.length).split("").join(",")
+  const sql = `${sqlPrefix} ${tableName} (${dbColums.join(",")}) values(${preper})`;
+  console.log(sql)
 }
 
-const obj = convertDbObject2BizObj({
-  user_id: "1001",
-  user_name: "张三"
+insert('insert', 'chat_message', {
+  userId: "123", 
+  messageId:"123123",
+  messageType: "23"
 })
-
-const obj2 = {
-  userId: "1001",
-  userName: "张三"
-}
-
-console.log(obj) // userId
