@@ -49,7 +49,7 @@ const initTableColumnsMap = async()=>{
     let columns = await queryAll(sql, []);
     const columnMapItem = {};
     for(let j=0; j<columns.length; ++j){
-      columnMapItem[toCamelCase(columns[j].name)] = columns[j].type;
+      columnMapItem[toCamelCase(columns[j].name)] = columns[j].name;
     }
     globalColumnsMap[tables[i].name] = columnMapItem;
   }
@@ -147,6 +147,36 @@ const insert = (sqlPrefix, tableName, data)=>{
   return run(sql, params)
 }
 
+const insertOrReplace = (tableName, data)=> {
+  return insert("insert or replace into", tableName, data)
+}
+
+const insertOrIgnore = (tableName, data)=> {
+  return insert("insert or ignore into", tableName, data)
+}
+const update = (tableName, data, paramData)=>{
+  const columnsMap = globalColumnsMap[tableName]
+  const dbColums = [];
+  const params = []
+  const whereColumns = []
+  for(let item in data){
+    if(data[item]!=undefined && columnsMap[item]!=undefined){
+      dbColums.push(`${columnsMap[item]} = ?`);
+      params.push(data[item]);
+    }
+  }
+
+  for(let item in paramData){
+    if(paramData[item]){
+      params.push(paramData[item])
+      whereColumns.push(`${columnsMap[item]} = ?`)
+    }
+  }
+  
+  const sql = `update ${tableName} set ${dbColums.join(",")} ${whereColumns.length>0 ? 'where' : ''} ${whereColumns.join(" and ")}`
+  return run(sql, params)
+}
+
 const init = ()=>{
   db.serialize(async()=>{
     await createTable()
@@ -157,5 +187,12 @@ const init = ()=>{
 init()
 
 export{
-  createTable
+  run,
+  queryAll,
+  queryOne,
+  queryCount,
+  insertOrReplace,
+  insertOrIgnore,
+  update,
+  insert
 }

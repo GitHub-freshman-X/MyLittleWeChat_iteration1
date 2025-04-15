@@ -2266,3 +2266,9 @@ java.io.IOException: 远程主机强迫关闭了一个现有的连接。
 2025-04-15 12:22:00 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
 2025-04-15 12:22:00 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@11f16a17]
 2025-04-15 12:22:00 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-15 13:08:29 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/account/checkCode", parameters={multipart}
+2025-04-15 13:08:29 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.AccountController#checkCode()
+2025-04-15 13:08:29 [INFO][com.easychat.controller.AccountController][checkCode][52]-> 验证码是14:
+2025-04-15 13:08:29 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-15 13:08:29 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@7d39ab8e]
+2025-04-15 13:08:29 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
