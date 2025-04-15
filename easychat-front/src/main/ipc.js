@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
 import {initWs}from './wsClient'
+import { addUserSetting } from './db/UserSettingModel'
 const onLoginOrRegister = (callback) => {
   ipcMain.on("loginOrRegister", (e, isLogin) => {
     callback(isLogin)
@@ -16,6 +17,7 @@ const onLoginSuccess = (callback) => {
   ipcMain.on("openChat", (e, config) => {
     store.initUserId(config.userId);
     store.setUserData("token", config.token);
+    addUserSetting(config.userId, config.email);
     callback(config);
     initWs(config,e.sender);
     });

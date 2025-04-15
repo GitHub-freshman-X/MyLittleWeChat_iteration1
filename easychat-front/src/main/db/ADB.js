@@ -111,6 +111,7 @@ const queryOne = (sql, params) =>{
         resolve({})
       }
       resolve(convertDbObject2BizObj(row))
+      console.log(`执行的sql：${sql}, params:${params}, row:${JSON.stringify(row)}`)
     })
     stmt.finalize()
   })
@@ -121,11 +122,10 @@ const run = (sql, params)=>{
     const stmt = db.prepare(sql);
     stmt.run(params, function(err, row){
       if(err){
+        console.error(`执行的sql：${sql}, params:${params}, err:${err}`)
         resolve("操作数据库失败")
       }
-      row.forEach((item,  index) => {
-        row[index] = convertDbObject2BizObj(item)
-      })
+      console.log(`执行的sql：${sql}, params:${params}, 执行记录数：${this.changes}, row:${JSON.stringify(row)}`)
       resolve(this.changes)
     })
     stmt.finalize()

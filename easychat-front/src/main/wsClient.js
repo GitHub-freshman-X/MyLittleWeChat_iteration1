@@ -3,6 +3,10 @@ const NODE_ENV = process.env.NODE_ENV
 
 import store from "./store"
 
+import { saveOrUpdateChatSessionBatch4Init } from './db/ChatSessionUserModel';
+import { saveMessageBatch } from './db/ChatMessageModel';
+import { updateContactNoReadCount } from './db/UserSettingModel';
+
 let ws = null;
 let maxReConnectTimes = null;
 let lockReconnect = false;
@@ -29,9 +33,27 @@ const createWs = () => {
     maxReConnectTimes = 5;
   }
   //从服务器接受到消息的回调函数
-  ws.onmessage = function(e){
-      console.log("收到服务器消息", e.data);
-     // sender.send("reciveMessage", e.data);
+  ws.onmessage = async function(e){
+    console.log("收到服务器消息", e.data);
+    const message = JSON.parse(e.data);
+    const messageType = message.messageType
+    switch(messageType){
+      case 0: // ws连接成功
+      {
+        // 保存会话信息
+        await saveOrUpdateChatSessionBatch4Init(message.extendData.chatSessionList);
+
+        // 保存消息
+        await saveMessageBatch(message.extendData.chatMessageList);
+
+        // 更新联系人申请数量
+        await updateContactNoReadCount({userId: store.getUserId(), noReadCount: message.extendData.applyCount});
+
+        sender.send("receiveMessage", {messageType: message.messageType})
+        break;
+      }
+    }
+
   }
   ws.onclose = function(){
       console.log("连接关闭");
