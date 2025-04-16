@@ -11,7 +11,9 @@
       </div>
       <div class="chat-session-list">
         <template v-for="item in chatSessionList" :key="item.contactName">
-          <ChatSession :data="item" @contextmenu.stop="onContextMenu(item, $event)"></ChatSession>
+          <ChatSession :data="item" @click="chatSessionClickHandler(item)"
+            @contextmenu.stop="onContextMenu(item, $event)">
+          </ChatSession>
         </template>
       </div>
     </template>
@@ -24,142 +26,196 @@
 import ContextMenu from '@imengyu/vue3-context-menu'
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import ChatSession from "./ChatSession.vue";
-import { ref, reactive, getCurrentInstance, nextTick ,onMounted, onUnmounted} from "vue" 
+import { ref, reactive, getCurrentInstance, nextTick, onMounted, onUnmounted } from "vue"
 const { proxy } = getCurrentInstance();
 import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
 const router = useRouter()
 
 const searchKey = ref();
-const search = () =>{}
+const search = () => { }
 
 const chatSessionList = ref([]);
 
-const onReveiveMessage = ()=>{
-  window.ipcRenderer.on("receiveMessage", (e, message)=>{
-    console.log("收到消息", message)
-    
-  })
-}
-
-const onLoadSessionData = ()=>{
-  window.ipcRenderer.on("loadSessionDataCallback", (e, dataList)=>{
-    sortChatrSessionList(dataList)
-    chatSessionList.value = dataList;
-    console.log(dataList)
-  })
-}
-
-const loadChatSession = ()=>{
+const loadChatSession = () => {
   window.ipcRenderer.send("loadSessionData")
 }
 
 // 会话排序
-const sortChatrSessionList = (dataList)=>{
-  dataList.sort((a, b)=>{
+const sortChatrSessionList = (dataList) => {
+  dataList.sort((a, b) => {
     const topTypeResult = b["topType"] - a["topType"]
-    if(topTypeResult==0){
+    if (topTypeResult == 0) {
       return b["lastMessageTime"] - a["lastMessageTime"]
     }
     return topTypeResult
   })
 }
 
-const delChatSessionList = (contactId)=>{
-  chatSessionList.value = chatSessionList.value.filter(item=>{
+const delChatSessionList = (contactId) => {
+  chatSessionList.value = chatSessionList.value.filter(item => {
     return item.contactId != contactId
   })
 }
 
-onMounted(()=>{
-  onReveiveMessage()
-  onLoadSessionData()
-  loadChatSession()
-})
+const onReveiveMessage = () => {
+  window.ipcRenderer.on("receiveMessage", (e, message) => {
+    console.log("收到消息", message)
+
+  })
+}
+
+const onLoadSessionData = () => {
+  window.ipcRenderer.on("loadSessionDataCallback", (e, dataList) => {
+    sortChatrSessionList(dataList)
+    chatSessionList.value = dataList;
+  })
+}
+
+const onLoadChatMessage = () => {
+  window.ipcRenderer.on("loadChatMessageCallback", (e, {dataList, pageTotal, pageNo}) => {
+    if (pageNo == pageTotal) {
+      messageCountInfo.noData = true
+    }
+    dataList.sort((a, b) => {
+      return a.messageId - b.messageId
+    })
+    messageList.value = dataList.concat(messageList.value)
+    messageCountInfo.pageNo = pageNo
+    messageCountInfo.pageTotal = pageTotal
+    if (pageNo == 1) {
+      messageCountInfo.maxMessageId = dataList.length > 0 ? dataList[dataList.length - 1].messageId : null
+
+      // 滚动条滚动到最底部
+    }
+    console.log(messageList.value)
+
+  })
+}
 
 // 当前选中的会话
 const currentChatSession = ref({})
 
-onUnmounted(()=>{
-  window.ipcRenderer.removeAllListeners("receiveMessage")
-  window.ipcRenderer.removeAllListeners("loadSessionDataCallback")
+// 点击会话
+const messageList = ref([])
+const messageCountInfo = {
+  tatalPage: 0,
+  pageNo: 0,
+  maxMessageId: null,
+  noData: false
+}
+const chatSessionClickHandler = (item) => {
+  currentChatSession.value = Object.assign({}, item);
+  messageList.value = []
+
+  loadChatMessage(1)
+}
+
+const loadChatMessage = () => {
+  if (messageCountInfo.noData) {
+    return;
+  }
+  messageCountInfo.pageNo++
+  window.ipcRenderer.send("loadChatMessage", {
+    sessionId: currentChatSession.value.sessionId,
+    pageNo: messageCountInfo.pageNo,
+    maxMessageId: messageCountInfo.maxMessageId
+  })
+}
+
+onMounted(() => {
+  onReveiveMessage()
+  onLoadSessionData()
+  loadChatSession()
+  onLoadChatMessage()
 })
 
-const setTop = (data)=>{
-  data.topType = data.topType==0 ? 1 : 0
+onUnmounted(() => {
+  window.ipcRenderer.removeAllListeners("receiveMessage")
+  window.ipcRenderer.removeAllListeners("loadSessionDataCallback")
+  window.ipcRenderer.removeAllListeners("loadChatMessage")
+})
+
+const setTop = (data) => {
+  data.topType = data.topType == 0 ? 1 : 0
   // 会话排序
   sortChatrSessionList(chatSessionList.value)
-  window.ipcRenderer.send("topChatSession", {contactId: data.contactId, topType: data.topType})
+  window.ipcRenderer.send("topChatSession", { contactId: data.contactId, topType: data.topType })
 }
-const delChatSession = (contactId)=>{
+const delChatSession = (contactId) => {
   delChatSessionList(contactId)
   currentChatSession.value = {}
   // 设置选中的会话
   window.ipcRenderer.send("delChatSession", contactId)
 }
-const onContextMenu = (data, e)=>{
+const onContextMenu = (data, e) => {
   ContextMenu.showContextMenu({
-    x: e.x, 
+    x: e.x,
     y: e.y,
     items: [{
-      label: data.topType==0 ? "置顶" : "取消置顶",
-      onClick: ()=>{
+      label: data.topType == 0 ? "置顶" : "取消置顶",
+      onClick: () => {
         setTop(data)
       }
-    },{
+    }, {
       label: "删除聊天",
-      onClick: ()=>{
+      onClick: () => {
         proxy.Confirm({
           message: `确定要删除聊天【${data.contactName}】吗？`,
-          okfun: ()=>{
+          okfun: () => {
             delChatSession(data.contactId)
           }
         })
       }
     }
-  ]
+    ]
   })
 }
 
 </script>
 
 <style lang="scss" scoped>
-.drag-panel{
+.drag-panel {
   height: 25px;
   background: #f7f7f7;
 }
-.top-search{
+
+.top-search {
   padding: 0px 10px 9px 10px;
   background: #f7f7f7;
   display: flex;
   align-items: center;
-  .iconfont{
+
+  .iconfont {
     font-size: 12px;
   }
 }
 
-.chat-session-list{
+.chat-session-list {
   height: calc(100vh - 62px);
   overflow: hidden;
   border-top: 1px solid #dddddd;
-  &:hover{
+
+  &:hover {
     overflow: auto;
   }
 }
 
-.search-list{
+.search-list {
   height: calc(100vh - 62px);
   background: #f7f7f7;
   overflow: hidden;
-  &:hover{
+
+  &:hover {
     overflow: auto;
   }
 }
 
-.title-panel{
+.title-panel {
   display: flex;
   align-items: center;
-  .title{
+
+  .title {
     height: 60px;
     line-height: 60px;
     padding-left: 10px;
@@ -172,7 +228,7 @@ const onContextMenu = (data, e)=>{
   }
 }
 
-.icon-more{
+.icon-more {
   position: absolute;
   z-index: 1;
   top: 30px;
@@ -181,18 +237,20 @@ const onContextMenu = (data, e)=>{
   margin-right: 5px;
   cursor: pointer;
 }
-.chat-panel{
+
+.chat-panel {
   border-top: 1px solid #dddddd;
   background: #f5f5f5;
-  .message-panel{
+
+  .message-panel {
     paading: 10px 30px 0px 30px;
     height: calc(100vh - 200px - 62px);
     overflow-y: auto;
-    .message-item{
+
+    .message-item {
       margin-bottom: 15px;
       text-align: center;
     }
   }
 }
-
 </style>
