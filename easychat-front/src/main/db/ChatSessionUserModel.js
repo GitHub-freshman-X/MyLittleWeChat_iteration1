@@ -57,7 +57,37 @@ const updateNoReadCount = (contactId, noReadCount)=>{
   return run(sql, [noReadCount, store.getUserId(), contactId]) 
 }
 
+const selectUserSessionList = ()=>{
+  let sql = "select * from chat_session_user where user_id=? and status=1"
+  return queryAll(sql, [store.getUserId()])
+}
+
+const delChatSession = (contactId)=>{
+  const paramData = {
+    userId: store.getUserId(),
+    contactId
+  }
+  const sessionInfo = {
+    status: 0,
+  }
+  return update("chat_session_user", sessionInfo, paramData)
+}
+
+const topChatSession = (contactId, topType)=>{
+  const paramData = {
+    userId: store.getUserId(),
+    contactId
+  }
+  const sessionInfo = {
+    topType,
+  }
+  return update("chat_session_user", sessionInfo, paramData)
+}
+
 export{
   saveOrUpdateChatSessionBatch4Init,
   updateNoReadCount,
+  selectUserSessionList,
+  delChatSession,
+  topChatSession
 }

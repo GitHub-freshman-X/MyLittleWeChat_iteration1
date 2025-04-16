@@ -4,7 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 const NODE_ENV = process.env.NODE_ENV
 
-import { onLoginOrRegister, onLoginSuccess, winTitleOp,onSetLocalStore,onGetLocalStore } from './ipc'
+import { onLoginOrRegister, onLoginSuccess, winTitleOp,onSetLocalStore,onGetLocalStore, onLoadSessionData, onDelChatSession, onTopChatSession } from './ipc'
 
 import { createTable } from './db/ADB'
 import {initWs}from './wsClient'
@@ -144,6 +144,9 @@ function createWindow() {
 
   onSetLocalStore();
   onGetLocalStore();
+  onLoadSessionData();
+  onDelChatSession();
+  onTopChatSession();
 
 }
 

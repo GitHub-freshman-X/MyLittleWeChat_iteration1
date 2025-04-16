@@ -2,7 +2,7 @@ package com.easychat.entity.enums;
 
 public enum MessageTypeEnum {
     INIT(0,"","连接ws获取信息"),
-    ADO_FRIEND(1,"","添加好友打招呼信息"),
+    ADD_FRIEND(1,"","添加好友打招呼信息"),
     CHAT(2,"","普通聊天信息"),
     GROUP_CREATE(3,"群组已创建好，可以和好友一起畅聊了","群创建成功"),
     CONTACT_APPLY(4,"","好友申请"),

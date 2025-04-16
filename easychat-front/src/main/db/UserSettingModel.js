@@ -63,7 +63,7 @@ const addUserSetting = async (userId, email)=>{
       contactNoRead: 0,
       serverPort: serverPort
     })
-    resultServerPort = serverPort;
+    // resultServerPort = serverPort;
   }
 
   // 启动本地服务

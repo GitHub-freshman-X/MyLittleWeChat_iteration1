@@ -9,18 +9,117 @@
           </template>
         </el-input>
       </div>
+      <div class="chat-session-list">
+        <template v-for="item in chatSessionList" :key="item.contactName">
+          <ChatSession :data="item" @contextmenu.stop="onContextMenu(item, $event)"></ChatSession>
+        </template>
+      </div>
+    </template>
+    <template #right-content>
     </template>
   </Layout>
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick ,onMounted} from "vue"
+import ContextMenu from '@imengyu/vue3-context-menu'
+import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
+import ChatSession from "./ChatSession.vue";
+import { ref, reactive, getCurrentInstance, nextTick ,onMounted, onUnmounted} from "vue" 
 const { proxy } = getCurrentInstance();
 import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
 const router = useRouter()
 
+const searchKey = ref();
+const search = () =>{}
 
+const chatSessionList = ref([]);
+
+const onReveiveMessage = ()=>{
+  window.ipcRenderer.on("receiveMessage", (e, message)=>{
+    console.log("收到消息", message)
+    
+  })
+}
+
+const onLoadSessionData = ()=>{
+  window.ipcRenderer.on("loadSessionDataCallback", (e, dataList)=>{
+    sortChatrSessionList(dataList)
+    chatSessionList.value = dataList;
+    console.log(dataList)
+  })
+}
+
+const loadChatSession = ()=>{
+  window.ipcRenderer.send("loadSessionData")
+}
+
+// 会话排序
+const sortChatrSessionList = (dataList)=>{
+  dataList.sort((a, b)=>{
+    const topTypeResult = b["topType"] - a["topType"]
+    if(topTypeResult==0){
+      return b["lastMessageTime"] - a["lastMessageTime"]
+    }
+    return topTypeResult
+  })
+}
+
+const delChatSessionList = (contactId)=>{
+  chatSessionList.value = chatSessionList.value.filter(item=>{
+    return item.contactId != contactId
+  })
+}
+
+onMounted(()=>{
+  onReveiveMessage()
+  onLoadSessionData()
+  loadChatSession()
+})
+
+// 当前选中的会话
+const currentChatSession = ref({})
+
+onUnmounted(()=>{
+  window.ipcRenderer.removeAllListeners("receiveMessage")
+  window.ipcRenderer.removeAllListeners("loadSessionDataCallback")
+})
+
+const setTop = (data)=>{
+  data.topType = data.topType==0 ? 1 : 0
+  // 会话排序
+  sortChatrSessionList(chatSessionList.value)
+  window.ipcRenderer.send("topChatSession", {contactId: data.contactId, topType: data.topType})
+}
+const delChatSession = (contactId)=>{
+  delChatSessionList(contactId)
+  currentChatSession.value = {}
+  // 设置选中的会话
+  window.ipcRenderer.send("delChatSession", contactId)
+}
+const onContextMenu = (data, e)=>{
+  ContextMenu.showContextMenu({
+    x: e.x, 
+    y: e.y,
+    items: [{
+      label: data.topType==0 ? "置顶" : "取消置顶",
+      onClick: ()=>{
+        setTop(data)
+      }
+    },{
+      label: "删除聊天",
+      onClick: ()=>{
+        proxy.Confirm({
+          message: `确定要删除聊天【${data.contactName}】吗？`,
+          okfun: ()=>{
+            delChatSession(data.contactId)
+          }
+        })
+      }
+    }
+  ]
+  })
+}
 
 </script>
 

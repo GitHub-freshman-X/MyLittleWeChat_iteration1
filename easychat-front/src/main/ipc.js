@@ -6,6 +6,7 @@ const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
 import {initWs}from './wsClient'
 import { addUserSetting } from './db/UserSettingModel'
+import { selectUserSessionList, delChatSession, topChatSession } from './db/ChatSessionUserModel'
 const onLoginOrRegister = (callback) => {
   ipcMain.on("loginOrRegister", (e, isLogin) => {
     callback(isLogin)
@@ -43,10 +44,33 @@ const onGetLocalStore=()=>{
   })
 }
 
+const onLoadSessionData = ()=>{
+  ipcMain.on("loadSessionData", async(e)=>{
+    const result = await selectUserSessionList()
+    e.sender.send("loadSessionDataCallback", result)
+  })
+
+}
+
+const onDelChatSession = ()=>{
+  ipcMain.on("delChatSession", (e, contactId)=>{
+    delChatSession(contactId);
+  })
+}
+
+const onTopChatSession = ()=>{
+  ipcMain.on("topChatSession", (e, {contactId, topType})=>{
+    topChatSession(contactId, topType);
+  })
+}
+
 export {
   onLoginOrRegister,
   onLoginSuccess,
   winTitleOp,
   onSetLocalStore,
-  onGetLocalStore
+  onGetLocalStore,
+  onLoadSessionData,
+  onDelChatSession,
+  onTopChatSession
 }
