@@ -224,8 +224,24 @@ public class ChannelContextUtils {
         if (userChannel == null) {
             return;
         }
-        messageSendDto.setContactId(messageSendDto.getSendUserId());
-        messageSendDto.setContactName(messageSendDto.getSendUserNickName());
+        //相对于客户端而言，联系人就是发送人，所以这里转化一下
+        if (MessageTypeEnum.ADD_FRIEND_SELF.getType().equals(messageSendDto.getMessageType())) {
+            UserInfo userInfo = (UserInfo) messageSendDto.getExtendData();
+            messageSendDto.setMessageType(MessageTypeEnum.ADD_FRIEND.getType());
+            messageSendDto.setContactId(userInfo.getUserId());
+            messageSendDto.setContactName(userInfo.getNickName());
+            messageSendDto.setExtendData(null);
+        } else {
+            messageSendDto.setContactId(messageSendDto.getSendUserId());
+            messageSendDto.setContactName(messageSendDto.getSendUserNickName());
+        }
         userChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.convertObj2Json(messageSendDto)));
+    }
+
+    public void addUser2Group(String userId, String groupId) {
+        Channel userChannel = USER_CONTEXT_MAP.get(userId);
+        if (userChannel != null) {
+            add2Group(groupId, userChannel);
+        }
     }
 }

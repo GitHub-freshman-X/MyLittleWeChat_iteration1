@@ -83,6 +83,51 @@ const getGroupInfo = async () => {
   groupInfo.value = result.data;
 }
 
+const groupEditDialogRef  = ref()
+const editGroupInfo= () => {
+  groupEditDialogRef.value.show(groupInfo.value)
+}
+
+const dissolutionGroup= () => {
+  proxy.Confirm({
+    message: '确定要删除群聊吗',
+    okfun: async()=> {
+      contactStateStore.setContactReload(null)
+      let result = await proxy.Request({
+         url: proxy.Api.dissolutionGroup,
+         params:{
+          groupId: groupId.value.groupId
+         }
+      })
+      if(!result){
+        return;
+      }
+      proxy.Message.success('解散成功')
+      contactStateStore.setContactReload('DISSOLUTION_GROUP')
+    }
+  })
+}
+
+const leaveGroup= () => {
+  proxy.Confirm({
+    message: '确定要退出群聊吗',
+    okfun: async() => {
+      contactStateStore.setContactReload(null)
+      let result = await proxy.Request({
+         url: proxy.Api.leaveGroup,
+         params:{
+          groupId: groupId.value.groupId
+         }
+      })
+      if(!result){
+        return;
+      }
+      proxy.Message.success('退出成功')
+      contactStateStore.setContactReload('LEAVE_GROUP')
+    }
+  })
+}
+
 watch(
   () => route.query.contactId,
   (newVal, oldVal) => {
@@ -94,13 +139,11 @@ watch(
   { immediate: true, deep: true}
 )
 
-const groupEditDialogRef  = ref()
-const editGroupInfo= () => {
-  groupEditDialogRef.value.show(groupInfo.value)
-}
-
-const leaveGroup= () => {
-  console.log(userInfoStore.getInfo().userId)
+const sendMessage = ()=> {
+  router.push({
+    path: '/chat',
+    query: { chatId: groupInfo.value.groupId, timestamp: new Date().getTime() }
+  })
 }
 
 </script>
