@@ -96,8 +96,8 @@
 		 </if>
 		 FROM user_contact_apply u
 		 <if test="query.queryContactInfo">
-			 LEFT JOIN user_info uu ON uu.user_id = u.apply_user_id and u.receive_user_id = #{query.receiveuserId}
-			 LEFT JOIN group_info g ON g.group_id = u.contact_id and u.receive_user_id = #{query.receiveuserId}
+			 LEFT JOIN user_info uu ON uu.user_id = u.apply_user_id and u.receive_user_id = #{query.receiveUserId}
+			 LEFT JOIN group_info g ON g.group_id = u.contact_id and u.receive_user_id = #{query.receiveUserId}
 		 </if>
 		 <include refid="query_condition" />
 		 <if test="query.orderBy!=null">
@@ -110,7 +110,7 @@
 
 	<!-- 查询数量-->
 	<select id="selectCount" resultType="java.lang.Integer" >
-		 SELECT count(1) FROM user_contact_apply a <include refid="query_condition" />
+		 SELECT count(1) FROM user_contact_apply u <include refid="query_condition" />
 	</select>
 
 	<!-- 插入 （匹配有值的字段）-->

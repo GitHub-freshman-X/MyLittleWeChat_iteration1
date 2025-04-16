@@ -18,16 +18,6 @@ public class MessageHandler {
     @Resource
     private RedissonClient redissonClient;
 
-    @Resource
-    private ChannelContextUtils channelContextUtils;
-
-    public void lisMessage() {
-        RTopic rTopic = redissonClient.getTopic(MESSAGE_TOPIC);
-        rTopic.addListener(MessageSendDto.class, (MessageSendDto, sendDto) -> {
-            logger.info("收到广播消息：{}", JsonUtils.convertObj2Json(sendDto));
-            // channelContextUtils.sendMsg(sendDto);
-        });
-    }
 
     public void sendMessage(MessageSendDto sendDto) {
         RTopic rTopic = redissonClient.getTopic(MESSAGE_TOPIC);

@@ -56,7 +56,7 @@ public class GroupInfoController extends ABaseController {
 		return getSuccessResponseVO(null);
 	}
 
-	@RequestMapping("/LoadMyGroup")
+	@RequestMapping("/loadMyGroup")
 	@GlobalInterceptor
 	public ResponseVO LoadMyGroup(HttpServletRequest request) {
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);

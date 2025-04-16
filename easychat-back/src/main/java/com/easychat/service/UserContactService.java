@@ -74,7 +74,7 @@ public interface UserContactService {
 
 	UserContactSearchResultDto searchContact(String userId, String contactId);
 
-	Integer applyAdd(TokenUserInfoDto tokenUserInfoDto,String contactId,String applyInfo);
+	Integer applyAdd(TokenUserInfoDto tokenUserInfoDto, String contactId, String applyInfo);
 
 	void removeUserContact(String userId, String contactId, UserContactStatusEnum statusEnum);
 
