@@ -4,6 +4,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.easychat.entity.constants.Constants;
+import com.easychat.entity.dto.MessageSendDto;
+import com.easychat.entity.dto.TokenUserInfoDto;
+import com.easychat.entity.enums.ResponseCodeEnum;
+import com.easychat.entity.enums.UserContactTypeEnum;
+import com.easychat.exception.BusinessException;
+import com.easychat.redis.RedisComponent;
 import org.springframework.stereotype.Service;
 
 import com.easychat.entity.enums.PageSize;
@@ -24,6 +31,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
 	@Resource
 	private ChatMessageMapper<ChatMessage, ChatMessageQuery> chatMessageMapper;
+
+	@Resource
+	private RedisComponent redisComponent;
 
 	/**
 	 * 根据条件查询列表
@@ -126,5 +136,21 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 	@Override
 	public Integer deleteChatMessageByMessageId(Long messageId) {
 		return this.chatMessageMapper.deleteByMessageId(messageId);
+	}
+
+	@Override
+	public MessageSendDto saveMessage(ChatMessage chatMessage, TokenUserInfoDto tokenUserInfoDto) {
+		if (!Constants.ROBOT_UID.equals(tokenUserInfoDto.getUserId())) {
+			List<String> contactList = redisComponent.getUserContactList(tokenUserInfoDto.getUserId());
+			if (!contactList.contains(chatMessage.getContactId())) {
+				UserContactTypeEnum userContactTypeEnum = UserContactTypeEnum.getByPrefix(chatMessage.getContactId());
+				if (UserContactTypeEnum.USER.equals(userContactTypeEnum)) {
+					throw new BusinessException(ResponseCodeEnum.CODE_902);
+				} else {
+					throw new BusinessException(ResponseCodeEnum.CODE_903);
+				}
+			}
+		}
+		return null;
 	}
 }

@@ -213,6 +213,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 			chatSessionUser.setUserId(groupInfo.getGroupOwnerId());
 			chatSessionUser.setContactId(groupInfo.getGroupId());
 			chatSessionUser.setContactName(groupInfo.getGroupName());
+			chatSessionUser.setSessionId(sessionId);
 			this.chatSessionUserMapper.insert(chatSessionUser);
 
 			//创建消息
