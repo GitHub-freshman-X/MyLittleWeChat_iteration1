@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Max;
@@ -57,4 +59,13 @@ public class ChatController extends ABaseController {
         return getSuccessResponseVO(messageSendDto);
     }
 
+    @RequestMapping("/uploadFile")
+    @GlobalInterceptor
+    public ResponseVO uploadFile(HttpServletRequest request,@NotNull Long messageId,
+                                 @NotNull MultipartFile file,
+                                 @NotNull MultipartFile cover) {
+        TokenUserInfoDto userInfoDto = getTokenUserInfo(request);
+        chatMessageService.saveMessageFile(userInfoDto.getUserId(), messageId, file, cover);
+        return getSuccessResponseVO(null);
+    }
 }

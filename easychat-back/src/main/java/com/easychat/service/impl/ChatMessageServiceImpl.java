@@ -1,9 +1,13 @@
 package com.easychat.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.easychat.entity.config.Appconfig;
 import com.easychat.entity.constants.Constants;
 import com.easychat.entity.dto.MessageSendDto;
 import com.easychat.entity.dto.SysSettingDto;
@@ -18,7 +22,10 @@ import com.easychat.mappers.ChatSessionMapper;
 import com.easychat.mappers.ChatSessionUserMapper;
 import com.easychat.redis.RedisComponent;
 import com.easychat.utils.CopyTools;
+import com.easychat.utils.DateUtil;
 import com.easychat.websocket.MessageHandler;
+import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +36,7 @@ import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.ChatMessageMapper;
 import com.easychat.service.ChatMessageService;
 import com.easychat.utils.StringTools;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -36,6 +44,8 @@ import com.easychat.utils.StringTools;
  */
 @Service("chatMessageService")
 public class ChatMessageServiceImpl implements ChatMessageService {
+
+	private static final Logger logger = LoggerFactory.getLogger(ChatMessageServiceImpl.class);
 
 	@Resource
 	private ChatMessageMapper<ChatMessage, ChatMessageQuery> chatMessageMapper;
@@ -48,6 +58,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
 	@Resource
 	private MessageHandler messageHandler;
+
+	@Resource
+	private Appconfig appconfig;
 
 	/**
 	 * 根据条件查询列表
@@ -221,4 +234,60 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		}
 		return messageSendDto;
 	}
+
+	@Override
+	public void saveMessageFile(String userId, Long messageId, MultipartFile file, MultipartFile cover){
+		ChatMessage chatMessage = chatMessageMapper.selectByMessageId(messageId);
+		if(chatMessage==null){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		if(!chatMessage.getSendUserId().equals(userId)){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		SysSettingDto sysSettingDto = redisComponent.getSysSetting();
+		String fileSuffix = StringTools.getFileSuffix(file.getOriginalFilename());
+		if(!StringTools.isEmpty(fileSuffix)
+				&&ArrayUtils.contains(Constants.IMAGE_SUFFIX_LIST,fileSuffix.toUpperCase())
+				&&file.getSize()>sysSettingDto.getMaxImageSize()*Constants.FILE_SIZE_MB){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		} else if (!StringTools.isEmpty(fileSuffix)
+				&&ArrayUtils.contains(Constants.VIDEO_SUFFIX_LIST,fileSuffix.toUpperCase())
+				&&file.getSize()>sysSettingDto.getMaxVideoSize()*Constants.FILE_SIZE_MB) {
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		} else if(!StringTools.isEmpty(fileSuffix)
+				&&!ArrayUtils.contains(Constants.IMAGE_SUFFIX_LIST,fileSuffix.toUpperCase())
+				&&!ArrayUtils.contains(Constants.VIDEO_SUFFIX_LIST,fileSuffix.toUpperCase())
+				&&file.getSize()>sysSettingDto.getMaxVideoSize()*Constants.FILE_SIZE_MB){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+
+		String fileName = file.getOriginalFilename();
+		String fileExName = StringTools.getFileSuffix(fileName);
+		String fileRealName = messageId+fileExName;
+		String month = DateUtil.format(new Date(chatMessage.getSendTime()),DateTimePatternEnum.YYYYMM.getPattern());
+		File folder = new File(appconfig.getProjectFolder()+Constants.FILE_FOLDER_FILE+month);
+		if(!folder.exists()){
+			folder.mkdirs();
+		}
+		File uploadFile = new File(folder.getPath(), fileRealName);
+        try {
+            file.transferTo(uploadFile);
+			cover.transferTo(new File(uploadFile.getPath()+Constants.COVER_IMAGE_SUFFIX));
+        } catch (IOException e) {
+            logger.error("上传文件失败",e);
+			throw new BusinessException("上传文件失败");
+        }
+		ChatMessage uploadInfo = new ChatMessage();
+		uploadInfo.setStatus(MessageStatusEnum.SENDED.getStatus());
+		ChatMessageQuery messageQuery = new ChatMessageQuery();
+		messageQuery.setMessageId(messageId);
+		chatMessageMapper.updateByParam(uploadInfo,messageQuery);
+
+		MessageSendDto messageSendDto = new MessageSendDto();
+		messageSendDto.setStatus(MessageStatusEnum.SENDED.getStatus());
+		messageSendDto.setMessageId(messageId);
+		messageSendDto.setMessageType(MessageTypeEnum.FILE_UPLOAD.getType());
+		messageSendDto.setContactId(chatMessage.getContactId());
+		messageHandler.sendMessage(messageSendDto);
+    }
 }
