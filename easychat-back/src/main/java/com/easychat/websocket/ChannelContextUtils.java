@@ -11,10 +11,10 @@ import com.easychat.entity.query.ChatSessionUserQuery;
 import com.easychat.entity.query.UserContactApplyQuery;
 import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.mappers.ChatMessageMapper;
+import com.easychat.mappers.ChatSessionUserMapper;
 import com.easychat.mappers.UserContactApplyMapper;
 import com.easychat.redis.RedisComponent;
 import com.easychat.mappers.UserInfoMapper;
-import com.easychat.service.ChatSessionUserService;
 import com.easychat.utils.JsonUtils;
 import com.easychat.utils.StringTools;
 import com.easychat.entity.constants.Constants;
@@ -50,7 +50,7 @@ public class ChannelContextUtils {
     private static final ConcurrentHashMap<String, ChannelGroup> GROUP_CONTEXT_MAP = new ConcurrentHashMap<>();
 
     @Resource
-    private ChatSessionUserService chatSessionUserService;
+    private ChatSessionUserMapper<ChatSessionUser,ChatSessionUserQuery> chatSessionUserMapper;
 
     @Resource
     private UserInfoMapper<UserInfo, UserInfoQuery>userInfoMapper;
@@ -104,7 +104,7 @@ public class ChannelContextUtils {
         ChatSessionUserQuery sessionUserQuery = new ChatSessionUserQuery();
         sessionUserQuery.setUserId(userId);
         sessionUserQuery.setOrderBy("last_receive_time desc");
-        List<ChatSessionUser> chatSessionUserList = chatSessionUserService.findListByParam(sessionUserQuery);
+        List<ChatSessionUser> chatSessionUserList = chatSessionUserMapper.selectList(sessionUserQuery);
 
         WsInitData wsInitData = new WsInitData();
         wsInitData.setChatSessionList(chatSessionUserList);
@@ -170,8 +170,8 @@ public class ChannelContextUtils {
     }
 
     public void sendMessage(MessageSendDto messageSendDto) {
-        UserContacTypeEnum userContacTypeEnum = UserContacTypeEnum.getByPrefix(messageSendDto.getContactId());
-        switch (userContacTypeEnum) {
+        UserContacTypeEnum userContactTypeEnum = UserContacTypeEnum.getByPrefix(messageSendDto.getContactId());
+        switch (userContactTypeEnum) {
             case USER:
                 send2User(messageSendDto);
                 break;

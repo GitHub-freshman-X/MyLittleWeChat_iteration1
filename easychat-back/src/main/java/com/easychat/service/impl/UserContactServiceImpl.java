@@ -1,6 +1,5 @@
 package com.easychat.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +18,6 @@ import com.easychat.mappers.*;
 import com.easychat.redis.RedisComponent;
 import com.easychat.service.UserContactApplyService;
 import com.easychat.utils.CopyTools;
-import com.easychat.websocket.ChannelContextUtils;
 import com.easychat.websocket.MessageHandler;
 import jodd.util.ArraysUtil;
 import org.springframework.stereotype.Service;

@@ -6,21 +6,17 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.easychat.entity.constants.Constants;
 import com.easychat.entity.dto.MessageSendDto;
 import com.easychat.entity.dto.SysSettingDto;
-import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.enums.*;
 import com.easychat.entity.po.*;
 import com.easychat.entity.query.*;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.*;
 import com.easychat.redis.RedisComponent;
-import com.easychat.service.UserContactService;
 import com.easychat.utils.CopyTools;
 import com.easychat.websocket.ChannelContextUtils;
 import com.easychat.websocket.MessageHandler;
-import jodd.util.ArraysUtil;
 import org.springframework.stereotype.Service;
 
 import com.easychat.entity.vo.PaginationResultVO;

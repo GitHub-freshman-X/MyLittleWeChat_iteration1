@@ -69,4 +69,6 @@ public interface ChatSessionUserService {
 	 */
 	Integer deleteChatSessionUserByUserIdAndContactId(String userId,String contactId);
 
+    void updateRedundanceInfo(String contactName,String contactId);
+
 }

@@ -93,4 +93,6 @@ public interface UserContactApplyService {
 	void dealWithApply(String userId,Integer applyId,Integer status);
 
 
+
+
 }

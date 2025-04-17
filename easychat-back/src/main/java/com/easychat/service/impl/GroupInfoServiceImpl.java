@@ -17,6 +17,7 @@ import com.easychat.entity.query.*;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.*;
 import com.easychat.redis.RedisComponent;
+import com.easychat.service.ChatSessionUserService;
 import com.easychat.utils.CopyTools;
 import com.easychat.websocket.ChannelContextUtils;
 import com.easychat.websocket.MessageHandler;
@@ -61,6 +62,9 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 
 	@Resource
 	ChannelContextUtils channelContextUtils;
+
+	@Resource
+	private ChatSessionUserService chatSessionUserService;
 
 	/**
 	 * 根据条件查询列表
@@ -209,6 +213,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 			chatSessionUser.setUserId(groupInfo.getGroupOwnerId());
 			chatSessionUser.setContactId(groupInfo.getGroupId());
 			chatSessionUser.setContactName(groupInfo.getGroupName());
+			chatSessionUser.setSessionId(sessionId);
 			this.chatSessionUserMapper.insert(chatSessionUser);
 
 			//创建消息
@@ -241,10 +246,20 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 			   throw new BusinessException(ResponseCodeEnum.CODE_600);
 		   }
 		   this.groupInfoMapper.updateByGroupId(groupInfo,groupInfo.getGroupId());
-		   //TODO 更新相关表冗余信息
 
-		   //TODO 修改群昵称发送ws消息
+		   //更新相关表冗余信息
+			String contactNameUpdate = null;
+			if (!dbInfo.getGroupName().equals(groupInfo.getGroupName())) {
+				contactNameUpdate = groupInfo.getGroupName();
+			}
+			if (contactNameUpdate == null) {
+				return;
+			}
+
+			chatSessionUserService.updateRedundanceInfo(contactNameUpdate, groupInfo.getGroupId());
+
 		}
+
 		if(null==avatarCover){ return;}
 		String baseFolder =appconfig.getProjectFolder()+ Constants.FILE_FOLDER_FILE;
 		File targetFileFolder = new File(baseFolder+Constants.FILE_FOLDER_AVATAR_NAME);

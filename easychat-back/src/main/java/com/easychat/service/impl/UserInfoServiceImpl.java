@@ -9,29 +9,25 @@ import javax.annotation.Resource;
 
 import com.easychat.entity.config.Appconfig;
 import com.easychat.entity.constants.Constants;
+import com.easychat.entity.dto.MessageSendDto;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.enums.*;
-import com.easychat.entity.po.UserContact;
-import com.easychat.entity.po.UserInfoBeauty;
-import com.easychat.entity.query.UserContactQuery;
-import com.easychat.entity.query.UserInfoBeautyQuery;
+import com.easychat.entity.po.*;
+import com.easychat.entity.query.*;
 import com.easychat.entity.vo.UserInfoVO;
 import com.easychat.exception.BusinessException;
-import com.easychat.mappers.UserContactMapper;
-import com.easychat.mappers.UserInfoBeautyMapper;
+import com.easychat.mappers.*;
 import com.easychat.redis.RedisComponent;
 import com.easychat.redis.RedisUtils;
+import com.easychat.service.ChatSessionUserService;
 import com.easychat.service.UserContactService;
 import com.easychat.utils.CopyTools;
+import com.easychat.websocket.MessageHandler;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.reflection.ArrayUtil;
 import org.springframework.stereotype.Service;
 
-import com.easychat.entity.query.UserInfoQuery;
-import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.vo.PaginationResultVO;
-import com.easychat.entity.query.SimplePage;
-import com.easychat.mappers.UserInfoMapper;
 import com.easychat.service.UserInfoService;
 import com.easychat.utils.StringTools;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,9 +55,17 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Resource
 	private UserContactMapper<UserContact, UserContactQuery> userContactMapper;
 
-
 	@Resource
 	private UserContactService userContactService;
+
+	@Resource
+	private ChatSessionUserService chatSessionUserService;
+
+	@Resource
+	private ChatSessionUserMapper<ChatSessionUser, ChatSessionUserQuery> chatSessionUserMapper;
+
+	@Resource
+	private MessageHandler messageHandler;
 
 	/**
 	 * 根据条件查询列表
@@ -289,10 +293,17 @@ public class UserInfoServiceImpl implements UserInfoService {
 		UserInfo dbInfo = this.userInfoMapper.selectByUserId(userInfo.getUserId());
 		this.userInfoMapper.updateByUserId(userInfo,userInfo.getUserId());
 		String contactNameUpdate=null;
-		   if(dbInfo.getNickName().equals(userInfo.getNickName())){
+		if(!dbInfo.getNickName().equals(userInfo.getNickName())){
 			   contactNameUpdate=userInfo.getNickName();
-		   }
-		   //TODO:更新会话信息中的昵称信息
+		}
+		if (contactNameUpdate == null) {
+			return;
+		}
+		//更新token中的昵称
+		TokenUserInfoDto tokenUserInfoDto = redisComponent.getTokenUserInfoDtoByUserId(userInfo.getUserId());
+		tokenUserInfoDto.setNickName(contactNameUpdate);
+		redisComponent.saveTokenUserInfoDto(tokenUserInfoDto);
+		chatSessionUserService.updateRedundanceInfo(contactNameUpdate, userInfo.getUserId());
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.easychat.service;
 
 import java.util.List;
 
+import com.easychat.entity.dto.MessageSendDto;
+import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.query.ChatMessageQuery;
 import com.easychat.entity.po.ChatMessage;
 import com.easychat.entity.vo.PaginationResultVO;
@@ -69,4 +71,5 @@ public interface ChatMessageService {
 	 */
 	Integer deleteChatMessageByMessageId(Long messageId);
 
+	MessageSendDto saveMessage(ChatMessage chatMessage, TokenUserInfoDto tokenUserInfoDto);
 }
