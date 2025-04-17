@@ -18,11 +18,39 @@
       </div>
     </template>
     <template #right-content>
+      <div class="title-panel drag" v-if="Object.keys(currentChatSession).length > 0">
+        <div class="title">
+          <span >{{ currentChatSession.contactName }}</span>
+           <span v-if="currentChatSession.topType == 1" >
+            ({{ currentChatSession.memberCount }})
+           </span>
+          </div>  
+      </div>
+      <div v-if="currentChatSession.contactType == 1"
+      class ="iconfont icon-more no-drag"
+      @click="showGroupDetail">
+      </div>
+      <div class ="chat-panel" v-show="Object.keys(currentChatSession).length>0">
+        <div class="message-panel" id="message-panel">
+          <div 
+           class="message-item"
+           v-for="(data,index) in messageList"
+           v-bind:key="'message'+data.messageId">
+           {{ data.messageContent }}
+         </div>
+        </div>
+        <MessageSend
+          :currentSession="currentChatSession"
+          >
+        </MessageSend>
+         
+      </div>
     </template>
   </Layout>
 </template>
 
 <script setup>
+import MessageSend from './MessageSend.vue';
 import ContextMenu from '@imengyu/vue3-context-menu'
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import ChatSession from "./ChatSession.vue";
@@ -107,6 +135,11 @@ const messageCountInfo = {
 const chatSessionClickHandler = (item) => {
   currentChatSession.value = Object.assign({}, item);
   messageList.value = []
+
+  messageCountInfo.pageNo = 0
+  messageCountInfo.tatalPage = 0
+  messageCountInfo.maxMessageId = null
+  messageCountInfo.noData = false
 
   loadChatMessage(1)
 }
