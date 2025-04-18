@@ -85,7 +85,7 @@ const topChatSession = (contactId, topType)=>{
   return update("chat_session_user", sessionInfo, paramData)
 }
 
-const updataSessionInfo4Message = async(currentSession,{sessionId,contactName,lastMessage,lastReceiveTime,contactId,memberCount})=>{
+const updateSessionInfo4Message = async(currentSessionId,{sessionId,contactName,lastMessage,lastReceiveTime,contactId,memberCount})=>{
   const params = {lastMessage, lastReceiveTime};
   let sql = "update chat_session_user set last_message=?, last_receive_time=?,status =1";
   if(contactName){
@@ -119,6 +119,6 @@ export{
   selectUserSessionList,
   delChatSession,
   topChatSession,
-  updataSessionInfo4Message,
+  updateSessionInfo4Message,
   readAll,
 }

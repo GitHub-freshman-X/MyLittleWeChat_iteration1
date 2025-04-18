@@ -48,7 +48,7 @@
       </el-popover>
     </div>
     <!--添加好友-->
-    <searchAdd ref="searchAddRef"></searchAdd>
+    <SearchAdd ref="searchAddRef"></SearchAdd>
 
   </div>
 </template>
@@ -57,18 +57,18 @@
 <script setup>
 
 import emojiList from '../../utils/Emoji'
-
+import SearchAdd from '../contact/SearchAdd.vue'
 import { ref, reactive, getCurrentInstance, nextTick, Teleport } from "vue"
 const { proxy } = getCurrentInstance()
 import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
 const router = useRouter()
 
-import { useUserInfoStore } from '@/stores/userInfoStore'
-const userInfoStore = useUserInfoStore()
+import { useUserInfoStore } from '@/stores/UserInfoStore';
+const userInfoStore = useUserInfoStore();
 
 const props = defineProps({
-  currentSession: {
+  currentChatSession: {
     type: Object,
     default: {}
   }
@@ -91,7 +91,7 @@ const sendMessage = (e) => {
   e.preventDefault();
 
   const messageContent = msgContent.value ? msgContent.value.replace(/\s*$/g, '') : ''
-  if (messageContent == " ") {
+  if (messageContent == "") {
     showSendMsgPopover.value = true
     return
   }
@@ -122,15 +122,16 @@ const sendMessageDo = async (
     })
     return
   }
-  messageObj.sessionId = props.currentSession.sessionId;
-  messageObj.sendUserId = userInfoStore.getInfo().sendUserId;
+  messageObj.sessionId = props.currentChatSession.sessionId;
+  messageObj.sendUserId = userInfoStore.getInfo().userId;
 
+  // debugger
   let result = await proxy.Request({
     url: proxy.Api.sendMessage,
     showLoading: false,
     params: {
       messageContent: messageObj.messageContent,
-      contactId: props.currentSession.contactId,
+      contactId: props.currentChatSession.contactId,
       messageType: messageObj.messageType,
       fileSize: messageObj.fileSize,
       fileName: messageObj.fileName,

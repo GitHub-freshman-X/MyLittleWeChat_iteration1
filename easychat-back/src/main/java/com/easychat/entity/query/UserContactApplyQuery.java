@@ -67,7 +67,6 @@ public class UserContactApplyQuery extends BaseParam {
 
 	private Long lastApplyTimestamp;
 
-
 	public Long getLastApplyTimestamp(){
 		return lastApplyTimestamp;
 	}

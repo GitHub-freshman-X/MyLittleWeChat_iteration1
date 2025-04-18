@@ -34,7 +34,7 @@
             {{ data.messageContent }}
           </div>
         </div>
-        <MessageSend :currentSession="currentChatSession">
+        <MessageSend :currentChatSession="currentChatSession">
         </MessageSend>
 
       </div>

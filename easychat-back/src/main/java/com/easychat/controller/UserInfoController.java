@@ -13,6 +13,7 @@ import com.easychat.entity.vo.UserInfoVO;
 import com.easychat.service.UserInfoService;
 import com.easychat.utils.CopyTools;
 import com.easychat.utils.StringTools;
+import com.easychat.websocket.ChannelContextUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,10 @@ public class UserInfoController extends ABaseController{
 
 	@Resource
 	private UserInfoService userInfoService;
+
+	@Resource
+	private ChannelContextUtils channelContextUtils;
+
 	/**
 	 * 根据条件分页查询
 	 */
@@ -172,7 +177,7 @@ public class UserInfoController extends ABaseController{
 		userInfo.setPassword(StringTools.encodeMd5(password));
 		// 通过用户ID更新用户信息
 		this.userInfoService.updateUserInfoByUserId(userInfo, tokenUserInfoDto.getUserId());
-		//TODO 强制退出，重新登录
+		channelContextUtils.closeConext(tokenUserInfoDto.getUserId());
 		return getSuccessResponseVO(null);
 	}
 
@@ -180,7 +185,7 @@ public class UserInfoController extends ABaseController{
 	@GlobalInterceptor
 	public ResponseVO logout(HttpServletRequest request) {
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
-		//TODO 退出登录 关闭WS连接
+		channelContextUtils.closeConext(tokenUserInfoDto.getUserId());
 		return getSuccessResponseVO(null);
 	}
 }

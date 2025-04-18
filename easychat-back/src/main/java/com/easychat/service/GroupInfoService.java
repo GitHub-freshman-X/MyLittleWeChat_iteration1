@@ -3,6 +3,8 @@ package com.easychat.service;
 import java.io.IOException;
 import java.util.List;
 
+import com.easychat.entity.dto.TokenUserInfoDto;
+import com.easychat.entity.enums.MessageTypeEnum;
 import com.easychat.entity.query.GroupInfoQuery;
 import com.easychat.entity.po.GroupInfo;
 import com.easychat.entity.vo.PaginationResultVO;
@@ -70,6 +72,12 @@ public interface GroupInfoService {
 	 * 根据GroupId删除
 	 */
 	Integer deleteGroupInfoByGroupId(String groupId);
+
     void saveGroup(GroupInfo groupInfo, MultipartFile avatarFile,MultipartFile avatarCover) throws IOException;
+
 	void dissolutionGroup(String groupOwnerId,String groupId);
+
+	void addOrRemoveGroupUser(TokenUserInfoDto tokenUserInfoDto,String groupId,String selectContacts,Integer opType);
+
+	void leaveGroup(String userId, String groupId, MessageTypeEnum messageTypeEnum);
 }

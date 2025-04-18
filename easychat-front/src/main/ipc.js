@@ -6,7 +6,7 @@ const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
 import {initWs}from './wsClient'
 import { addUserSetting } from './db/UserSettingModel'
-import { selectUserSessionList, delChatSession, topChatSession, updataSessionInfo4Message, readAll } from './db/ChatSessionUserModel'
+import { selectUserSessionList, delChatSession, topChatSession, updateSessionInfo4Message, readAll } from './db/ChatSessionUserModel'
 import { saveMessage, selectMessageList } from './db/ChatMessageModel'
 const onLoginOrRegister = (callback) => {
   ipcMain.on("loginOrRegister", (e, isLogin) => {
@@ -79,7 +79,7 @@ const onSetSessionSelect = ()=>{
       store.setUserData("currentSessionId", sessionId);
       readAll(contactId);
     }else{
-      store.setUserData("currentSessionId")
+      store.deletUserData("currentSessionId")
     }     
   })
 };
@@ -90,11 +90,11 @@ const onAddLocalMessage = ()=>{
     await saveMessage(data);
     //TODO 保存文件
     //更新session
-    data,lastReceiveTime = data.sendTime;
+    data.lastReceiveTime = data.sendTime;
     //更新会话
-    updataSessionInfo4Message(store.getUserData("currentSessionId"), data);
+    updateSessionInfo4Message(store.getUserData("currentSessionId"), data);
     e.sender.send("addLocalCallback", {status: 1, messageId: data.messageId });
-})
+  })
 };
 
 
