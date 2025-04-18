@@ -112,6 +112,19 @@ const readAll =(contactId)=>{
   return run(sql, [store.getUserId(), contactId]);
 }
 
+const saveOrUpdate4Message = async(currentSessionId, sessionInfo)=>{
+  return new Promise(async (resolve, reject)=>{
+    let sessionData = await selectUserSessionByContactId(sessionInfo.contactId);
+    if(sessionData){
+      updateSessionInfo4Message(currentSessionId, sessionInfo);
+    }else{
+      sessionInfo.noReadCount = 1;
+      await addChatSession(sessionInfo);
+    }
+    resolve()
+  })
+}
+
 
 export{
   saveOrUpdateChatSessionBatch4Init,
@@ -121,4 +134,6 @@ export{
   topChatSession,
   updateSessionInfo4Message,
   readAll,
+  saveOrUpdate4Message,
+  selectUserSessionByContactId
 }

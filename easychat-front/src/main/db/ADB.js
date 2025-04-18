@@ -75,6 +75,7 @@ const toCamelCase = (str)=>{
 
 
 const queryAll =(sql, params) =>{
+  console.log('queryAll: ', sql)
   return new Promise((resolve, reject) => {
     const stmt = db.prepare(sql);
     stmt.all(params, function(err, row){

@@ -67,6 +67,7 @@ const onTopChatSession = ()=>{
 
 const onLoadChatMessage = ()=>{
   ipcMain.on("loadChatMessage", async (e, data)=>{
+    // debugger
     const result = await selectMessageList(data);
     e.sender.send("loadChatMessageCallback", result)
   })
@@ -76,7 +77,7 @@ const onSetSessionSelect = ()=>{
   ipcMain.on("setSessionSelect",async (e, { contactId, sessionId })=>{
 
     if(sessionId){
-      store.setUserData("currentSessionId", sessionId);
+      store.setUserData("currentSessionId", sessionId)
       readAll(contactId);
     }else{
       store.deletUserData("currentSessionId")

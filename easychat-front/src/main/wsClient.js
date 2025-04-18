@@ -3,8 +3,8 @@ const NODE_ENV = process.env.NODE_ENV
 
 import store from "./store"
 
-import { saveOrUpdateChatSessionBatch4Init } from './db/ChatSessionUserModel';
-import { saveMessageBatch } from './db/ChatMessageModel';
+import { saveOrUpdateChatSessionBatch4Init, saveOrUpdate4Message, selectUserSessionByContactId } from './db/ChatSessionUserModel';
+import { saveMessageBatch, saveMessage } from './db/ChatMessageModel';
 import { updateContactNoReadCount } from './db/UserSettingModel';
 
 let ws = null;
@@ -50,6 +50,29 @@ const createWs = () => {
         await updateContactNoReadCount({userId: store.getUserId(), noReadCount: message.extendData.applyCount});
 
         sender.send("receiveMessage", {messageType: message.messageType})
+        break;
+      }
+      case 2:{
+        if(message.senUserId==store.getUserId() && message.contactType==1){
+          break;
+        }
+        const sessionInfo = {}
+        if(message.extendData && typeof message.extendData=='object'){
+          Object.assign(sessionInfo, message.extendData)
+        }else{
+          Object.assign(sessionInfo, message)
+          if(message.contactType==0 && messageType!=1){
+            sessionInfo.contactName=message.sendUserNickName
+          }
+          sessionInfo.lastReceiveTime = message.sendTime
+        }
+        await saveOrUpdate4Message(store.getUserData("currentSessionId"), sessionInfo)
+        // 写入本地消息
+        await saveMessage(message)
+
+        const dbSessionInfo = await selectUserSessionByContactId()
+        message.extendData = dbSessionInfo
+        sender.send("reveiveMessage", message)
         break;
       }
     }

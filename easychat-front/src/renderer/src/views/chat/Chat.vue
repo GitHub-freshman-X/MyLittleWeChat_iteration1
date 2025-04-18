@@ -30,8 +30,10 @@
       </div>
       <div class="chat-panel" v-show="Object.keys(currentChatSession).length > 0">
         <div class="message-panel" id="message-panel">
-          <div class="message-item" v-for="(data, index) in messageList" v-bind:key="'message' + data.messageId">
-            {{ data.messageContent }}
+          <div class="message-item" v-for="(data, index) in messageList" :key="data.messageId" :id="'message' + data.messageId">
+            <template v-if="data.messageType==1 || data.messageType==2 || data.messageType==5">
+              <ChatMessage :data="data" :currentChatSession="currentChatSession"></ChatMessage>
+            </template>
           </div>
         </div>
         <MessageSend :currentChatSession="currentChatSession">
@@ -43,6 +45,7 @@
 </template>
 
 <script setup>
+import ChatMessage from './ChatMessage.vue';
 import MessageSend from './MessageSend.vue';
 import ContextMenu from '@imengyu/vue3-context-menu'
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
@@ -102,6 +105,7 @@ const onLoadChatMessage = () => {
       return a.messageId - b.messageId
     })
     messageList.value = dataList.concat(messageList.value)
+    console.log(messageList.value)
     messageCountInfo.pageNo = pageNo
     messageCountInfo.pageTotal = pageTotal
     if (pageNo == 1) {
