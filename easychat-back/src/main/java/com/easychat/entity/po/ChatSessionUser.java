@@ -33,7 +33,7 @@ public class ChatSessionUser implements Serializable {
 
 	private String lastMessage;
 
-	private String lastReceiveTime;
+	private long lastReceiveTime;
 
 	private Integer memberCount;
 
@@ -57,11 +57,11 @@ public class ChatSessionUser implements Serializable {
 
 	public String getLastMessage(){return this.lastMessage;}
 
-	public String getLastReceiveTime(){return this.lastReceiveTime;}
+	public long getLastReceiveTime(){return this.lastReceiveTime;}
 
 	public void setLastMessage(String lastMessage){this.lastMessage = lastMessage;}
 
-	public void setLastReceiveTime(String lastReceiveTime){this.lastReceiveTime = lastReceiveTime;}
+	public void setLastReceiveTime(long lastReceiveTime){this.lastReceiveTime = lastReceiveTime;}
 
 	public void setUserId(String userId){
 		this.userId = userId;

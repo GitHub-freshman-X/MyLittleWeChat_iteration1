@@ -57,6 +57,7 @@ public class AccountController  extends ABaseController{
 
         return  getSuccessResponseVO(result);
     }
+
     @RequestMapping("/register")
     public ResponseVO register(@NotEmpty String checkCodeKey,
                                @NotEmpty @Email String email,
