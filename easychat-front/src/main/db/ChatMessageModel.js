@@ -82,5 +82,6 @@ const selectMessageList = (query)=>{
 
 export {
   saveMessageBatch,
-  selectMessageList
+  selectMessageList,
+  saveMessage,
 }

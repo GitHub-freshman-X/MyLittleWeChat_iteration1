@@ -20,30 +20,23 @@
     <template #right-content>
       <div class="title-panel drag" v-if="Object.keys(currentChatSession).length > 0">
         <div class="title">
-          <span >{{ currentChatSession.contactName }}</span>
-           <span v-if="currentChatSession.topType == 1" >
+          <span>{{ currentChatSession.contactName }}</span>
+          <span v-if="currentChatSession.topType == 1">
             ({{ currentChatSession.memberCount }})
-           </span>
-          </div>  
-      </div>
-      <div v-if="currentChatSession.contactType == 1"
-      class ="iconfont icon-more no-drag"
-      @click="showGroupDetail">
-      </div>
-      <div class ="chat-panel" v-show="Object.keys(currentChatSession).length>0">
-        <div class="message-panel" id="message-panel">
-          <div 
-           class="message-item"
-           v-for="(data,index) in messageList"
-           v-bind:key="'message'+data.messageId">
-           {{ data.messageContent }}
-         </div>
+          </span>
         </div>
-        <MessageSend
-          :currentSession="currentChatSession"
-          >
+      </div>
+      <div v-if="currentChatSession.contactType == 1" class="iconfont icon-more no-drag" @click="showGroupDetail">
+      </div>
+      <div class="chat-panel" v-show="Object.keys(currentChatSession).length > 0">
+        <div class="message-panel" id="message-panel">
+          <div class="message-item" v-for="(data, index) in messageList" v-bind:key="'message' + data.messageId">
+            {{ data.messageContent }}
+          </div>
+        </div>
+        <MessageSend :currentSession="currentChatSession">
         </MessageSend>
-         
+
       </div>
     </template>
   </Layout>
@@ -101,7 +94,7 @@ const onLoadSessionData = () => {
 }
 
 const onLoadChatMessage = () => {
-  window.ipcRenderer.on("loadChatMessageCallback", (e, {dataList, pageTotal, pageNo}) => {
+  window.ipcRenderer.on("loadChatMessageCallback", (e, { dataList, pageTotal, pageNo }) => {
     if (pageNo == pageTotal) {
       messageCountInfo.noData = true
     }
@@ -137,12 +130,19 @@ const chatSessionClickHandler = (item) => {
   messageList.value = []
 
   messageCountInfo.pageNo = 0
-  messageCountInfo.tatalPage = 0
+  messageCountInfo.tatalPage = 1
   messageCountInfo.maxMessageId = null
   messageCountInfo.noData = false
 
-  loadChatMessage(1)
+  loadChatMessage()
+  // 设置选中的会话session
+  setSessionSelect({ contactId: item.contactId, sessionId: item.sessionId })
 }
+const setSessionSelect = ({ contactId, sessionId }) => {
+  window.ipcRenderer.send("setSessionSelect", {
+    contactId, sessionId
+  });
+};
 
 const loadChatMessage = () => {
   if (messageCountInfo.noData) {
