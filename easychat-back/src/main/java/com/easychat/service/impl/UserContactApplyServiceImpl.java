@@ -337,7 +337,7 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 			GroupInfo groupInfo = this.groupInfoMapper.selectByGroupId(contactId);
 			chatSessionUser.setContactId(groupInfo.getGroupName());//groupInfo.getGroupId()
 			chatSessionUser.setSessionId(sessionId);
-			this.chatSessionUserMapper.insert(chatSessionUser);
+			this.chatSessionUserMapper.insertOrUpdate(chatSessionUser);
 
 			UserInfo appyUserInfo = this.userInfoMapper.selectByUserId(applyUserId);
 			String sendMessage = String.format(MessageTypeEnum.ADD_GROUP.getInitMessage(),appyUserInfo.getNickName());

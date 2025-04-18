@@ -33,4 +33,10 @@ public class Constants {
     public static final String REDIS_KEY_USER_CONTACT = "easychat:ws:user:contact:";
 
     public static final Long MILLISECOND_3DAYS_AGO=3*24*60*1000L;
+
+    public static final String[] IMAGE_SUFFIX_LIST = {".jpeg", ".jpg", ".png", ".gif", ".bmp", ".webp"};
+    public static final String[] VIDEO_SUFFIX_LIST = {".mp4", ".avi", ".rmvb", ".mkv", ".mov"};
+    public static final long FILE_SIZE_MB = 1024 * 1024L;
+    public static final int ZERO = 0;
+    public static final int ONE = 1;
 }

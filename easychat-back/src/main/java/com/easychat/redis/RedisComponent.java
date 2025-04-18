@@ -80,6 +80,7 @@ public class RedisComponent {
     public void addUserContactBatch(String userId, List<String> contactIdList) {
         redisUtils.lpushAll(Constants.REDIS_KEY_USER_CONTACT + userId, contactIdList, Constants.REDIS_KEY_TOKEN_EXPIRES);
     }
+
     // 添加联系人
     public void addUserContact(String userId, String contactId) {
         List<String>contactIdList =getUserContactList(userId);
@@ -88,9 +89,15 @@ public class RedisComponent {
         }
         redisUtils.lpush(Constants.REDIS_KEY_USER_CONTACT + userId, contactId, Constants.REDIS_KEY_TOKEN_EXPIRES);
     }
+
     // 批量添加联系人
     public List<String> getUserContactList(String userId) {
         return (List<String>) redisUtils.getQueueList(Constants.REDIS_KEY_USER_CONTACT + userId);
+    }
+
+    //删除联系人
+    public void removeUserContact(String userId, String contactId) {
+        redisUtils.remove(Constants.REDIS_KEY_USER_CONTACT + userId, contactId);
     }
 
 }
