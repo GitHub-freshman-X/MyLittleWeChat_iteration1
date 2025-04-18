@@ -1,5 +1,6 @@
 package com.easychat.service;
 
+import java.io.File;
 import java.util.List;
 
 import com.easychat.entity.dto.MessageSendDto;
@@ -75,4 +76,6 @@ public interface ChatMessageService {
 	MessageSendDto saveMessage(ChatMessage chatMessage, TokenUserInfoDto tokenUserInfoDto);
 
 	void saveMessageFile(String userId, Long messageId, MultipartFile file, MultipartFile cover);
+
+	File downloadFile(TokenUserInfoDto userInfoDto, Long fileId,Boolean showCover);
 }

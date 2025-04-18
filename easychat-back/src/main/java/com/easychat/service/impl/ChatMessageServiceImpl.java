@@ -15,24 +15,24 @@ import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.enums.*;
 import com.easychat.entity.po.ChatSession;
 import com.easychat.entity.po.ChatSessionUser;
-import com.easychat.entity.query.ChatSessionQuery;
-import com.easychat.entity.query.ChatSessionUserQuery;
+import com.easychat.entity.po.UserContact;
+import com.easychat.entity.query.*;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.ChatSessionMapper;
 import com.easychat.mappers.ChatSessionUserMapper;
+import com.easychat.mappers.UserContactMapper;
 import com.easychat.redis.RedisComponent;
 import com.easychat.utils.CopyTools;
 import com.easychat.utils.DateUtil;
 import com.easychat.websocket.MessageHandler;
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
+import com.easychat.websocket.netty.HandlerHeartBeat;
 import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.easychat.entity.query.ChatMessageQuery;
 import com.easychat.entity.po.ChatMessage;
 import com.easychat.entity.vo.PaginationResultVO;
-import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.ChatMessageMapper;
 import com.easychat.service.ChatMessageService;
 import com.easychat.utils.StringTools;
@@ -45,7 +45,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service("chatMessageService")
 public class ChatMessageServiceImpl implements ChatMessageService {
 
-	private static final Logger logger = LoggerFactory.getLogger(ChatMessageServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(HandlerHeartBeat.class);
 
 	@Resource
 	private ChatMessageMapper<ChatMessage, ChatMessageQuery> chatMessageMapper;
@@ -61,6 +61,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
 	@Resource
 	private Appconfig appconfig;
+
+	@Resource
+	private UserContactMapper<UserContact,UserContactQuery> userContactMapper;
 
 	/**
 	 * 根据条件查询列表
@@ -269,7 +272,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		if(!folder.exists()){
 			folder.mkdirs();
 		}
-		File uploadFile = new File(folder.getPath(), fileRealName);
+		File uploadFile = new File(folder.getPath()+"/"+fileRealName);
         try {
             file.transferTo(uploadFile);
 			cover.transferTo(new File(uploadFile.getPath()+Constants.COVER_IMAGE_SUFFIX));
@@ -290,4 +293,44 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		messageSendDto.setContactId(chatMessage.getContactId());
 		messageHandler.sendMessage(messageSendDto);
     }
+
+	@Override
+	public File downloadFile(TokenUserInfoDto userInfoDto, Long messageId,Boolean showCover){
+		ChatMessage message = chatMessageMapper.selectByMessageId(messageId);
+		String contactId = message.getContactId();
+		UserContactTypeEnum contactTypeEnum = UserContactTypeEnum.getByPrefix(contactId);
+		if(UserContactTypeEnum.USER == contactTypeEnum&&!userInfoDto.getUserId().equals(message.getContactId())){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		if(UserContactTypeEnum.GROUP == contactTypeEnum){
+			UserContactQuery userContactQuery = new UserContactQuery();
+			userContactQuery.setUserId(userInfoDto.getUserId());
+			userContactQuery.setContactType(UserContactTypeEnum.GROUP.getType());
+			userContactQuery.setContactId(contactId);
+			userContactQuery.setStatus(UserContactStatusEnum.FRIEND.getStatus());
+			Integer contactCount = userContactMapper.selectCount(userContactQuery);
+			if(contactCount==0){
+				throw new BusinessException(ResponseCodeEnum.CODE_600);
+			}
+		}
+
+		String month = DateUtil.format(new Date(message.getSendTime()),DateTimePatternEnum.YYYYMM.getPattern());
+		File folder = new File(appconfig.getProjectFolder()+Constants.FILE_FOLDER_FILE+month);
+		if(!folder.exists()){
+			folder.mkdirs();
+		}
+		String fileName = message.getFileName();
+		String fileExName = StringTools.getFileSuffix(fileName);
+		String fileRealName = messageId+fileExName;
+		if(showCover!=null&&showCover){
+			fileRealName = fileRealName+Constants.COVER_IMAGE_SUFFIX;
+		}
+		File file = new File(folder.getPath() + "/" + fileRealName);
+		if(!file.exists()) {
+			logger.info("文件不存在",messageId);
+			throw new BusinessException(ResponseCodeEnum.CODE_602);
+		}
+
+		return null;
+	}
 }
