@@ -22,7 +22,7 @@
       <div class="title-panel drag" v-if="Object.keys(currentChatSession).length > 0">
         <div class="title">
           <span>{{ currentChatSession.contactName }}</span>
-          <span v-if="currentChatSession.topType == 1">
+          <span v-if="currentChatSession.contactType == 1">
             ({{ currentChatSession.memberCount }})
           </span>
         </div>
@@ -71,7 +71,7 @@ const sortChatSessionList = (dataList) => {
   dataList.sort((a, b) => {
     const topTypeResult = b["topType"] - a["topType"]
     if (topTypeResult == 0) {
-      return b["lastMessageTime"] - a["lastMessageTime"]
+      return b["lastReceiveTime"] - a["lastReceiveTime"]
     }
     return topTypeResult
   })
@@ -85,9 +85,9 @@ const delChatSessionList = (contactId) => {
 
 const onReceiveMessage = () => {
   window.ipcRenderer.on("receiveMessage", (e, message) => {
-    console.log("收到消息", message)
-
-    let curSession = chatSessionList.value.find(item=>{
+    console.log('收到消息', message)
+    
+    let curSession = chatSessionList.value.find((item)=>{
       return item.sessionId == message.sessionId
     })
     if(curSession==null){

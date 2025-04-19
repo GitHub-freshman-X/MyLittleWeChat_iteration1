@@ -1,13 +1,13 @@
 <template>
   <div class="send-panel">
     <div class="toolbar">
-      <el-popover :visible="showEmojiPopover" trigger="click" placement="top" :Teleport="false" @show="openPopover"
+      <el-popover :visible="showEmojiPopover" placement="top" :teleported="false" @show="openPopover"
         @hide="closePopover" :popper-style="{
-          padding: '0px 10px 10px 10px ',
-          width: '490px',
+          padding: '0px 10px 10px 10px',
+          width: '490px'
         }">
         <template #default>
-          <el-tabs v-model="activeEmoji" @click.stop>
+          <el-tabs v-model="activeEmoji">
             <el-tab-pane :label="emoji.name" :name="emoji.name" v-for="emoji in emojiList" :key="emoji.name">
               <div class="emoji-list">
                 <div class="emoji-item" v-for="item in emoji.emojiList" :key="item" @click="sendEmoji(item)">
@@ -17,25 +17,25 @@
             </el-tab-pane>
           </el-tabs>
         </template>
+
         <template #reference>
           <div class="iconfont icon-emoji" @click="showEmojiPopoverHandler"></div>
         </template>
       </el-popover>
+
       <el-upload ref="uploadRef" name="file" :show-file-list="false" :multiple="true" :limit="fileLimit"
         :http-request="uploadFile" :on-exceed="uploadExceed">
-        <div class="iconfont icon-folder">
-
-        </div>
+        <div class="iconfont icon-folder"></div>
       </el-upload>
     </div>
     <div class="input-area" @drop="dropHandler" @dragover="dragOverHandler">
       <el-input rows="5" type="textarea" v-model="msgContent" maxlength="500" resize="none" show-word-limit
-        spellcheck="false" input-style="background: #f5f5f5;border:none" @keydown.enter="sendMessage"
+        spellcheck="false" input-style="background: #f5f5f5;border:none;" @keydown.enter="sendMessage"
         @paste="pasteFile" />
     </div>
     <div class="send-btn-panel">
       <el-popover trigger="click" :visible="showSendMsgPopover" :hide-after="1500" placement="top-end"
-        :Teleported="false" @show="openPopover" @hide="closePopover" :popper-style="{
+        :teleported="false" @show="openPopover" @hide="closePopover" :popper-style="{
           padding: '5px',
           'min-width': '0px',
           width: '120px',
@@ -55,7 +55,6 @@
 
 
 <script setup>
-
 import emojiList from '../../utils/Emoji'
 import SearchAdd from '../contact/SearchAdd.vue'
 import { ref, reactive, getCurrentInstance, nextTick, Teleport } from "vue"
@@ -74,15 +73,21 @@ const props = defineProps({
   }
 })
 
-const activeEmoji = ref('笑脸')
-
 const msgContent = ref()
 //隐藏展示pop
 const showEmojiPopover = ref(false)
+
+const activeEmoji = ref('笑脸');
+const showEmojiPopoverHandler = () => {
+  showEmojiPopover.value = !showEmojiPopover.value;
+};
 const showSendMsgPopover = ref(false);
 const hidePopover = () => {
   showEmojiPopover.value = false
   showSendMsgPopover.value = false
+}
+const sendEmoji = (item) =>{
+
 }
 const sendMessage = (e) => {
   if (e.shifkKey && e.keyCode == 13) {
@@ -214,7 +219,7 @@ const addContact = (contactId, code) => {
   }
 
   .input-area {
-    padding: 0px, 10px;
+    padding: 0px 10px;
     outline: none;
     width: 100%;
     height: 115px;
@@ -242,7 +247,7 @@ const addContact = (contactId, code) => {
       color: #07c160;
       background: #e9e9e9;
       border-radius: 5px;
-      padding: 8px, 25px;
+      padding: 8px 25px;
 
       &:hover {
         background: #d2d2d2;

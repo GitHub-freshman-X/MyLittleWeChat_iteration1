@@ -37,9 +37,7 @@
       </div>
       <template v-else>
         <div class="content" v-html="data.messageContent" v-if="data.messageType != 5"></div>
-        <div class="content" v-else>
-          媒体消息
-        </div>
+        <div class="content" v-else>媒体消息</div>
       </template>
     </div>
   </div>

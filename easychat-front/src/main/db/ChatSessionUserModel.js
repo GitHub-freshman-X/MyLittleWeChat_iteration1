@@ -86,7 +86,7 @@ const topChatSession = (contactId, topType)=>{
 }
 
 const updateSessionInfo4Message = async(currentSessionId,{sessionId,contactName,lastMessage,lastReceiveTime,contactId,memberCount})=>{
-  const params = {lastMessage, lastReceiveTime};
+  const params = [lastMessage, lastReceiveTime];
   let sql = "update chat_session_user set last_message=?, last_receive_time=?,status =1";
   if(contactName){
     sql = sql + ", contact_name=?"

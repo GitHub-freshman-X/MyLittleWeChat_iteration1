@@ -79,7 +79,7 @@ const onSetSessionSelect = ()=>{
       store.setUserData("currentSessionId", sessionId)
       readAll(contactId);
     }else{
-      store.deletUserData("currentSessionId")
+      store.deleteUserData("currentSessionId")
     }     
   })
 };
@@ -92,7 +92,7 @@ const onAddLocalMessage = ()=>{
     //更新session
     data.lastReceiveTime = data.sendTime;
     //更新会话
-    updateSessionInfo4Message(store.getUserData("currentSessionId"), data);
+    updateSessionInfo4Message(store.getData("currentSessionId"), data);
     e.sender.send("addLocalCallback", {status: 1, messageId: data.messageId });
   })
 };
