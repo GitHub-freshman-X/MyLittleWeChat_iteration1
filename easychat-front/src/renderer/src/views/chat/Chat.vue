@@ -12,7 +12,8 @@
       <div class="chat-session-list">
         <template v-for="item in chatSessionList" :key="item.contactName">
           <ChatSession :data="item" @click="chatSessionClickHandler(item)"
-            @contextmenu.stop="onContextMenu(item, $event)">
+            @contextmenu.stop="onContextMenu(item, $event)"
+            :currentSession="item.contactId == currentChatSession.contactId">
           </ChatSession>
         </template>
       </div>
@@ -30,15 +31,15 @@
       </div>
       <div class="chat-panel" v-show="Object.keys(currentChatSession).length > 0">
         <div class="message-panel" id="message-panel">
-          <div class="message-item" v-for="(data, index) in messageList" :key="data.messageId" :id="'message' + data.messageId">
-            <template v-if="data.messageType==1 || data.messageType==2 || data.messageType==5">
+          <div class="message-item" v-for="(data, index) in messageList" :key="data.messageId"
+            :id="'message' + data.messageId">
+            <template v-if="data.messageType == 1 || data.messageType == 2 || data.messageType == 5">
               <ChatMessage :data="data" :currentChatSession="currentChatSession"></ChatMessage>
             </template>
           </div>
         </div>
-        <MessageSend :currentChatSession="currentChatSession">
+        <MessageSend :currentChatSession="currentChatSession" @sendMessage4Local="sendMessage4LocalHandler">
         </MessageSend>
-
       </div>
     </template>
   </Layout>
@@ -66,7 +67,7 @@ const loadChatSession = () => {
 }
 
 // 会话排序
-const sortChatrSessionList = (dataList) => {
+const sortChatSessionList = (dataList) => {
   dataList.sort((a, b) => {
     const topTypeResult = b["topType"] - a["topType"]
     if (topTypeResult == 0) {
@@ -82,16 +83,33 @@ const delChatSessionList = (contactId) => {
   })
 }
 
-const onReveiveMessage = () => {
+const onReceiveMessage = () => {
   window.ipcRenderer.on("receiveMessage", (e, message) => {
     console.log("收到消息", message)
+
+    let curSession = chatSessionList.value.find(item=>{
+      return item.sessionId == message.sessionId
+    })
+    if(curSession==null){
+      chatSessionList.value.push(message.extendData)
+    }else{
+      Object.assign(curSession, message.extendData)
+    }
+    sortChatSessionList(chatSessionList.value)
+    if(message.sessionId != currentChatSession.value.sessionId){
+      // 展示未读消息
+    }else{
+      Object.assign(currentChatSession.value, message.extendData)
+      messageList.value.push(message)
+      gotoBottom()
+    }
 
   })
 }
 
 const onLoadSessionData = () => {
   window.ipcRenderer.on("loadSessionDataCallback", (e, dataList) => {
-    sortChatrSessionList(dataList)
+    sortChatSessionList(dataList)
     chatSessionList.value = dataList;
   })
 }
@@ -105,13 +123,12 @@ const onLoadChatMessage = () => {
       return a.messageId - b.messageId
     })
     messageList.value = dataList.concat(messageList.value)
-    console.log(messageList.value)
     messageCountInfo.pageNo = pageNo
     messageCountInfo.pageTotal = pageTotal
     if (pageNo == 1) {
       messageCountInfo.maxMessageId = dataList.length > 0 ? dataList[dataList.length - 1].messageId : null
 
-      // 滚动条滚动到最底部
+      gotoBottom();
     }
     console.log(messageList.value)
 
@@ -160,8 +177,34 @@ const loadChatMessage = () => {
   })
 }
 
+const sendMessage4LocalHandler = (messageObj) => {
+  messageList.value.push(messageObj)
+  const chatSession = chatSessionList.value.find((item) => {
+    return item.sessionId == messageObj.sessionId
+  })
+  if (chatSession) {
+    chatSession.lastMessage = messageObj.lastMessage
+    chatSession.lastReceiveTime = messageObj.sendTime
+  }
+  sortChatSessionList(chatSessionList.value)
+  gotoBottom()
+}
+
+
+//滚动到底部
+const gotoBottom = () => {
+  nextTick(() => {
+    const items = document.querySelectorAll(".message-item")
+    if (items.length > 0) {
+      setTimeout(() => {
+        items[items.length - 1].scrollIntoView()
+      }, 100)
+    }
+  })
+}
+
 onMounted(() => {
-  onReveiveMessage()
+  onReceiveMessage()
   onLoadSessionData()
   loadChatSession()
   onLoadChatMessage()
@@ -176,7 +219,7 @@ onUnmounted(() => {
 const setTop = (data) => {
   data.topType = data.topType == 0 ? 1 : 0
   // 会话排序
-  sortChatrSessionList(chatSessionList.value)
+  sortChatSessionList(chatSessionList.value)
   window.ipcRenderer.send("topChatSession", { contactId: data.contactId, topType: data.topType })
 }
 const delChatSession = (contactId) => {

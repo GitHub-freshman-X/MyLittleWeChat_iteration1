@@ -101,7 +101,7 @@ const sendMessage = (e) => {
     true
   )
 }
-
+const emit = defineEmits(['sendMessage4Local'])
 //发送消息
 const sendMessageDo = async (
   messageObj = {
@@ -156,7 +156,8 @@ const sendMessageDo = async (
     msgContent.value = ''
   }
   Object.assign(messageObj, result.data);
-  //TODO 更新列表
+
+  emit("sendMessage4Local", messageObj);
   //保存消息到本地
   window.ipcRenderer.send("addLocalMessage", messageObj)
 }

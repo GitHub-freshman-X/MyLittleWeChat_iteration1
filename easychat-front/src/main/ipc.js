@@ -50,7 +50,6 @@ const onLoadSessionData = ()=>{
     const result = await selectUserSessionList()
     e.sender.send("loadSessionDataCallback", result)
   })
-
 }
 
 const onDelChatSession = ()=>{

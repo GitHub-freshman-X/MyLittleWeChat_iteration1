@@ -146,7 +146,7 @@ const props = defineProps({
 
 .message-content-other {
   display: flex;
-  paddint-right: 32%;
+  padding-right: 32%;
 
   .user-avatar {
     margin-right: 10px;

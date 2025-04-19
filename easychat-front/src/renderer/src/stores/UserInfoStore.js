@@ -12,6 +12,13 @@ export const useUserInfoStore = defineStore('userInfo', {
         },
         getInfo(){
             return this.userInfo;
-        }
+        },
+        loadInfo() {
+            const localUser = localStorage.getItem("userInfo");
+            if (localUser) {
+              this.userInfo = JSON.parse(localUser);
+            }
+          }
+          
     }
 })

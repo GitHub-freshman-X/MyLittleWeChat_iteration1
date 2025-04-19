@@ -70,7 +70,7 @@ const createWs = () => {
         // 写入本地消息
         await saveMessage(message)
 
-        const dbSessionInfo = await selectUserSessionByContactId()
+        const dbSessionInfo = await selectUserSessionByContactId(message.contactId)
         message.extendData = dbSessionInfo
         sender.send("reveiveMessage", message)
         break;
