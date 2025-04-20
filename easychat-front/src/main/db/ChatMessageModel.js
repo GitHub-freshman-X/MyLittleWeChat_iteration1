@@ -54,38 +54,62 @@ const getPageOffset = (pageNo=1, totalCount)=>{
   }
 }
 
-const selectMessageList = async(query)=>{
+// const selectMessageList = async(query)=>{
+//   return new Promise(async (resolve, reject) => {
+//     // debugger
+//     const { sessionId, pageNo, maxMessageId } = query
+//     let sql = "select count(1) from chat_message where session_id = ? "
+//     const totalCount = await queryCount(sql, sessionId)
+
+//     // console.log('selectMessageList count: ', totalCount)
+
+//     const {pageTotal, offset, limit} = getPageOffset(pageNo, totalCount)
+
+//     const params = [sessionId]
+//     sql = "select * from chat_message where session_id = ? "
+//     if(maxMessageId){
+//       sql = sql + " and message_id <= ?"
+//       params.push(maxMessageId)
+//     }
+//     params.push(offset)
+//     params.push(limit)
+//     sql = sql + " order by message_id limit ?, ?"
+//     const dataList = await queryAll(sql, params)
+
+//     console.log('selectMessageList: ', sql, params)
+
+//     resolve({
+//       dataList,
+//       pageTotal,
+//       pageNo
+//     })
+
+//   })
+// }
+
+const selectMessageList = async (query) => {
   return new Promise(async (resolve, reject) => {
-    // debugger
-    const { sessionId, pageNo, maxMessageId } = query
-    let sql = "select count(1) from chat_message where session_id = ? "
-    const totalCount = await queryCount(sql, sessionId)
+    const { sessionId, pageNo, maxMessageId } = query;
 
-    // console.log('selectMessageList count: ', totalCount)
+    let params = [sessionId];
+    let sql = "select * from chat_message where session_id = ?";
 
-    const {pageTotal, offset, limit} = getPageOffset(pageNo, totalCount)
-
-    const params = [sessionId]
-    sql = "select * from chat_message where session_id = ? "
-    if(maxMessageId){
-      sql = sql + " and message_id <= ?"
-      params.push(maxMessageId)
+    if (maxMessageId) {
+      sql += " and message_id < ?";
+      params.push(maxMessageId);
     }
-    params.push(offset)
-    params.push(limit)
-    sql = sql + " order by message_id limit ?, ?"
-    const dataList = await queryAll(sql, params)
 
-    console.log('selectMessageList: ', sql, params)
+    sql += " order by message_id DESC limit 20";
+    
+    const dataList = await queryAll(sql, params);
 
     resolve({
       dataList,
-      pageTotal,
       pageNo
-    })
-
-  })
+    });
+  });
 }
+
 
 export {
   saveMessageBatch,

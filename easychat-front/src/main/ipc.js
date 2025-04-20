@@ -8,6 +8,7 @@ import {initWs}from './wsClient'
 import { addUserSetting } from './db/UserSettingModel'
 import { selectUserSessionList, delChatSession, topChatSession, updateSessionInfo4Message, readAll } from './db/ChatSessionUserModel'
 import { saveMessage, selectMessageList } from './db/ChatMessageModel'
+
 const onLoginOrRegister = (callback) => {
   ipcMain.on("loginOrRegister", (e, isLogin) => {
     callback(isLogin)

@@ -30,7 +30,7 @@
       <div v-if="currentChatSession.contactType == 1" class="iconfont icon-more no-drag" @click="showGroupDetail">
       </div>
       <div class="chat-panel" v-show="Object.keys(currentChatSession).length > 0">
-        <div class="message-panel" id="message-panel">
+        <div class="message-panel" id="message-panel" @scroll="handleMessageScroll">
           <div class="message-item" v-for="(data, index) in messageList" :key="data.messageId"
             :id="'message' + data.messageId">
             <template v-if="data.messageType == 1 || data.messageType == 2 || data.messageType == 5">
@@ -86,19 +86,19 @@ const delChatSessionList = (contactId) => {
 const onReceiveMessage = () => {
   window.ipcRenderer.on("receiveMessage", (e, message) => {
     console.log('收到消息', message)
-    
-    let curSession = chatSessionList.value.find((item)=>{
+
+    let curSession = chatSessionList.value.find((item) => {
       return item.sessionId == message.sessionId
     })
-    if(curSession==null){
+    if (curSession == null) {
       chatSessionList.value.push(message.extendData)
-    }else{
+    } else {
       Object.assign(curSession, message.extendData)
     }
     sortChatSessionList(chatSessionList.value)
-    if(message.sessionId != currentChatSession.value.sessionId){
+    if (message.sessionId != currentChatSession.value.sessionId) {
       // 展示未读消息
-    }else{
+    } else {
       Object.assign(currentChatSession.value, message.extendData)
       messageList.value.push(message)
       gotoBottom()
@@ -115,22 +115,33 @@ const onLoadSessionData = () => {
 }
 
 const onLoadChatMessage = () => {
-  window.ipcRenderer.on("loadChatMessageCallback", (e, { dataList, pageTotal, pageNo }) => {
-    if (pageNo == pageTotal) {
-      messageCountInfo.noData = true
-    }
-    dataList.sort((a, b) => {
-      return a.messageId - b.messageId
-    })
-    messageList.value = dataList.concat(messageList.value)
-    messageCountInfo.pageNo = pageNo
-    messageCountInfo.pageTotal = pageTotal
-    if (pageNo == 1) {
-      messageCountInfo.maxMessageId = dataList.length > 0 ? dataList[dataList.length - 1].messageId : null
+  window.ipcRenderer.on("loadChatMessageCallback", (e, result) => {
+    // if (pageNo == pageTotal) {
+    //   messageCountInfo.noData = true
+    // }
+    // dataList.sort((a, b) => {
+    //   return a.messageId - b.messageId
+    // })
+    // messageList.value = dataList.concat(messageList.value)
+    // messageCountInfo.pageNo = pageNo
+    // messageCountInfo.pageTotal = pageTotal
+    // if (pageNo == 1) {
+    //   messageCountInfo.maxMessageId = dataList.length > 0 ? dataList[dataList.length - 1].messageId : null
+    //   gotoBottom();
+    // }
+    // console.log(messageList.value)
 
-      gotoBottom();
+    if (result.dataList.length === 0) {
+      messageCountInfo.noData = true;
+      return;
     }
-    console.log(messageList.value)
+
+    // 新消息拼接到前面
+    messageList.value = [...result.dataList.reverse(), ...messageList.value];
+
+    // 更新 maxMessageId 为最小的那条
+    const minMsgId = result.dataList[result.dataList.length - 1].messageId;
+    messageCountInfo.maxMessageId = minMsgId;
 
   })
 }
@@ -169,10 +180,10 @@ const loadChatMessage = () => {
   if (messageCountInfo.noData) {
     return;
   }
-  messageCountInfo.pageNo++
+  // messageCountInfo.pageNo++
   window.ipcRenderer.send("loadChatMessage", {
     sessionId: currentChatSession.value.sessionId,
-    pageNo: messageCountInfo.pageNo,
+    // pageNo: messageCountInfo.pageNo,
     maxMessageId: messageCountInfo.maxMessageId
   })
 }
@@ -201,6 +212,14 @@ const gotoBottom = () => {
       }, 100)
     }
   })
+}
+
+const handleMessageScroll = (event) => {
+  const el = event.target;
+  if (el.scrollTop === 0) {
+    console.log("到顶了，加载上一页消息");
+    loadChatMessage();
+  }
 }
 
 onMounted(() => {
