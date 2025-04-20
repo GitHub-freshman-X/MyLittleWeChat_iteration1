@@ -30,7 +30,9 @@
       <div v-if="currentChatSession.contactType == 1" class="iconfont icon-more no-drag" @click="showGroupDetail">
       </div>
       <div class="chat-panel" v-show="Object.keys(currentChatSession).length > 0">
-        <div class="message-panel" id="message-panel" @scroll="handleMessageScroll">
+        <div class="message-panel" id="message-panel" @scroll="handleMessageScroll"
+          :style="{ overflowY: messageList.length > 0 ? 'auto' : 'hidden' }">
+          <div v-if="messageCountInfo.isLoading" class="loading-indicator">加载中...</div>
           <div class="message-item" v-for="(data, index) in messageList" :key="data.messageId"
             :id="'message' + data.messageId">
             <template v-if="data.messageType == 1 || data.messageType == 2 || data.messageType == 5">
@@ -95,13 +97,15 @@ const onReceiveMessage = () => {
     } else {
       Object.assign(curSession, message.extendData)
     }
+
     sortChatSessionList(chatSessionList.value)
+
     if (message.sessionId != currentChatSession.value.sessionId) {
       // 展示未读消息
     } else {
       Object.assign(currentChatSession.value, message.extendData)
       messageList.value.push(message)
-      gotoBottom()
+      gotoBottom('auto')
     }
 
   })
@@ -114,36 +118,55 @@ const onLoadSessionData = () => {
   })
 }
 
-const onLoadChatMessage = () => {
-  window.ipcRenderer.on("loadChatMessageCallback", (e, result) => {
-    // if (pageNo == pageTotal) {
-    //   messageCountInfo.noData = true
-    // }
-    // dataList.sort((a, b) => {
-    //   return a.messageId - b.messageId
-    // })
-    // messageList.value = dataList.concat(messageList.value)
-    // messageCountInfo.pageNo = pageNo
-    // messageCountInfo.pageTotal = pageTotal
-    // if (pageNo == 1) {
-    //   messageCountInfo.maxMessageId = dataList.length > 0 ? dataList[dataList.length - 1].messageId : null
-    //   gotoBottom();
-    // }
-    // console.log(messageList.value)
+// const onLoadChatMessage = () => {
+//   window.ipcRenderer.on("loadChatMessageCallback", (e, {dataList, pageNo, pageTotal}) => {
+//     if (pageNo == pageTotal) {
+//       messageCountInfo.noData = true
+//     }
+//     dataList.sort((a, b) => {
+//       return a.messageId - b.messageId
+//     })
+//     messageList.value = dataList.concat(messageList.value)
+//     messageCountInfo.pageNo = pageNo
+//     messageCountInfo.pageTotal = pageTotal
+//     if (pageNo == 1) {
+//       messageCountInfo.maxMessageId = dataList.length > 0 ? dataList[dataList.length - 1].messageId : null
+//       gotoBottom();
+//     }
+//     console.log(messageList.value)
+//   })
+// }
 
-    if (result.dataList.length === 0) {
-      messageCountInfo.noData = true;
+const onLoadChatMessage = () => {
+  window.ipcRenderer.on("loadChatMessageCallback", (e, { dataList, hasMore }) => {
+    messageCountInfo.isLoading = false;
+
+    if (dataList.length === 0) {
+      messageCountInfo.hasMore = false;
       return;
     }
 
-    // 新消息拼接到前面
-    messageList.value = [...result.dataList.reverse(), ...messageList.value];
+    // 按时间排序
+    dataList.sort((a, b) => a.messageId - b.messageId);
 
-    // 更新 maxMessageId 为最小的那条
-    const minMsgId = result.dataList[result.dataList.length - 1].messageId;
-    messageCountInfo.maxMessageId = minMsgId;
+    // 更新消息ID范围
+    const newMinId = dataList[0].messageId;
 
-  })
+    nextTick(() => {
+      gotoBottom('auto')
+    })
+
+    if (!messageCountInfo.minMessageId || newMinId < messageCountInfo.minMessageId) {
+      messageCountInfo.minMessageId = newMinId;
+    }
+
+    // 合并消息列表
+    messageList.value = [...dataList, ...messageList.value]
+      .filter((v, i, a) => a.findIndex(t => t.messageId === v.messageId) === i)
+      .sort((a, b) => a.messageId - b.messageId);
+
+    messageCountInfo.hasMore = hasMore;
+  });
 }
 
 // 当前选中的会话
@@ -151,24 +174,35 @@ const currentChatSession = ref({})
 
 // 点击会话
 const messageList = ref([])
-const messageCountInfo = {
-  tatalPage: 0,
-  pageNo: 0,
-  maxMessageId: null,
-  noData: false
-}
+const messageCountInfo = reactive({
+  isLoading: false,
+  hasMore: true,
+  minMessageId: null,  // 用于加载更旧的消息
+  maxMessageId: null,  // 用于加载更新的消息
+  lastScrollHeight: 0  // 用于保持滚动位置
+})
 const chatSessionClickHandler = (item) => {
   currentChatSession.value = Object.assign({}, item);
   messageList.value = []
 
-  messageCountInfo.pageNo = 0
-  messageCountInfo.tatalPage = 1
-  messageCountInfo.maxMessageId = null
-  messageCountInfo.noData = false
+  // messageCountInfo.pageNo = 0
+  // messageCountInfo.tatalPage = 1
+  // messageCountInfo.maxMessageId = null
+  // messageCountInfo.noData = false
 
-  loadChatMessage()
+  // 充值分页信息
+  Object.assign(messageCountInfo, {
+    isLoading: false,
+    hashMore: true,
+    minMessageId: null,
+    scrollLock: false,
+    noData: false,
+  })
+
+  loadChatMessage('initial')
   // 设置选中的会话session
   setSessionSelect({ contactId: item.contactId, sessionId: item.sessionId })
+
 }
 const setSessionSelect = ({ contactId, sessionId }) => {
   window.ipcRenderer.send("setSessionSelect", {
@@ -176,17 +210,17 @@ const setSessionSelect = ({ contactId, sessionId }) => {
   });
 };
 
-const loadChatMessage = () => {
-  if (messageCountInfo.noData) {
-    return;
-  }
-  // messageCountInfo.pageNo++
-  window.ipcRenderer.send("loadChatMessage", {
-    sessionId: currentChatSession.value.sessionId,
-    // pageNo: messageCountInfo.pageNo,
-    maxMessageId: messageCountInfo.maxMessageId
-  })
-}
+// const loadChatMessage = () => {
+//   if (messageCountInfo.noData) {
+//     return;
+//   }
+//   // messageCountInfo.pageNo++
+//   window.ipcRenderer.send("loadChatMessage", {
+//     sessionId: currentChatSession.value.sessionId,
+//     // pageNo: messageCountInfo.pageNo,
+//     maxMessageId: messageCountInfo.maxMessageId
+//   })
+// }
 
 const sendMessage4LocalHandler = (messageObj) => {
   messageList.value.push(messageObj)
@@ -198,28 +232,72 @@ const sendMessage4LocalHandler = (messageObj) => {
     chatSession.lastReceiveTime = messageObj.sendTime
   }
   sortChatSessionList(chatSessionList.value)
-  gotoBottom()
+  gotoBottom('auto')
+}
+
+const loadChatMessage = async (loadType = 'initial') => {
+  if (messageCountInfo.isLoading || (loadType == 'history' && !messageCountInfo.hasMore)) {
+    return
+  }
+
+  messageCountInfo.isLoading = true
+
+  const panel = document.getElementById('message-panel');
+  if (panel && loadType === 'history') {
+    messageCountInfo.lastScrollHeight = panel.scrollHeight;
+  }
+
+  window.ipcRenderer.send("loadChatMessage", {
+    sessionId: currentChatSession.value.sessionId,
+    loadType,
+    minMessageId: messageCountInfo.minMessageId,
+    maxMessageId: messageCountInfo.maxMessageId
+  });
+}
+
+const handleMessageScroll = (event) => {
+  if (messageCountInfo.isLoading) {
+    return
+  }
+
+  const panel = event.target
+
+  if (messageCountInfo.hasMore) {
+    loadChatMessage('history');
+
+    nextTick(() => {
+      if (messageCountInfo.lastScrollHeight > 0) {
+        panel.scrollTop = panel.scrollHeight - messageCountInfo.lastScrollHeight;
+        messageCountInfo.lastScrollHeight = 0;
+      }
+    });
+  }
 }
 
 
 //滚动到底部
-const gotoBottom = () => {
-  nextTick(() => {
-    const items = document.querySelectorAll(".message-item")
-    if (items.length > 0) {
-      setTimeout(() => {
-        items[items.length - 1].scrollIntoView()
-      }, 100)
-    }
-  })
-}
+// const gotoBottom = () => {
+//   nextTick(() => {
+//     const items = document.querySelectorAll(".message-item")
+//     if (items.length > 0) {
+//       setTimeout(() => {
+//         items[items.length - 1].scrollIntoView()
+//       }, 100)
+//     }
+//   })
+// }
 
-const handleMessageScroll = (event) => {
-  const el = event.target;
-  if (el.scrollTop === 0) {
-    console.log("到顶了，加载上一页消息");
-    loadChatMessage();
-  }
+const gotoBottom = (behavior = 'smooth') => {
+  nextTick(() => {
+    const panel = document.getElementById('message-panel')
+    if(!panel) return
+    requestAnimationFrame(() => {
+      panel.scrollTo({
+        top: panel.scrollHeight,
+        behavior: behavior
+      })
+    })
+  })
 }
 
 onMounted(() => {
@@ -345,11 +423,18 @@ const onContextMenu = (data, e) => {
     paading: 10px 30px 0px 30px;
     height: calc(100vh - 200px - 62px);
     overflow-y: auto;
+    scroll-behavior: smooth;
 
     .message-item {
       margin-bottom: 15px;
       text-align: center;
     }
+  }
+
+  .loading-indicator {
+    text-align: center;
+    padding: 10px;
+    color: #666;
   }
 }
 </style>

@@ -87,27 +87,39 @@ const getPageOffset = (pageNo=1, totalCount)=>{
 //   })
 // }
 
-const selectMessageList = async (query) => {
-  return new Promise(async (resolve, reject) => {
-    const { sessionId, pageNo, maxMessageId } = query;
+const selectMessageList = async(query)=>{
+  return new Promise(async (resolve, reject) =>{
+    const { sessionId, minMessageId } = query;
+    const pageSize = 20;
 
-    let params = [sessionId];
-    let sql = "select * from chat_message where session_id = ?";
+    let sql = "select * from chat_message where session_id = ? ";
+    const params = [sessionId];
 
-    if (maxMessageId) {
-      sql += " and message_id < ?";
-      params.push(maxMessageId);
+    // 添加消息ID过滤
+    if(minMessageId){
+      sql += " and message_id < ? ";
+      params.push(minMessageId);
     }
 
-    sql += " order by message_id DESC limit 20";
-    
-    const dataList = await queryAll(sql, params);
+    sql += " order by message_id desc limit ? ";
+    params.push(pageSize);
 
-    resolve({
-      dataList,
-      pageNo
-    });
-  });
+    try {
+      const dataList = await queryAll(sql, params);
+      const hasMore = dataList.length == pageSize;
+      const newMinMessageId = dataList.length > 0
+        ? dataList[dataList.length - 1].messageId
+        : null;
+      
+      resolve({
+        dataList: dataList.reverse(),
+        hasMore,
+        minMessageId: newMinMessageId,
+      });
+    } catch(error){
+      reject(error);
+    }
+  })
 }
 
 
