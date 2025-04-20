@@ -1,5 +1,6 @@
 package com.easychat.entity.po;
 
+import com.easychat.entity.constants.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import com.easychat.entity.enums.DateTimePatternEnum;
@@ -85,6 +86,18 @@ public class UserInfo implements Serializable {
 	 */
 	private Long lastOffTime;
 
+	private Integer onlineType;
+
+	public void setOnlineType(Integer onlineType) {
+		this.onlineType = onlineType;
+	}
+	public Integer getOnlineType() {
+		if(lastLoginTime!=null&&lastLoginTime.getTime()>lastOffTime){
+			return Constants.ONE;
+		}else {
+			return Constants.ZERO;
+		}
+	}
 
 	public void setUserId(String userId){
 		this.userId = userId;

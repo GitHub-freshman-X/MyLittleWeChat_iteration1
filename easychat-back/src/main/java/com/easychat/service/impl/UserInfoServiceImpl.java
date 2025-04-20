@@ -62,9 +62,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 	private ChatSessionUserService chatSessionUserService;
 
 	@Resource
-	private ChatSessionUserMapper<ChatSessionUser, ChatSessionUserQuery> chatSessionUserMapper;
-
-	@Resource
 	private MessageHandler messageHandler;
 
 	/**
@@ -319,8 +316,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public void forceOffLine(String userid) {
-
-
+	public void forceOffLine(String userId) {
+		MessageSendDto sendDto=new MessageSendDto();
+		sendDto.setContactType(UserContactTypeEnum.USER.getType());
+		sendDto.setMessageType(MessageTypeEnum.FORCE_OFF_LINE.getType());
+		sendDto.setContactId(userId);
+		messageHandler.sendMessage(sendDto);
 	}
 }
