@@ -11,7 +11,13 @@
       <template v-else>
         <div class="content" v-html="data.messageContent" v-if="data.messageType != 5">
         </div>
-        <div class="content" v-else>媒体消息</div>
+        <div class="content" v-else>
+          <template v-if="data.fileType==0">
+            <ChatMessageImage :data="data"></ChatMessageImage>
+          </template>
+          <template v-if="data.fileType==1">视频</template>
+          <template v-if="data.fileType==2"></template>
+        </div>
       </template>
     </div>
     <Avatar :width="35" :userId="userInfoStore.getInfo().userId"></Avatar>
@@ -37,13 +43,18 @@
       </div>
       <template v-else>
         <div class="content" v-html="data.messageContent" v-if="data.messageType != 5"></div>
-        <div class="content" v-else>媒体消息</div>
+        <div class="content" v-else>
+          <template v-if="data.fileType==0">图片</template>
+          <template v-if="data.fileType==1">视频</template>
+          <template v-if="data.fileType==2"></template>
+        </div>
       </template>
     </div>
   </div>
 </template>
 
 <script setup>
+import ChatMessageImage from "./ChatMessageImage.vue";
 import { ref, reactive, getCurrentInstance, nextTick } from "vue"
 const { proxy } = getCurrentInstance();
 import { useRoute, useRouter } from "vue-router"

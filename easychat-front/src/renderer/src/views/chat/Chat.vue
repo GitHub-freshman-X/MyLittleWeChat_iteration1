@@ -169,6 +169,19 @@ const onLoadChatMessage = () => {
   });
 }
 
+const onAddLocalMessage = ()=>{
+  window.ipcRenderer.on('addLocalCallback', (e, { messageId, status})=>{
+    const findMessage = messageList.value.find(item=>{
+      if(item.messageId==messageId){
+        return item
+      }
+    })
+    if(findMessage!=null){
+      findMessage.status = status
+    }
+  })
+}
+
 // 当前选中的会话
 const currentChatSession = ref({})
 
@@ -305,12 +318,14 @@ onMounted(() => {
   onLoadSessionData()
   loadChatSession()
   onLoadChatMessage()
+  onAddLocalMessage()
 })
 
 onUnmounted(() => {
   window.ipcRenderer.removeAllListeners("receiveMessage")
   window.ipcRenderer.removeAllListeners("loadSessionDataCallback")
   window.ipcRenderer.removeAllListeners("loadChatMessage")
+  window.ipcRenderer.removeAllListeners("onAddLocalMessage")
 })
 
 const setTop = (data) => {

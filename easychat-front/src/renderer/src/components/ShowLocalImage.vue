@@ -34,7 +34,7 @@ const serverUrl = computed(() => {
   if(!props.fileId) {
     return;
   }
-  return ''
+  return 'http://127.0.0.1:10340/file?fileId=1713&partType=chat'
   // 获取本地服务的图片url
 })
 

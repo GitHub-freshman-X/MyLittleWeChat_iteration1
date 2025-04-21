@@ -8,6 +8,7 @@ import {   run,
   insert 
 } from "./ADB.js"
 import store from "../store"
+import { startLocalServer } from "../file.js";
 
 const os = require("os")
 const userDir = os.homedir();
@@ -39,7 +40,7 @@ const addUserSetting = async (userId, email)=>{
   let sql = "select max(server_port) server_port from user_setting"
   let {serverPort} = await queryOne(sql, []);
   if(serverPort==null){
-    serverPort = 10240;
+    serverPort = 10340;
   }else{
     serverPort = serverPort+1;
   }
@@ -67,9 +68,10 @@ const addUserSetting = async (userId, email)=>{
   }
 
   // 启动本地服务
+  startLocalServer(resultServerPort)
   store.setUserData("localServerPort", resultServerPort);
   store.setUserData("localFileFolder", localFileFolder);
-  console.log("setUserData localFileFolder : " , localFileFolder)
+  // console.log("setUserData localFileFolder : " , localFileFolder)
 }
 
 export {

@@ -11,6 +11,9 @@ import { selectByMessageId } from './db/ChatMessageModel'
 const moment = require('moment')
 moment.locale('zh-cn', {})
 
+const express = require('express')
+const expressServer = express()
+
 const cover_image_suffix = '_cover.png'
 const image_suffix = '.png'
 
@@ -140,6 +143,51 @@ const getLoaclFilePath = async(partType, showCover, fileId)=>{
 
 }
 
+let server = null
+const startLocalServer = (serverPort)=>{
+  server = expressServer.listen(serverPort, ()=>{
+    console.log('本地文件服务器已启动，端口：', serverPort)
+  })
+}
+
+const closeLocalServer = ()=>{
+  if(server){
+    server.close()
+  }
+}
+
+const   FILE_TYPE_CONTENT_TYPE = {
+  "0": "image/",
+  "1": "video/",
+  "2": "application/octet-stream"
+}
+
+expressServer.get('/file', async(req, res)=>{
+  let {partType,fileType,fileId,showCover,forceGet} = req.query
+  if(!partType || !fileId){
+    res.send('请求参数错误')
+    return
+  }
+  showCover = showCover==undefined ? false : Boolean(showCover)
+  const localPath = await getLoaclFilePath(partType, showCover, fileId)
+  if(fs.existsSync(localPath) || forceGet=='true'){
+    if(forceGet=='true' && partType=='avatar'){
+      await downloadFile() // 获取头像缩略图
+    }
+    await downloadFile() // 获取头型原图
+  }
+  const fileSuffix = localPath.substring(localPath.lastIndexOf('.')+1)
+  let contentType = FILE_TYPE_CONTENT_TYPE[fileType] + fileSuffix
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Content-Type', contentType)
+  fs.createReadStream(localPath).pipe(res)
+  return
+})
+
+const downloadFile = ()=>{}
+
 export {
-  saveFile2Local
+  saveFile2Local,
+  startLocalServer,
+  closeLocalServer,
 }
