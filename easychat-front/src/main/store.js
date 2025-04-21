@@ -20,6 +20,10 @@ const setUserData = (key, value) => {
   setData(userId + key, value);
 }
 
+const getUserData = (key) => {
+  return getData(userId + key);
+}
+
 const deleteUserData = (key) => {
   store.delete(userId + key);
 }
@@ -30,5 +34,6 @@ export default {
     setData,
     getData,
     setUserData,
+    getUserData,
     deleteUserData: deleteUserData
 }

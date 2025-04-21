@@ -123,8 +123,12 @@ const selectMessageList = async(query)=>{
 }
 
 const updateMessage = (data, paramData)=>{
-  paramData.userId = store.getUserId()
   return update('chat_message', data, paramData)
+}
+
+const selectByMessageId = (messageId)=>{
+  let sql = "select * from chat_message where message_id = ?"
+  return queryOne(sql, messageId)
 }
 
 
@@ -132,5 +136,6 @@ export {
   saveMessageBatch,
   selectMessageList,
   saveMessage,
-  updateMessage
+  updateMessage, 
+  selectByMessageId
 }
