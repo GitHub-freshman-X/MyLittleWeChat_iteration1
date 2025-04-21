@@ -10,7 +10,7 @@
         </el-input>
       </div>
       <div class="chat-session-list">
-        <template v-for="item in chatSessionList" :key="item.contactName">
+        <template v-for="item in chatSessionList" :key="item.contactId">
           <ChatSession :data="item" @click="chatSessionClickHandler(item)"
             @contextmenu.stop="onContextMenu(item, $event)"
             :currentSession="item.contactId == currentChatSession.contactId">

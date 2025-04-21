@@ -72,7 +72,7 @@ public class ChatController extends ABaseController {
                                  @NotNull MultipartFile cover) {
         TokenUserInfoDto userInfoDto = getTokenUserInfo(request);
         chatMessageService.saveMessageFile(userInfoDto.getUserId(), messageId, file, cover);
-        return getSuccessResponseVO(userInfoDto);
+        return getSuccessResponseVO(null);
     }
 
     @RequestMapping("/downloadFile")

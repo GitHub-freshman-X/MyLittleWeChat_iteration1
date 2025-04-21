@@ -18,7 +18,6 @@ const onLoginOrRegister = (callback) => {
 
 const onLoginSuccess = (callback) => {
   // 发送openChat事件，config是自定义的参数，是一个对象，封装了所有数据
-  console.log('onLoginSuccess')
   ipcMain.on("openChat", (e, config) => {
     store.initUserId(config.userId);
     store.setUserData("token", config.token);
