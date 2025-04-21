@@ -2,12 +2,13 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { saveFile2Local } from './file'
 const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
 import {initWs}from './wsClient'
 import { addUserSetting } from './db/UserSettingModel'
 import { selectUserSessionList, delChatSession, topChatSession, updateSessionInfo4Message, readAll } from './db/ChatSessionUserModel'
-import { saveMessage, selectMessageList } from './db/ChatMessageModel'
+import { saveMessage, selectMessageList, updateMessage } from './db/ChatMessageModel'
 
 const onLoginOrRegister = (callback) => {
   ipcMain.on("loginOrRegister", (e, isLogin) => {
@@ -89,7 +90,17 @@ const onSetSessionSelect = ()=>{
 const onAddLocalMessage = ()=>{
   ipcMain.on("addLocalMessage", async (e, data)=>{
     await saveMessage(data);
-    //TODO 保存文件
+    //保存文件
+
+    if(data.messageType==5){
+      await saveFile2Local(data.messageId, data.filePath, data.fileType);
+      const updateInfo = {
+        status: 1
+      }
+      await updateMessage(updateInfo, { messageId: data.messageId })
+    }
+
+
     //更新session
     data.lastReceiveTime = data.sendTime;
     //更新会话

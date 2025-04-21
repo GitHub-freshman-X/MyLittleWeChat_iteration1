@@ -122,9 +122,15 @@ const selectMessageList = async(query)=>{
   })
 }
 
+const updateMessage = (data, paramData)=>{
+  paramData.userId = store.getUserId()
+  return update('chat_message', data, paramData)
+}
+
 
 export {
   saveMessageBatch,
   selectMessageList,
   saveMessage,
+  updateMessage
 }

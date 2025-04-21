@@ -1,7 +1,7 @@
 const add_tables = [
   "create table if not exists chat_message(" +
   "user_id varchar not null," +
-  "message_id bigint not null," +  // 改这里，去掉 default null
+  "message_id bigint not null auto_increment," +  // 改这里，去掉 default null
   "session_id varchar," +
   "message_type integer," +
   "message_content varchar," +
@@ -14,7 +14,7 @@ const add_tables = [
   "file_name varchar," +
   "file_path varchar," +
   "file_type integer," +
-  "primary key(user_id, message_id)" +
+  "primary key(message_id)" +
   ");",
   "create table if not exists chat_session_user(" +
   "user_id varchar not null default 0," +
