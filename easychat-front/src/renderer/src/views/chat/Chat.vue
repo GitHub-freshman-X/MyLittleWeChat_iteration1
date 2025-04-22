@@ -43,6 +43,9 @@
         <MessageSend :currentChatSession="currentChatSession" @sendMessage4Local="sendMessage4LocalHandler">
         </MessageSend>
       </div>
+      <div class="chat-blank" v-show="Object.keys(currentChatSession).length==0">
+        <Blank></Blank>
+      </div>
     </template>
   </Layout>
 </template>
@@ -50,6 +53,7 @@
 <script setup>
 import ChatMessage from './ChatMessage.vue';
 import MessageSend from './MessageSend.vue';
+import Blank from '@/components/Blank.vue';
 import ContextMenu from '@imengyu/vue3-context-menu'
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import ChatSession from "./ChatSession.vue";
@@ -88,6 +92,18 @@ const delChatSessionList = (contactId) => {
 const onReceiveMessage = () => {
   window.ipcRenderer.on("receiveMessage", (e, message) => {
     console.log('收到消息', message)
+    
+    if(message.messageType==6){
+      const localMessage = messageList.value.find(item=>{
+        if(item.messageId==message.messageId){
+          return item
+        }
+      })
+      if(localMessage!=null){
+        localMessage.status = 1
+      }
+      return;
+    }
 
     let curSession = chatSessionList.value.find((item) => {
       return item.sessionId == message.sessionId
@@ -107,7 +123,6 @@ const onReceiveMessage = () => {
       messageList.value.push(message)
       gotoBottom('auto')
     }
-
   })
 }
 

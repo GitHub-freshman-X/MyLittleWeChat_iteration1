@@ -144,10 +144,12 @@ const insert = (sqlPrefix, tableName, data)=>{
   }
   const preper = "?".repeat(dbColums.length).split("").join(",")
   const sql = `${sqlPrefix} ${tableName} (${dbColums.join(",")}) values (${preper})`;
+  // console.log('insert: ', sql, params)
   return run(sql, params)
 }
 
 const insertOrReplace = (tableName, data)=> {
+  // console.log(`insertOrReplace: ${tableName}, data:${JSON.stringify(data)}`)
   return insert("insert or replace into", tableName, data)
 }
 

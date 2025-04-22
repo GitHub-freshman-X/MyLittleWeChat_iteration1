@@ -4,7 +4,7 @@ const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
 
 import { saveOrUpdateChatSessionBatch4Init, saveOrUpdate4Message, selectUserSessionByContactId } from './db/ChatSessionUserModel';
-import { saveMessageBatch, saveMessage } from './db/ChatMessageModel';
+import { saveMessageBatch, saveMessage, updateMessage } from './db/ChatMessageModel';
 import { updateContactNoReadCount } from './db/UserSettingModel';
 
 let ws = null;
@@ -52,7 +52,13 @@ const createWs = () => {
         sender.send("receiveMessage", {messageType: message.messageType})
         break;
       }
-      case 2:{
+      case 6:{
+        updateMessage({status:message.status}, {messageId: message.messageId})
+        sender.send('receiveMessage', message)
+        break;
+      }
+      case 2:
+      case 5:{
         if(message.sendUserId==store.getUserId() && message.contactType==1){
           break;
         }

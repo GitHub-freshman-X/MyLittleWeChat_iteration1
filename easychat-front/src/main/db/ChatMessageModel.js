@@ -123,6 +123,7 @@ const selectMessageList = async(query)=>{
 }
 
 const updateMessage = (data, paramData)=>{
+  console.log('updateMessage: ', data, paramData)
   return update('chat_message', data, paramData)
 }
 

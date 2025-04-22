@@ -122,7 +122,7 @@ const getLocalFilePath = async(partType, showCover, fileId)=>{
   return new Promise(async (resolve, reject)=>{
     let localFolder = store.getUserData('localFileFolder')
 
-    console.log('getLocalFilePath: ', partType, fileId)
+    // console.log('getLocalFilePath: ', partType, fileId)
 
     let localPath = null
     if(partType=='avatar'){
@@ -142,7 +142,10 @@ const getLocalFilePath = async(partType, showCover, fileId)=>{
       fileSuffix = fileSuffix.substring(fileSuffix.lastIndexOf('.'))
       localPath = localFolder + '/' + fileId + fileSuffix
     }
-    console.log('getLocalFilePath: ', localPath)
+    // console.log('getLocalFilePath: ', localPath)'
+    if(showCover){
+      localPath = localPath + cover_image_suffix
+    }
     resolve(localPath)
   })
 
@@ -182,7 +185,7 @@ expressServer.get('/file', async(req, res)=>{
     }
     await downloadFile(fileId,showCover,localPath,partType) // 获取头型原图
   }
-  console.log('expressServer', fileId, localPath)
+  // console.log('expressServer', fileId, localPath)
   const fileSuffix = localPath.substring(localPath.lastIndexOf('.')+1)
   let contentType = FILE_TYPE_CONTENT_TYPE[fileType] + fileSuffix
   res.setHeader('Access-Control-Allow-Origin', '*')

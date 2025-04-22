@@ -275,7 +275,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		File uploadFile = new File(folder.getPath()+"/"+fileRealName);
         try {
             file.transferTo(uploadFile);
-			cover.transferTo(new File(uploadFile.getPath()+Constants.COVER_IMAGE_SUFFIX));
+			if(cover!=null){
+				cover.transferTo(new File(uploadFile.getPath()+Constants.COVER_IMAGE_SUFFIX));
+			}
         } catch (IOException e) {
             logger.error("上传文件失败",e);
 			throw new BusinessException("上传文件失败");
@@ -299,7 +301,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		ChatMessage message = chatMessageMapper.selectByMessageId(messageId);
 		String contactId = message.getContactId();
 		UserContactTypeEnum contactTypeEnum = UserContactTypeEnum.getByPrefix(contactId);
-		if(UserContactTypeEnum.USER == contactTypeEnum&&userInfoDto.getUserId().equals(message.getContactId())){
+		if(UserContactTypeEnum.USER == contactTypeEnum && !userInfoDto.getUserId().equals(message.getContactId())){
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
 		if(UserContactTypeEnum.GROUP == contactTypeEnum){

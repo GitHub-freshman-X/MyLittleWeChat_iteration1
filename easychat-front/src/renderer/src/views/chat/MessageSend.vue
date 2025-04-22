@@ -74,13 +74,13 @@ const props = defineProps({
   }
 })
 
-const msgContent = ref()
+const msgContent = ref("")
 //隐藏展示pop
 const showEmojiPopover = ref(false)
 
 const activeEmoji = ref('笑脸');
 const showEmojiPopoverHandler = () => {
-  showEmojiPopover.value = !showEmojiPopover.value;
+  showEmojiPopover.value = true
 };
 const showSendMsgPopover = ref(false);
 const hidePopover = () => {
@@ -88,7 +88,8 @@ const hidePopover = () => {
   showSendMsgPopover.value = false
 }
 const sendEmoji = (item) =>{
-
+  msgContent.value = msgContent.value + item
+  showEmojiPopover.value = false
 }
 const sendMessage = (e) => {
   if (e.shifkKey && e.keyCode == 13) {
@@ -198,6 +199,16 @@ const addContact = (contactId, code) => {
     contactType: code == 902 ? 'USER' : 'GROUP'
   })
 }
+
+const openPopover = ()=>{
+  document.addEventListener('click', hidePopover, false)
+
+}
+const closePopover = ()=>{
+  document.removeEventListener('click', hidePopover, false)
+}
+
+
 
 </script>
 
