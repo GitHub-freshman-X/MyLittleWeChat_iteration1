@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { saveFile2Local } from './file'
+import { saveFile2Local, createCover } from './file'
 const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
 import {initWs}from './wsClient'
@@ -109,6 +109,13 @@ const onAddLocalMessage = ()=>{
   })
 };
 
+const onCreateCover = ()=>{
+  ipcMain.on('createCover', async (e, localFilePath)=>{
+    const stream = await createCover(localFilePath);
+    e.sender.send('createCoverCallback', stream);
+  })
+}
+
 
 export {
   onLoginOrRegister,
@@ -121,5 +128,6 @@ export {
   onTopChatSession,
   onLoadChatMessage,
   onAddLocalMessage,
-  onSetSessionSelect
+  onSetSessionSelect,
+  onCreateCover
 }

@@ -43,17 +43,20 @@ const router = useRouter()
 import { useUserInfoStore } from '@/stores/UserInfoStore'
 const userInfoStore = useUserInfoStore()
 
+import { useAvatarInfoStore } from "../../stores/AvatarUploadStore";
+const avatarInfoStore = useAvatarInfoStore()
+
 const props = defineProps({
   data: {
     type: Object
   }
 })
 
-const formData = computed(()=>{
+const formData = computed(() => {
   const userInfo = props.data
   userInfo.avatarFile = userInfo.userId
   userInfo.area = {
-    areaCode: userInfo.areaCode ? userInfo.areaCode.split(','): [],
+    areaCode: userInfo.areaCode ? userInfo.areaCode.split(',') : [],
     areaName: userInfo.areaName ? userInfo.areaName.split(',') : []
   }
   return userInfo
@@ -65,43 +68,47 @@ const rules = {
   nickName: [{ required: true, message: "请输入昵称" }]
 };
 
-const saveCover = ({avatarFile, coverFile}) => {
+const saveCover = ({ avatarFile, coverFile }) => {
   formData.value.avatarFile = avatarFile
-  formData.value.coverFile = coverFile
+  formData.value.avatarCover = coverFile
 }
 
 const emit = defineEmits(['editBack'])
-const saveUserInfo = ()=>{
+const saveUserInfo = () => {
   formDataRef.value.validate(async (valid) => {
-     if (!valid) {
-       return;
-     }
-     let params = {};
-     Object.assign(params, formData.value);
+    if (!valid) {
+      return;
+    }
+    let params = {};
+    Object.assign(params, formData.value);
 
-      params.areaName = ""
-      params.areaCode = ""
-      if(params.area){
-        params.areaName = params.area.areaName.join(',')
-        params.areaCode = params.area.areaCode.join(',')
-        delete params.area
-      }
+    params.areaName = ""
+    params.areaCode = ""
+    if (params.area) {
+      params.areaName = params.area.areaName.join(',')
+      params.areaCode = params.area.areaCode.join(',')
+      delete params.area
+    }
 
-     let result = await proxy.Request({
-       url: proxy.Api.saveUserInfo,
-       params,
-     });
-     if (!result) {
-       return;
-     }
+    // 强制刷新头像
+    avatarInfoStore.setForceReload(userInfoStore.getInfo().userId, false)
 
-     proxy.Message.success("保存成功");
-     userInfoStore.setInfo(result.data);
-     emit('editBack')
+    let result = await proxy.Request({
+      url: proxy.Api.saveUserInfo,
+      params,
+    });
+    if (!result) {
+      return;
+    }
+
+    proxy.Message.success("保存成功");
+    userInfoStore.setInfo(result.data);
+    avatarInfoStore.setForceReload(userInfoStore.getInfo().userId, true) // 值发生变化
+    emit('editBack')
   });
 }
 
-const cancel = ()=>{
+const cancel = () => {
   emit('editBack')
 }
 

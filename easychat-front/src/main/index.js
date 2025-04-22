@@ -5,7 +5,8 @@ import icon from '../../resources/icon.png?asset'
 const NODE_ENV = process.env.NODE_ENV
 
 import { onLoginOrRegister, onLoginSuccess, winTitleOp,onSetLocalStore,onGetLocalStore, 
-  onLoadSessionData, onDelChatSession, onTopChatSession, onLoadChatMessage ,onAddLocalMessage,onSetSessionSelect
+  onLoadSessionData, onDelChatSession, onTopChatSession, onLoadChatMessage ,onAddLocalMessage,
+  onSetSessionSelect, onCreateCover
 } from './ipc'
 
 import { createTable } from './db/ADB'
@@ -152,6 +153,7 @@ function createWindow() {
   onLoadChatMessage();
   onAddLocalMessage();
   onSetSessionSelect();
+  onCreateCover()
 
 }
 

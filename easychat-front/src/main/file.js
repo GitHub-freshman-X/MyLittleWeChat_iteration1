@@ -110,8 +110,6 @@ const uploadFile = (messageId, savePath, coverPath)=>{
     'token': token,
   }}
 
-  console.log('上传文件：', url)
-
   axios.post(url, formData, config).then(()=>{
 
   }).catch((error)=>{
@@ -231,8 +229,26 @@ const downloadFile = (fileId,showCover,savePath,partType)=>{
   })
 }
 
+const createCover = (filePath)=>{
+  return new Promise(async (resolve, reject)=>{
+    let ffmpegPath = getFFmegPath()
+    let avatarPath = await getLocalFilePath('avatar', false, store.getUserId() + '_temp')
+    let command = `${ffmpegPath} -i "${filePath}" "${avatarPath}" -y` // 图片压缩
+    await execCommand(command)
+
+    let coverPath = await getLocalFilePath('avatar', false, store.getUserId()+'_temp_cover')
+    command = `${getFFmegPath()} -i "${avatarPath}" -y -vframes 1 -vf "scale='if(gt(iw,ih),170,-1)':'if(gt(iw,ih),-1,170)'" "${coverPath}"`
+    await execCommand(command)
+    resolve({
+      avatarStream: fs.readFileSync(avatarPath),
+      coverStream: fs.readFileSync(coverPath),
+    })
+  })
+}
+
 export {
   saveFile2Local,
   startLocalServer,
   closeLocalServer,
+  createCover,
 }

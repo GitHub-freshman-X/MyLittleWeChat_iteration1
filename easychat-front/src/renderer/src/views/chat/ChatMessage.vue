@@ -44,7 +44,9 @@
       <template v-else>
         <div class="content" v-html="data.messageContent" v-if="data.messageType != 5"></div>
         <div class="content" v-else>
-          <template v-if="data.fileType==0">图片</template>
+          <template v-if="data.fileType==0">
+            <ChatMessageImage :data="data"></ChatMessageImage>
+          </template>
           <template v-if="data.fileType==1">视频</template>
           <template v-if="data.fileType==2"></template>
         </div>

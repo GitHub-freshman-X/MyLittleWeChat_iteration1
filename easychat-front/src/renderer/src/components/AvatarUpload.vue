@@ -37,7 +37,7 @@
   </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick, computed } from "vue"
+import { ref, reactive, getCurrentInstance, nextTick, computed, onMounted, onUnmounted } from "vue"
 const { proxy } = getCurrentInstance();
 
 const props = defineProps({
@@ -47,10 +47,32 @@ const props = defineProps({
   }
 })
 
+const localFile = ref(null)
+
 const uploadImage = async (file) => {
     file = file.file
-    //window.ipRender.send("");
+    window.ipcRenderer.send('createCover', file.path)
 }
+
+const emit = defineEmits(['coverFile'])
+onMounted(()=>{
+  window.ipcRenderer.on('createCoverCallback', (e, { avatarStream, coverStream })=>{
+    const coverBlob = new Blob([coverStream], {type:'image/png'})
+    const coverFile = new File([coverBlob], 'avatar.png')
+    let img = new FileReader()
+    img.readAsDataURL(coverFile)
+    img.onload = ({target})=>{
+      localFile.value = target.result
+    }
+    const avatarBlob = new Blob([avatarStream], {type:'image/png'})
+    const avatarFile = new File([avatarBlob], 'avatar2.png')
+    emit('coverFile', {avatarFile, coverFile})
+  })
+})
+
+onUnmounted(()=>{
+  window.ipcRenderer.removeAllListeners('createCoverCallback')
+})
 
 const preview = computed(()=>{
   return props.modelValue instanceof File

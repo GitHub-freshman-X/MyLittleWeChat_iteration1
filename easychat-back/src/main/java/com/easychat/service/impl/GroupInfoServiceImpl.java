@@ -202,7 +202,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 			}
 
 			groupInfo.setCreateTime(curDate);
-			groupInfo.setGroupId(StringTools.getUserId());
+			groupInfo.setGroupId(StringTools.getGroupId());
 			this.groupInfoMapper.insert(groupInfo);
 
 			//将群组添加为联系人
