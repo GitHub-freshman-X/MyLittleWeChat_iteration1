@@ -299,7 +299,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		ChatMessage message = chatMessageMapper.selectByMessageId(messageId);
 		String contactId = message.getContactId();
 		UserContactTypeEnum contactTypeEnum = UserContactTypeEnum.getByPrefix(contactId);
-		if(UserContactTypeEnum.USER == contactTypeEnum&&!userInfoDto.getUserId().equals(message.getContactId())){
+		if(UserContactTypeEnum.USER == contactTypeEnum&&userInfoDto.getUserId().equals(message.getContactId())){
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
 		if(UserContactTypeEnum.GROUP == contactTypeEnum){
@@ -331,6 +331,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 			throw new BusinessException(ResponseCodeEnum.CODE_602);
 		}
 
-		return null;
+		return file;
 	}
 }

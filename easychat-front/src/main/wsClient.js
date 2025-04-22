@@ -34,7 +34,7 @@ const createWs = () => {
   }
   //从服务器接受到消息的回调函数
   ws.onmessage = async function(e){
-    console.log("收到服务器消息", e.data);
+    // console.log("收到服务器消息", e.data);
     const message = JSON.parse(e.data);
     const messageType = message.messageType
     switch(messageType){

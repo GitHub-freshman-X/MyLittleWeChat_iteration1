@@ -8,6 +8,9 @@
 import { getCurrentInstance, computed } from 'vue';
 const { proxy } = getCurrentInstance();
 
+import { useGlobalInfoStore } from '../stores/GlobalInfoStore';
+const globalInfoStore = useGlobalInfoStore();
+
 const props = defineProps({
   width: {
     type: Number,
@@ -22,7 +25,11 @@ const props = defineProps({
   },
   partType: {
     type: String,
-    default: 'avatar'
+    default: 'chat'
+  },
+  fileType: {
+    type: Number,
+    default: 0
   },
   forceGet: {
     type: Boolean,
@@ -31,10 +38,12 @@ const props = defineProps({
 })
 
 const serverUrl = computed(() => {
-  if(!props.fileId) {
+  if (!props.fileId) {
     return;
   }
-  return 'http://127.0.0.1:10340/file?fileId=1713&partType=chat'
+  const serverPort = globalInfoStore.getInfo('localServerPort')
+  console.log(serverPort)
+  return `http://127.0.0.1:${serverPort}/file?fileId=${props.fileId}&partType=${props.partType}&fileType=${props.fileType}&showCover=true&forceGet=${props.forceGet}&${new Date().getTime()}`
   // 获取本地服务的图片url
 })
 
@@ -49,11 +58,13 @@ const serverUrl = computed(() => {
   max-width: 170px;
   max-height: 170px;
   background: #dddddd;
-  .icon-image-error { 
+
+  .icon-image-error {
     margin: 0px auto;
     font-size: 30px;
     color: #838383;
   }
+
   .play-panel {
     z-index: 2;
     position: absolute;
@@ -65,10 +76,12 @@ const serverUrl = computed(() => {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
     .icon-video-play {
       font-size: 35px;
       color: #ffffff;
     }
+
     &:hover {
       opacity: 0.8;
     }

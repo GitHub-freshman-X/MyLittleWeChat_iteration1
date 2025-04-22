@@ -83,6 +83,7 @@ public class ChatController extends ABaseController {
         OutputStream out = null;
         FileInputStream in = null;
         try{
+            response.setContentType("application/json");
             File file = null;
             if(!StringTools.isNumber(fileId)){
                 String avatarFolderName = Constants.FILE_FOLDER_FILE+Constants.FILE_FOLDER_AVATAR_NAME;
@@ -91,6 +92,7 @@ public class ChatController extends ABaseController {
                     avatarPath = avatarPath+Constants.COVER_IMAGE_SUFFIX;
                 }
                 file = new File(avatarPath);
+                System.out.println("downloadFile" + file);
                 if(!file.exists()){
                     throw new BusinessException(ResponseCodeEnum.CODE_602);
                 }

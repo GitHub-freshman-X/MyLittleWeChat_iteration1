@@ -1,0 +1,62 @@
+2025-04-21 19:39:21 [WARN][io.netty.channel.DefaultChannelPipeline][onUnhandledInboundException][1152]-> An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:379)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:253)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:750)
+2025-04-21 19:39:21 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelInactive][45]-> 有链接断开...
+2025-04-21 19:39:27 [DEBUG][org.springframework.boot.availability.ApplicationAvailabilityBean][onApplicationEvent][77]-> Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC
+2025-04-21 19:39:27 [DEBUG][org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext][doClose][1049]-> Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@483f6d77, started on Mon Apr 21 18:31:12 GMT+08:00 2025
+2025-04-21 19:39:27 [DEBUG][org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertyResolver$DefaultResolver][logKeyFound][115]-> Found key 'spring.liveBeansView.mbeanDomain' in PropertySource 'systemProperties' with value of type String
+2025-04-21 19:39:27 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][stop][365]-> Stopping beans in phase 2147483647
+2025-04-21 19:39:27 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][lambda$doStop$3][238]-> Bean 'webServerGracefulShutdown' completed its stop procedure
+2025-04-21 19:39:27 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][stop][365]-> Stopping beans in phase 2147483646
+2025-04-21 19:39:27 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][lambda$doStop$3][238]-> Bean 'webServerStartStop' completed its stop procedure
+2025-04-21 19:39:27 [DEBUG][org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler][shutdown][218]-> Shutting down ExecutorService 'taskScheduler'
+2025-04-21 19:39:27 [DEBUG][org.springframework.jmx.export.annotation.AnnotationMBeanExporter][destroy][452]-> Unregistering JMX-exposed beans on shutdown
+2025-04-21 19:39:27 [DEBUG][org.springframework.jmx.export.annotation.AnnotationMBeanExporter][unregisterBeans][186]-> Unregistering JMX-exposed beans
+2025-04-21 19:39:27 [DEBUG][org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor][shutdown][218]-> Shutting down ExecutorService 'applicationTaskExecutor'
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 3 thread-local buffer(s) from thread: redisson-netty-6-17
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-24
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-5
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-20
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-22
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-18
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 3 thread-local buffer(s) from thread: redisson-netty-6-27
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-21
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-23
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-19
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-26
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-12
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-25
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-14
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-15
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-13
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-16
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-10
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-11
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-4
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-8
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-7
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-9
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-3
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-6
+2025-04-21 19:39:27 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xec609a5a, L:/0:0:0:0:0:0:0:0:5051] INACTIVE
+2025-04-21 19:39:27 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xec609a5a, L:/0:0:0:0:0:0:0:0:5051] UNREGISTERED
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 33 thread-local buffer(s) from thread: nioEventLoopGroup-3-1
+2025-04-21 19:39:27 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 34 thread-local buffer(s) from thread: lettuce-nioEventLoop-9-1
+2025-04-21 19:39:27 [INFO][com.zaxxer.hikari.HikariDataSource][close][350]-> HikariCPDataSource - Shutdown initiated...
+2025-04-21 19:39:27 [INFO][com.zaxxer.hikari.HikariDataSource][close][352]-> HikariCPDataSource - Shutdown completed.

@@ -64,7 +64,7 @@ const execCommand = (command)=>{
 
 const saveFile2Local = (messageId, filePath, fileType)=>{
   return new Promise(async (resolve, reject)=>{
-    let savePath = await getLoaclFilePath('chat', false, messageId);
+    let savePath = await getLocalFilePath('chat', false, messageId);
     console.log('saveFile2Local savePath : ', savePath);
     
     fs.copyFileSync(filePath, savePath);
@@ -120,13 +120,19 @@ const uploadFile = (messageId, savePath, coverPath)=>{
 
 }
 
-const getLoaclFilePath = async(partType, showCover, fileId)=>{
+const getLocalFilePath = async(partType, showCover, fileId)=>{
   return new Promise(async (resolve, reject)=>{
     let localFolder = store.getUserData('localFileFolder')
 
+    console.log('getLocalFilePath: ', partType, fileId)
+
     let localPath = null
     if(partType=='avatar'){
-
+      localFolder = localFolder + '/avatar/'
+      if(!fs.existsSync(localFolder)){
+        mkdirs(localFolder)
+      }
+      localPath = localFolder + fileId + image_suffix
     }else if(partType=='chat'){
       let messageInfo = await selectByMessageId(fileId)
       const month = moment(Number.parseInt(messageInfo.sendTime)).format('YYYYMM')
@@ -138,6 +144,7 @@ const getLoaclFilePath = async(partType, showCover, fileId)=>{
       fileSuffix = fileSuffix.substring(fileSuffix.lastIndexOf('.'))
       localPath = localFolder + '/' + fileId + fileSuffix
     }
+    console.log('getLocalFilePath: ', localPath)
     resolve(localPath)
   })
 
@@ -163,19 +170,21 @@ const   FILE_TYPE_CONTENT_TYPE = {
 }
 
 expressServer.get('/file', async(req, res)=>{
+  // console.log('expressServer get /file', req.query)
   let {partType,fileType,fileId,showCover,forceGet} = req.query
   if(!partType || !fileId){
     res.send('请求参数错误')
     return
   }
   showCover = showCover==undefined ? false : Boolean(showCover)
-  const localPath = await getLoaclFilePath(partType, showCover, fileId)
-  if(fs.existsSync(localPath) || forceGet=='true'){
+  const localPath = await getLocalFilePath(partType, showCover, fileId)
+  if(!fs.existsSync(localPath) || forceGet=='true'){
     if(forceGet=='true' && partType=='avatar'){
-      await downloadFile() // 获取头像缩略图
+      await downloadFile(fileId,true,localPath+cover_image_suffix,partType) // 获取头像缩略图
     }
-    await downloadFile() // 获取头型原图
+    await downloadFile(fileId,showCover,localPath,partType) // 获取头型原图
   }
+  console.log('expressServer', fileId, localPath)
   const fileSuffix = localPath.substring(localPath.lastIndexOf('.')+1)
   let contentType = FILE_TYPE_CONTENT_TYPE[fileType] + fileSuffix
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -184,7 +193,43 @@ expressServer.get('/file', async(req, res)=>{
   return
 })
 
-const downloadFile = ()=>{}
+const downloadFile = (fileId,showCover,savePath,partType)=>{
+  showCover = showCover + ""
+  let url = `${getDomain()}/api/chat/downloadFile`
+  const token = store.getUserData('token')
+  return new Promise(async (resolve, reject)=>{
+    const config = {
+      responseType: 'stream',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'token': token
+      }
+    }
+    let response = await axios.post(url,{
+      fileId,
+      showCover,
+    },config)
+    // console.log(response.headers)
+    const folder = savePath.substring(0,savePath.lastIndexOf('/'))
+    mkdirs(folder)
+    const stream = fs.createWriteStream(savePath)
+    // console.log('downloadFile: ', response.headers['content-type'])
+    if(response.headers['content-type']!='application/json'){
+      response.data.pipe(stream)
+    }else{
+      let resourcesPath = getResouecesPath()
+      if(partType=='avatar'){
+        fs.createReadStream(resourcesPath + '/assets/user.jpg').pipe(stream)
+      }else{
+        fs.createReadStream(resourcesPath + '/assets/404.png').pipe(stream)
+      }
+    }
+    stream.on('finish',()=>{
+      stream.close()
+      resolve()
+    })
+  })
+}
 
 export {
   saveFile2Local,

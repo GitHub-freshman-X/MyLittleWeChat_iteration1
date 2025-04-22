@@ -43,7 +43,7 @@ const onSetLocalStore=()=>{
 const onGetLocalStore=()=>{
   ipcMain.on("getLocalStore", (e, key) => {
     //console.log("收到渲染进程的获取事件key",key);
-    e.sender.send("getLocalStoreCallback", "主进程返回的内容："+store.getData(key));
+    e.sender.send("getLocalStoreCallback", store.getData(key));
   })
 }
 

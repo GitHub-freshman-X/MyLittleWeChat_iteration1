@@ -74,7 +74,7 @@ const toCamelCase = (str)=>{
 
 
 const queryAll =(sql, params) =>{
-  console.log('queryAll: ', sql)
+  // console.log('queryAll: ', sql)
   return new Promise((resolve, reject) => {
     const stmt = db.prepare(sql);
     stmt.all(params, function(err, row){
@@ -111,7 +111,7 @@ const queryOne = (sql, params) =>{
         resolve({})
       }
       resolve(convertDbObject2BizObj(row))
-      console.log(`queryOne : ${sql}, params:${params}, row:${JSON.stringify(row)}`)
+      // console.log(`queryOne : ${sql}, params:${params}, row:${JSON.stringify(row)}`)
     })
     stmt.finalize()
   })

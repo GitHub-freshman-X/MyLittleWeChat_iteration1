@@ -107,8 +107,8 @@ public class StringTools {
 
     public static boolean isNumber(String str) {
         String checkNumber = "^[0-9]+$";
-        if(null == str){return false;}
-        if(str.matches(checkNumber)){return false;}
-        return true;
+        if (str == null) { return false; }
+        return str.matches(checkNumber);
     }
+
 }
