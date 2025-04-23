@@ -38,7 +38,7 @@ public class Constants {
 
     public static final String[] VIDEO_SUFFIX_LIST = new String[]{".mp4",".avi",".rmvb",".mkv",".mov"};
 
-    public static final long FILE_SIZE_MB = 1024*1024L;
+    public static final long FILE_SIZE_MB = 1024*1024*1024L;
     public static final int ZERO = 0;
     public static final int ONE = 1;
 }

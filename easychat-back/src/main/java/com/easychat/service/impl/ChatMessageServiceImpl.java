@@ -250,16 +250,17 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		SysSettingDto sysSettingDto = redisComponent.getSysSetting();
 		String fileSuffix = StringTools.getFileSuffix(file.getOriginalFilename());
 		if(!StringTools.isEmpty(fileSuffix)
-				&&ArrayUtils.contains(Constants.IMAGE_SUFFIX_LIST,fileSuffix.toUpperCase())
+				&&ArrayUtils.contains(Constants.IMAGE_SUFFIX_LIST,fileSuffix.toLowerCase())
 				&&file.getSize()>sysSettingDto.getMaxImageSize()*Constants.FILE_SIZE_MB){
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		} else if (!StringTools.isEmpty(fileSuffix)
-				&&ArrayUtils.contains(Constants.VIDEO_SUFFIX_LIST,fileSuffix.toUpperCase())
+				&&ArrayUtils.contains(Constants.VIDEO_SUFFIX_LIST,fileSuffix.toLowerCase())
 				&&file.getSize()>sysSettingDto.getMaxVideoSize()*Constants.FILE_SIZE_MB) {
+			System.out.println("saveMessageFile: "+file.getSize());
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		} else if(!StringTools.isEmpty(fileSuffix)
-				&&!ArrayUtils.contains(Constants.IMAGE_SUFFIX_LIST,fileSuffix.toUpperCase())
-				&&!ArrayUtils.contains(Constants.VIDEO_SUFFIX_LIST,fileSuffix.toUpperCase())
+				&&!ArrayUtils.contains(Constants.IMAGE_SUFFIX_LIST,fileSuffix.toLowerCase())
+				&&!ArrayUtils.contains(Constants.VIDEO_SUFFIX_LIST,fileSuffix.toLowerCase())
 				&&file.getSize()>sysSettingDto.getMaxVideoSize()*Constants.FILE_SIZE_MB){
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
