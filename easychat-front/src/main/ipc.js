@@ -124,6 +124,8 @@ const onOpenNewWindow = ()=>{
 }
 
 const openWindow = ({windowId, title='EasyChat', path, width=960, height=720, data})=>{
+  const localServerPort = store.getUserData('localServerPort')
+  data.localServerPort = localServerPort
   let newWindow = getWindow(windowId);
   if(!newWindow){
     newWindow = new BrowserWindow({

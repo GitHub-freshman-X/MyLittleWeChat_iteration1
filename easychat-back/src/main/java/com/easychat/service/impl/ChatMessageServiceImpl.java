@@ -302,9 +302,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		ChatMessage message = chatMessageMapper.selectByMessageId(messageId);
 		String contactId = message.getContactId();
 		UserContactTypeEnum contactTypeEnum = UserContactTypeEnum.getByPrefix(contactId);
-		if(UserContactTypeEnum.USER == contactTypeEnum && !userInfoDto.getUserId().equals(message.getContactId())){
-			throw new BusinessException(ResponseCodeEnum.CODE_600);
-		}
+//		if(UserContactTypeEnum.USER == contactTypeEnum && !userInfoDto.getUserId().equals(message.getContactId())){
+//			throw new BusinessException(ResponseCodeEnum.CODE_600);
+//		}
 		if(UserContactTypeEnum.GROUP == contactTypeEnum){
 			UserContactQuery userContactQuery = new UserContactQuery();
 			userContactQuery.setUserId(userInfoDto.getUserId());

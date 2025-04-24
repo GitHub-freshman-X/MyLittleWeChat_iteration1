@@ -22,16 +22,16 @@
         v-if="fileList[0].fileType == 0 && fileList[0].status == 1">
         <img :src="fileList[0].url" />
       </viewer>
-      <div ref="player" id="player" v-show="fileList[0].fileType==1 && fileList[0].status==1"
-      style="width: 100%; height: 100%"></div>
-      <div v-if="fileList[0].fileType==2" class="file-panel">
+      <div ref="player" id="player" v-show="fileList[0].fileType == 1 && fileList[0].status == 1"
+        style="width: 100%; height: 100%"></div>
+      <div v-if="fileList[0].fileType == 2" class="file-panel">
         <div class="file-item">文件名：{{ fileList[0].fileName }}</div>
         <div class="file-item">文件大小：{{ utilityProcess.size2Str(fileList[0].fileSize) }}</div>
         <div class="file-item download">
           <el-button type="primary" @click="saveAs">下载文件</el-button>
         </div>
       </div>
-      <div class="loading" v-if="fileList[0].status!=1">加载中...</div>
+      <div class="loading" v-if="fileList[0].status != 1">加载中...</div>
     </div>
     <WinOp @closeCallback="closeWin"></WinOp>
   </div>
@@ -59,60 +59,117 @@ const options = ref({
 })
 
 const viewerMy = ref(null)
-const inited = (e)=>{
+const inited = (e) => {
   viewerMy.value = e
 }
 
-const changeSize = (zoomRatio)=>{
-  if(!viewerMy.value){
+const changeSize = (zoomRatio) => {
+  if (!viewerMy.value) {
     return
   }
   viewerMy.value.zoom(zoomRatio, true)
 }
 
-const rotate = ()=>{
+const rotate = () => {
   viewerMy.value.rotate(90, true)
 }
 
 const isOne2One = ref(false)
-const resize = ()=>{
+const resize = () => {
   isOne2One.value = !isOne2One.value
-  if(!isOne2One.value){
+  if (!isOne2One.value) {
     viewerMy.value.zoomTo(viewerMy.value.initialImageData.radio, true)
-  }else{
+  } else {
     viewerMy.value.zoomTo(1, true)
   }
 }
 
-const onWheel = (e)=>{
-  if(fileList.value[0].fileType!=0){
+const onWheel = (e) => {
+  if (fileList.value[0].fileType != 0) {
     return
   }
   console.log(e.deltaY)
-  if(e.deltay<0){
+  if (e.deltaY < 0) {
     changeSize(0.1)
-  }else{
+  } else {
     changeSize(-0.1)
   }
 }
 
+const player = ref()
+const dPlayer = ref()
+const initPlayer = ()=>{
+  dPlayer.value = new DPlayer({
+    element: player.value,
+    theme: '#b7daff',
+    screenshot: true,
+    video: {
+      url: ''
+    }
+  })
+}
+
+const localServerPort = ref()
 const currentIndex = ref(0)
 const allFileList = ref([])
 const fileList = ref([{ fileType: 0, status: 0 }])
 onMounted(() => {
+  initPlayer()
   window.addEventListener("wheel", onWheel)
   window.ipcRenderer.on('pageInitData', (e, data) => {
+    localServerPort.value = data.localServerPort
     allFileList.value = data.fileList
+    let index = 0
+    if(data.currentFileId){
+      index = data.fileList.findIndex(item=>item.fileId==data.currentFileId)
+      index = index==-1 ? 0 : index
+    }
+    currentIndex.value = index
+
+    getCurrentFile()
   })
 })
 
-onUnmounted(()=>{
+onUnmounted(() => {
   window.ipcRenderer.removeAllListeners('pageInitData')
   window.removeEventListener("wheel", onWheel)
 })
 
-const closeWin = () => {
 
+// 获取当前正在看的文件
+const getCurrentFile = () => {
+  if(dPlayer.value){
+    dPlayer.value.switchVideo({
+      url:''
+    })
+  }
+  const curFile = allFileList.value[currentIndex.value]
+  const url = getUrl(curFile)
+  fileList.value.splice(0, 1, {
+    url: url,
+    fileType: curFile.fileType,
+    status: 1,
+    fileSize: curFile.fileSize,
+    fileName: curFile.fileName,
+  })
+
+  if(curFile.fileType==1){
+    dPlayer.value.switchVideo({
+      url: url
+    })
+  }
+}
+
+const getUrl = (curFile) => {
+  return `http://127.0.0.1:${localServerPort.value}/file?fileId=${curFile.fileId}&partType=${curFile.partType
+    }&fileType=${curFile.fileType}&forceGet=${curFile.forceGet
+    }&${new Date().getTime()}`
+}
+
+const closeWin = () => {
+  dPlayer.value.switchVideo({
+    url: ''
+  })
 }
 
 </script>
