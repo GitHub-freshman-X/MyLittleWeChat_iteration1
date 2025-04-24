@@ -6,7 +6,8 @@ const NODE_ENV = process.env.NODE_ENV
 
 import { onLoginOrRegister, onLoginSuccess, winTitleOp,onSetLocalStore,onGetLocalStore, 
   onLoadSessionData, onDelChatSession, onTopChatSession, onLoadChatMessage ,onAddLocalMessage,
-  onSetSessionSelect, onCreateCover, onOpenNewWindow
+  onSetSessionSelect, onCreateCover, onOpenNewWindow,
+  onSaveAs
 } from './ipc'
 
 import { createTable } from './db/ADB'
@@ -158,6 +159,7 @@ function createWindow() {
   onSetSessionSelect();
   onCreateCover();
   onOpenNewWindow();
+  onSaveAs()
 
 }
 

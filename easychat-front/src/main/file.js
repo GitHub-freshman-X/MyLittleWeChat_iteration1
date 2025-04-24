@@ -8,6 +8,7 @@ const FormData = require('form-data')
 const axios = require('axios')
 import store from "./store"
 import { selectByMessageId } from './db/ChatMessageModel'
+const { dialog } = require('electron')
 const moment = require('moment')
 moment.locale('zh-cn', {})
 
@@ -190,7 +191,36 @@ expressServer.get('/file', async(req, res)=>{
   let contentType = FILE_TYPE_CONTENT_TYPE[fileType] + fileSuffix
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Content-Type', contentType)
-  fs.createReadStream(localPath).pipe(res)
+  if(showCover || fileType!='1'){
+    fs.createReadStream(localPath).pipe(res)
+    return
+  }
+  let stat = fs.statSync(localPath)
+  let fileSize = stat.size
+  let range = req.headers.range
+  if(range){
+    let parts = range.replace(/bytes=/, "").split("-")
+    let start = parseInt(parts[0], 10)
+    let end = parts[1] ? parseInt(parts[1], 10) : start + 999999
+    end = end>fileSize-1 ? fileSize-1 : end
+    let chunksize = (end-start)+1
+    let stream = fs.createReadStream(localPath, {start, end})
+    let head = {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': chunksize,
+      'Content-Type': 'video/mp4',
+    }
+    res.writeHead(206, head)
+    stream.pipe(res)
+  }else{
+    let head = {
+      'Content-Length': fileSize,
+      'Content-Type': contentType,
+    }
+    res.writeHead(200, head)
+    fs.createReadStream(localPath).pipe(res)
+  }
   return
 })
 
@@ -249,9 +279,31 @@ const createCover = (filePath)=>{
   })
 }
 
+const saveAs = async ({partType, fileId})=>{
+  let fileName=""
+  if(partType=='avatar'){
+    fileName = fileId + image_suffix
+  }else if(partType=='chat'){
+    let messageInfo = await selectByMessageId(fileId)
+    fileName = messageInfo.fileName
+  }
+  const localPath = await getLocalFilePath(partType, false, fileId)
+  const options = {
+    title: '保存文件',
+    defaultPath: fileName,
+  }
+  let result = await dialog.showSaveDialog(options)
+  if(result.canceled || result.filePath==""){
+    return
+  }
+  const filePath = result.filePath
+  fs.copyFileSync(localPath, filePath)
+}
+
 export {
   saveFile2Local,
   startLocalServer,
   closeLocalServer,
   createCover,
+  saveAs,
 }

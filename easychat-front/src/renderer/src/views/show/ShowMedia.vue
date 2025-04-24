@@ -139,9 +139,7 @@ onUnmounted(() => {
 // 获取当前正在看的文件
 const getCurrentFile = () => {
   if(dPlayer.value){
-    dPlayer.value.switchVideo({
-      url:''
-    })
+    dPlayer.value.pause()
   }
   const curFile = allFileList.value[currentIndex.value]
   const url = getUrl(curFile)
@@ -166,10 +164,24 @@ const getUrl = (curFile) => {
     }&${new Date().getTime()}`
 }
 
-const closeWin = () => {
-  dPlayer.value.switchVideo({
-    url: ''
+const saveAs = ()=>{
+  const curFile = allFileList.value[currentIndex.value]
+  window.ipcRenderer.send('saveAs', {
+    partType: curFile.partType,
+    fileId: curFile.fileId,
   })
+}
+
+const closeWin = () => {
+  dPlayer.value.pause()
+}
+
+const next = (index)=>{
+  if(currentIndex.value+index<0 || currentIndex.value+index>=allFileList.value.length){
+    return
+  }
+  currentIndex.value = currentIndex.value+index
+  getCurrentFile()
 }
 
 </script>

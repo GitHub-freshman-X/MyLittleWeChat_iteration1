@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { saveFile2Local, createCover } from './file'
+import { saveFile2Local, createCover, saveAs } from './file'
 const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
 import {initWs}from './wsClient'
@@ -177,6 +177,11 @@ const openWindow = ({windowId, title='EasyChat', path, width=960, height=720, da
   }
 }
 
+const onSaveAs = ()=>{
+  ipcMain.on('saveAs', async(e, data)=>{
+    saveAs(data)
+  })
+}
 
 export {
   onLoginOrRegister,
@@ -192,4 +197,5 @@ export {
   onSetSessionSelect,
   onCreateCover,
   onOpenNewWindow,
+  onSaveAs,
 }
