@@ -1,0 +1,69 @@
+2025-04-23 00:47:21 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/sendMessage", parameters={multipart}
+2025-04-23 00:47:21 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#sendMessage(HttpServletRequest, String, String, Integer, Long, String, Integer)
+2025-04-23 00:47:21 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-23 00:47:21 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4ff7bd3c] was not registered for synchronization because synchronization is not active
+2025-04-23 00:47:21 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-23 00:47:21 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1681104838 wrapping com.mysql.cj.jdbc.ConnectionImpl@408b2ee3] will not be managed by Spring
+2025-04-23 00:47:21 [DEBUG][com.easychat.mappers.ChatSessionMapper.updateBySessionId][debug][159]-> ==>  Preparing: UPDATE chat_session SET last_message = ?, last_receive_time = ? where session_id=? 
+2025-04-23 00:47:21 [DEBUG][com.easychat.mappers.ChatSessionMapper.updateBySessionId][debug][159]-> ==> Parameters: 哈哈哈😀(String), 1745340441072(Long), 1610eaaa2678b7829d7c5a874578fc64(String)
+2025-04-23 00:47:21 [DEBUG][com.easychat.mappers.ChatSessionMapper.updateBySessionId][debug][159]-> <==    Updates: 1
+2025-04-23 00:47:21 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4ff7bd3c]
+2025-04-23 00:47:21 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-23 00:47:21 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@62cbca9c] was not registered for synchronization because synchronization is not active
+2025-04-23 00:47:21 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-23 00:47:21 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1541761288 wrapping com.mysql.cj.jdbc.ConnectionImpl@408b2ee3] will not be managed by Spring
+2025-04-23 00:47:21 [DEBUG][com.easychat.mappers.ChatMessageMapper.insert][debug][159]-> ==>  Preparing: INSERT INTO chat_message ( session_id, message_type, message_content, send_user_id, send_user_nick_name, send_time, contact_id, contact_type, file_name, status ) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) 
+2025-04-23 00:47:21 [DEBUG][com.easychat.mappers.ChatMessageMapper.insert][debug][159]-> ==> Parameters: 1610eaaa2678b7829d7c5a874578fc64(String), 2(Integer), 哈哈哈😀(String), U94232823174(String), test100_xhr(String), 1745340441072(Long), U76543490735(String), 0(Integer), (String), 1(Integer)
+2025-04-23 00:47:21 [DEBUG][com.easychat.mappers.ChatMessageMapper.insert][debug][159]-> <==    Updates: 1
+2025-04-23 00:47:21 [DEBUG][com.easychat.mappers.ChatMessageMapper.insert!selectKey][debug][159]-> ==>  Preparing: SELECT LAST_INSERT_ID() 
+2025-04-23 00:47:21 [DEBUG][com.easychat.mappers.ChatMessageMapper.insert!selectKey][debug][159]-> ==> Parameters: 
+2025-04-23 00:47:21 [DEBUG][com.easychat.mappers.ChatMessageMapper.insert!selectKey][debug][159]-> <==      Total: 1
+2025-04-23 00:47:21 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@62cbca9c]
+2025-04-23 00:47:21 [DEBUG][org.redisson.command.RedisExecutor][sendCommand][612]-> acquired connection for command (PUBLISH) and params [message.topic, PooledUnsafeDirectByteBuf(ridx: 0, widx: 162, cap: 256)] from slot NodeSource [slot=0, addr=null, redisClient=null, redirect=null, entry=MasterSlaveEntry [masterEntry=[freeSubscribeConnectionsAmount=0, freeSubscribeConnectionsCounter=value:49:queue:0, freeConnectionsAmount=23, freeConnectionsCounter=value:63:queue:0, freezed=false, freezeReason=null, client=[addr=redis://localhost:6379], nodeType=MASTER, firstFail=0]]] using node localhost/127.0.0.1:6379... RedisConnection@149016836 [redisClient=[addr=redis://localhost:6379], channel=[id: 0xcb4adff2, L:/127.0.0.1:59563 - R:localhost/127.0.0.1:6379], currentCommand=null]
+2025-04-23 00:47:21 [DEBUG][org.redisson.command.RedisExecutor][lambda$releaseConnection$7][634]-> connection released for command (PUBLISH) and params [message.topic, PooledUnsafeDirectByteBuf(ridx: 0, widx: 162, cap: 256)] from slot NodeSource [slot=0, addr=null, redisClient=null, redirect=null, entry=MasterSlaveEntry [masterEntry=[freeSubscribeConnectionsAmount=0, freeSubscribeConnectionsCounter=value:49:queue:0, freeConnectionsAmount=24, freeConnectionsCounter=value:64:queue:0, freezed=false, freezeReason=null, client=[addr=redis://localhost:6379], nodeType=MASTER, firstFail=0]]] using connection RedisConnection@149016836 [redisClient=[addr=redis://localhost:6379], channel=[id: 0xcb4adff2, L:/127.0.0.1:59563 - R:localhost/127.0.0.1:6379], currentCommand=CommandData [promise=RedissonPromise [promise=ImmediateEventExecutor$ImmediatePromise@2bfa645a(success: 1)], command=(PUBLISH), params=[message.topic, PooledUnsafeDirectByteBuf(ridx: 0, widx: 162, cap: 256)], codec=org.redisson.client.codec.StringCodec]]
+2025-04-23 00:47:21 [INFO][com.easychat.websocket.MessageHandler][lambda$0][29]-> 收到广播消息: {"contactId":"U76543490735","contactName":null,"contactType":0,"extendData":null,"fileName":"","fileSize":null,"fileType":null,"lastMessage":"哈哈哈😀","memberCount":null,"messageContent":"哈哈哈😀","messageId":1731,"messageType":2,"sendTime":1745340441072,"sendUserId":"U94232823174","sendUserNickName":"test100_xhr","sessionId":"1610eaaa2678b7829d7c5a874578fc64","status":1}
+2025-04-23 00:47:21 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-23 00:47:21 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@7dfd5c01]
+2025-04-23 00:47:21 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-23 00:51:16 [DEBUG][org.springframework.boot.availability.ApplicationAvailabilityBean][onApplicationEvent][77]-> Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC
+2025-04-23 00:51:16 [DEBUG][org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext][doClose][1049]-> Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@429bffaa, started on Wed Apr 23 00:36:16 GMT+08:00 2025
+2025-04-23 00:51:16 [DEBUG][org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertyResolver$DefaultResolver][logKeyFound][115]-> Found key 'spring.liveBeansView.mbeanDomain' in PropertySource 'systemProperties' with value of type String
+2025-04-23 00:51:16 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][stop][365]-> Stopping beans in phase 2147483647
+2025-04-23 00:51:16 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][lambda$doStop$3][238]-> Bean 'webServerGracefulShutdown' completed its stop procedure
+2025-04-23 00:51:16 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][stop][365]-> Stopping beans in phase 2147483646
+2025-04-23 00:51:16 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][lambda$doStop$3][238]-> Bean 'webServerStartStop' completed its stop procedure
+2025-04-23 00:51:16 [DEBUG][org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler][shutdown][218]-> Shutting down ExecutorService 'taskScheduler'
+2025-04-23 00:51:16 [DEBUG][org.springframework.jmx.export.annotation.AnnotationMBeanExporter][destroy][452]-> Unregistering JMX-exposed beans on shutdown
+2025-04-23 00:51:16 [DEBUG][org.springframework.jmx.export.annotation.AnnotationMBeanExporter][unregisterBeans][186]-> Unregistering JMX-exposed beans
+2025-04-23 00:51:16 [DEBUG][org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor][shutdown][218]-> Shutting down ExecutorService 'applicationTaskExecutor'
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-12
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-8
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-9
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-19
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-3
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-18
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-21
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-15
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-7
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-10
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-6
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-24
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-11
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-4
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 3 thread-local buffer(s) from thread: redisson-netty-6-23
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-13
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-14
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 3 thread-local buffer(s) from thread: redisson-netty-6-22
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-5
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 3 thread-local buffer(s) from thread: redisson-netty-6-20
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-17
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-16
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-25
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 4 thread-local buffer(s) from thread: redisson-netty-6-27
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-26
+2025-04-23 00:51:16 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0x2794bd67, L:/0:0:0:0:0:0:0:0:5051] INACTIVE
+2025-04-23 00:51:16 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0x2794bd67, L:/0:0:0:0:0:0:0:0:5051] UNREGISTERED
+2025-04-23 00:51:16 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelInactive][45]-> 有链接断开...
+2025-04-23 00:51:16 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 34 thread-local buffer(s) from thread: lettuce-nioEventLoop-9-1
+2025-04-23 00:51:16 [INFO][com.zaxxer.hikari.HikariDataSource][close][350]-> HikariCPDataSource - Shutdown initiated...
+2025-04-23 00:51:16 [INFO][com.zaxxer.hikari.HikariDataSource][close][352]-> HikariCPDataSource - Shutdown completed.

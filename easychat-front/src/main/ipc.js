@@ -9,6 +9,7 @@ import {initWs}from './wsClient'
 import { addUserSetting } from './db/UserSettingModel'
 import { selectUserSessionList, delChatSession, topChatSession, updateSessionInfo4Message, readAll } from './db/ChatSessionUserModel'
 import { saveMessage, selectMessageList, updateMessage } from './db/ChatMessageModel'
+import { delWindow, getWindow, saveWindow } from './windowProxy'
 
 const onLoginOrRegister = (callback) => {
   ipcMain.on("loginOrRegister", (e, isLogin) => {
@@ -116,6 +117,64 @@ const onCreateCover = ()=>{
   })
 }
 
+const onOpenNewWindow = ()=>{
+  ipcMain.on('newWindow', async(e, config)=>{
+    openWindow(config)
+  })
+}
+
+const openWindow = ({windowId, title='EasyChat', path, width=960, height=720, data})=>{
+  let newWindow = getWindow(windowId);
+  if(!newWindow){
+    newWindow = new BrowserWindow({
+        icon: icon,
+        width: width,
+        height: height,
+        fullscreenable: false,
+        fullscreen: false,
+        maximizable: false,
+        autoHideMenuBar: true,
+        titleBarStyle: 'hidden',
+        resizable: false,
+        frame: true,
+        transparent: true,
+        hasShadow: false,
+        webPreferences: {
+          preload: join(__dirname, '../preload/index.js'),
+          sandbox: false,
+          contextIsolation: false,
+        }
+      })
+      saveWindow(windowId, newWindow)
+      newWindow.setMinimumSize(600, 480)
+      if(is.dev && process.env['ELECTRON_RENDERER_URL']) {
+        newWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/index.html#${path}`)
+      }else{
+        newWindow.loadFile(join(__dirname, `../renderer/index.html`), {hash:`${path}`})
+      }
+      // 开发模式下打开开发者工具
+      if(NODE_ENV=='development'){
+        newWindow.webContents.openDevTools()
+      }
+      newWindow.on('ready-to-show', () => {
+        newWindow.show()
+        newWindow.setTitle(title)
+      })
+      newWindow.once('show', ()=>{
+        setTimeout(()=>{
+          newWindow.webContents.send('pageInitData', data)
+        }, 500)
+      })
+      newWindow.on('closed', ()=>{
+        delWindow(windowId)
+      })
+  }else{
+    newWindow.show()
+    newWindow.setSkipTaskbar(false)
+    newWindow.webContents.send('pageInitData', data)
+  }
+}
+
 
 export {
   onLoginOrRegister,
@@ -129,5 +188,6 @@ export {
   onLoadChatMessage,
   onAddLocalMessage,
   onSetSessionSelect,
-  onCreateCover
+  onCreateCover,
+  onOpenNewWindow,
 }

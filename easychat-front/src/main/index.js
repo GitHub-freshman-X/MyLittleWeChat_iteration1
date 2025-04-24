@@ -6,13 +6,16 @@ const NODE_ENV = process.env.NODE_ENV
 
 import { onLoginOrRegister, onLoginSuccess, winTitleOp,onSetLocalStore,onGetLocalStore, 
   onLoadSessionData, onDelChatSession, onTopChatSession, onLoadChatMessage ,onAddLocalMessage,
-  onSetSessionSelect, onCreateCover
+  onSetSessionSelect, onCreateCover, onOpenNewWindow
 } from './ipc'
 
 import { createTable } from './db/ADB'
 import {initWs}from './wsClient'
 
+saveWindow("main", app.mainWindow)
+
 import { on } from 'events'
+import { saveWindow } from './windowProxy'
 const login_width=300;
 const login_height=370;
 const register_height=490;
@@ -153,7 +156,8 @@ function createWindow() {
   onLoadChatMessage();
   onAddLocalMessage();
   onSetSessionSelect();
-  onCreateCover()
+  onCreateCover();
+  onOpenNewWindow();
 
 }
 

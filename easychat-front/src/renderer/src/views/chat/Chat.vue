@@ -36,14 +36,15 @@
           <div class="message-item" v-for="(data, index) in messageList" :key="data.messageId"
             :id="'message' + data.messageId">
             <template v-if="data.messageType == 1 || data.messageType == 2 || data.messageType == 5">
-              <ChatMessage :data="data" :currentChatSession="currentChatSession"></ChatMessage>
+              <ChatMessage :data="data" :currentChatSession="currentChatSession"
+                @showMediaDetail="showMediaDetailHandler"></ChatMessage>
             </template>
           </div>
         </div>
         <MessageSend :currentChatSession="currentChatSession" @sendMessage4Local="sendMessage4LocalHandler">
         </MessageSend>
       </div>
-      <div class="chat-blank" v-show="Object.keys(currentChatSession).length==0">
+      <div class="chat-blank" v-show="Object.keys(currentChatSession).length == 0">
         <Blank></Blank>
       </div>
     </template>
@@ -92,14 +93,14 @@ const delChatSessionList = (contactId) => {
 const onReceiveMessage = () => {
   window.ipcRenderer.on("receiveMessage", (e, message) => {
     console.log('收到消息', message)
-    
-    if(message.messageType==6){
-      const localMessage = messageList.value.find(item=>{
-        if(item.messageId==message.messageId){
+
+    if (message.messageType == 6) {
+      const localMessage = messageList.value.find(item => {
+        if (item.messageId == message.messageId) {
           return item
         }
       })
-      if(localMessage!=null){
+      if (localMessage != null) {
         localMessage.status = 1
       }
       return;
@@ -184,14 +185,14 @@ const onLoadChatMessage = () => {
   });
 }
 
-const onAddLocalMessage = ()=>{
-  window.ipcRenderer.on('addLocalCallback', (e, { messageId, status})=>{
-    const findMessage = messageList.value.find(item=>{
-      if(item.messageId==messageId){
+const onAddLocalMessage = () => {
+  window.ipcRenderer.on('addLocalCallback', (e, { messageId, status }) => {
+    const findMessage = messageList.value.find(item => {
+      if (item.messageId == messageId) {
         return item
       }
     })
-    if(findMessage!=null){
+    if (findMessage != null) {
       findMessage.status = status
     }
   })
@@ -318,7 +319,7 @@ const handleMessageScroll = (event) => {
 const gotoBottom = (behavior = 'smooth') => {
   nextTick(() => {
     const panel = document.getElementById('message-panel')
-    if(!panel) return
+    if (!panel) return
     requestAnimationFrame(() => {
       panel.scrollTo({
         top: panel.scrollHeight,
@@ -376,6 +377,31 @@ const onContextMenu = (data, e) => {
       }
     }
     ]
+  })
+}
+
+const showMediaDetailHandler = (messageId)=>{
+  let showFileList = messageList.value.filter(item =>{
+    return item.messageType==5
+  })
+  showFileList = showFileList.map(item=>{
+    return {
+      partType: 'chat',
+      fileId: item.messageId,
+      fileType: item.fileType,
+      fileName: item.fileName,
+      fileSize: item.fileSize,
+      forceGet: false,
+    }
+  })
+  window.ipcRenderer.send('newWindow', {
+    windowId: 'media',
+    title: '图片查看',
+    path: '/showMedia',
+    data: {
+      currentFileId: messageId,
+      fileList: showFileList
+    }
   })
 }
 
