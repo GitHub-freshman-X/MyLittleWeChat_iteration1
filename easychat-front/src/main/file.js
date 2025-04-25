@@ -54,7 +54,7 @@ const getFFmegPath = ()=>{
 const execCommand = (command)=>{
   return new Promise((resolve, reject)=>{
     exec(command, (error, stdout, stderr) => {
-      console.log('ffmpeg命令：' + command)
+      // console.log('ffmpeg命令：' + command)
       if(error){
         console.error('执行命令失败：', error)
       }
@@ -66,7 +66,7 @@ const execCommand = (command)=>{
 const saveFile2Local = (messageId, filePath, fileType)=>{
   return new Promise(async (resolve, reject)=>{
     let savePath = await getLocalFilePath('chat', false, messageId);
-    console.log('saveFile2Local savePath : ', savePath);
+    // console.log('saveFile2Local savePath : ', savePath);
     
     fs.copyFileSync(filePath, savePath);
 
@@ -155,7 +155,7 @@ const getLocalFilePath = async(partType, showCover, fileId)=>{
 let server = null
 const startLocalServer = (serverPort)=>{
   server = expressServer.listen(serverPort, ()=>{
-    console.log('本地文件服务器已启动，端口：', serverPort)
+    // console.log('本地文件服务器已启动，端口：', serverPort)
   })
 }
 

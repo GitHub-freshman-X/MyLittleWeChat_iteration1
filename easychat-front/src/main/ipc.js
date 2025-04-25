@@ -155,9 +155,9 @@ const openWindow = ({windowId, title='EasyChat', path, width=960, height=720, da
         newWindow.loadFile(join(__dirname, `../renderer/index.html`), {hash:`${path}`})
       }
       // 开发模式下打开开发者工具
-      if(NODE_ENV=='development'){
-        newWindow.webContents.openDevTools()
-      }
+      // if(NODE_ENV=='development'){
+      //   newWindow.webContents.openDevTools()
+      // }
       newWindow.on('ready-to-show', () => {
         newWindow.show()
         newWindow.setTitle(title)

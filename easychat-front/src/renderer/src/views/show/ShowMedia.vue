@@ -26,7 +26,7 @@
         style="width: 100%; height: 100%"></div>
       <div v-if="fileList[0].fileType == 2" class="file-panel">
         <div class="file-item">文件名：{{ fileList[0].fileName }}</div>
-        <div class="file-item">文件大小：{{ utilityProcess.size2Str(fileList[0].fileSize) }}</div>
+        <div class="file-item">文件大小：{{ Utils.size2Str(fileList[0].fileSize) }}</div>
         <div class="file-item download">
           <el-button type="primary" @click="saveAs">下载文件</el-button>
         </div>
@@ -88,7 +88,7 @@ const onWheel = (e) => {
   if (fileList.value[0].fileType != 0) {
     return
   }
-  console.log(e.deltaY)
+  // console.log(e.deltaY)
   if (e.deltaY < 0) {
     changeSize(0.1)
   } else {
@@ -120,6 +120,7 @@ onMounted(() => {
     localServerPort.value = data.localServerPort
     allFileList.value = data.fileList
     let index = 0
+    // console.log('dataFileId: ', data.currentFileId)
     if(data.currentFileId){
       index = data.fileList.findIndex(item=>item.fileId==data.currentFileId)
       index = index==-1 ? 0 : index

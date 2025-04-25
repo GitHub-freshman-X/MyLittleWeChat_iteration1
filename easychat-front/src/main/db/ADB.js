@@ -52,7 +52,7 @@ const initTableColumnsMap = async()=>{
     }
     globalColumnsMap[tables[i].name] = columnMapItem;
   }
-  console.log(globalColumnsMap)
+  // console.log(globalColumnsMap)
 }
 
 const convertDbObject2BizObj = (data) => {
