@@ -64,8 +64,11 @@ import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
 const router = useRouter()
 
-import { useUserInfoStore } from '@/stores/UserInfoStore';
-const userInfoStore = useUserInfoStore();
+import { useUserInfoStore } from '../../stores/UserInfoStore'
+const userInfoStore = useUserInfoStore()
+
+import { useSysSettingStore } from '../../stores/SysSettingStore'
+const sysSettingStore = useSysSettingStore()
 
 const props = defineProps({
   currentChatSession: {
@@ -122,6 +125,9 @@ const sendMessageDo = async (
   }, cleanMsgContent
 ) => {
   //TODO判断文件大小
+  // if(!checkFileSize(messageObj.fileType, messageObj.fileSize, messageObj.fileName)){
+  //   return
+  // }
   if (messageObj.fileSize == 0) {
     proxy.Confirm({
       message: `${messageObj.fileName}是一个空文件无法发送，请重新选择`,
@@ -208,7 +214,12 @@ const closePopover = ()=>{
   document.removeEventListener('click', hidePopover, false)
 }
 
-
+// const checkFileSize = (fileType, fileSize, fileName)=>{
+//   const SIZE_MB = 1024 * 1024
+//   const settingArray = Object.values(sysSettingStore.getSetting())
+//   console.log('settingArray: ', settingArray)
+// }
+// checkFileSize()
 
 </script>
 

@@ -37,8 +37,12 @@ const router = useRouter()
 
 import { useUserInfoStore } from '../stores/UserInfoStore'
 const userInfoStore = useUserInfoStore()
+
 import { useGlobalInfoStore } from '../stores/GlobalInfoStore'
 const globalInfoStore = useGlobalInfoStore()
+
+import  { useSysSettingStore } from '../stores/SysSettingStore'
+const sysSettingStore = useSysSettingStore()
 
 const menuList = ref([
   {
@@ -80,7 +84,17 @@ const getLoginInfo = async()=>{
   window.ipcRenderer.send('getLocalStore', result.data.userId + 'localServerPort')
 }
 
+// const getSysSetting = async ()=>{
+//   let result = await proxy.Request({
+//      url: proxy.Api.getSystemSetting,
+//   })
+//   if(!result){
+//     return;
+//   }
+// }
+
 onMounted(()=>{
+  // getSysSetting()
   getLoginInfo()
   window.ipcRenderer.on('getLocalStoreCallback', (e, serverPort)=>{
     globalInfoStore.setInfo('localServerPort', serverPort)

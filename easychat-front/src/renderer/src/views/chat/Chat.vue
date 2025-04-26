@@ -35,6 +35,26 @@
           <div v-if="messageCountInfo.isLoading" class="loading-indicator">加载中...</div>
           <div class="message-item" v-for="(data, index) in messageList" :key="data.messageId"
             :id="'message' + data.messageId">
+            <!-- 展示时间 -->
+            <template
+              v-if="index > 1 && data.sendTime - messageList[index - 1].sendTime > 1000 * 60 * 5 && (data.messageType == 2 || data.messageType == 5)">
+              <ChatMessageTime :data="data"></ChatMessageTime>
+            </template>
+            <!-- 系统消息
+             1: 添加好友成功
+             3：创建群聊成功
+             9：好友加入群组
+             11：退出群聊
+             12：删除群成员
+            -->
+            <template v-if="data.messageType == 1 ||
+              data.messageType == 3 ||
+              data.messageType == 8 ||
+              data.messageType == 9 ||
+              data.messageType == 11 ||
+              data.messageType == 12">
+              <ChatMessageSys :data="data"></ChatMessageSys>
+            </template>
             <template v-if="data.messageType == 1 || data.messageType == 2 || data.messageType == 5">
               <ChatMessage :data="data" :currentChatSession="currentChatSession"
                 @showMediaDetail="showMediaDetailHandler"></ChatMessage>
@@ -49,13 +69,17 @@
       </div>
     </template>
   </Layout>
+  <ChatGroupDetail ref="chatGroupDetailRef"></ChatGroupDetail>
 </template>
 
 <script setup>
+import ChatGroupDetail from './ChatGroupDetail.vue';
 import ChatMessage from './ChatMessage.vue';
 import MessageSend from './MessageSend.vue';
 import Blank from '@/components/Blank.vue';
 import ContextMenu from '@imengyu/vue3-context-menu'
+import ChatMessageTime from './ChatMessageTime.vue'
+import ChatMessageSys from './ChatMessageSys.vue';
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import ChatSession from "./ChatSession.vue";
 import { ref, reactive, getCurrentInstance, nextTick, onMounted, onUnmounted } from "vue"
@@ -202,6 +226,7 @@ const onAddLocalMessage = () => {
 const currentChatSession = ref({})
 
 // 点击会话
+// let distanceBottom = 0
 const messageList = ref([])
 const messageCountInfo = reactive({
   isLoading: false,
@@ -211,6 +236,7 @@ const messageCountInfo = reactive({
   lastScrollHeight: 0  // 用于保持滚动位置
 })
 const chatSessionClickHandler = (item) => {
+  // distanceBottom = 0
   currentChatSession.value = Object.assign({}, item);
   messageList.value = []
 
@@ -318,6 +344,9 @@ const handleMessageScroll = (event) => {
 
 const gotoBottom = (behavior = 'smooth') => {
   nextTick(() => {
+    // if(distanceBottom > 200){
+    //   return
+    // }
     const panel = document.getElementById('message-panel')
     if (!panel) return
     requestAnimationFrame(() => {
@@ -335,6 +364,7 @@ onMounted(() => {
   loadChatSession()
   onLoadChatMessage()
   onAddLocalMessage()
+
 })
 
 onUnmounted(() => {
@@ -380,11 +410,11 @@ const onContextMenu = (data, e) => {
   })
 }
 
-const showMediaDetailHandler = (messageId)=>{
-  let showFileList = messageList.value.filter(item =>{
-    return item.messageType==5
+const showMediaDetailHandler = (messageId) => {
+  let showFileList = messageList.value.filter(item => {
+    return item.messageType == 5
   })
-  showFileList = showFileList.map(item=>{
+  showFileList = showFileList.map(item => {
     return {
       partType: 'chat',
       fileId: item.messageId,
@@ -403,6 +433,11 @@ const showMediaDetailHandler = (messageId)=>{
       fileList: showFileList
     }
   })
+}
+
+const chatGroupDetailRef = ref()
+const showGroupDetail = ()=>{
+  chatGroupDetailRef.value.show(currentChatSession.value.contactId)
 }
 
 </script>

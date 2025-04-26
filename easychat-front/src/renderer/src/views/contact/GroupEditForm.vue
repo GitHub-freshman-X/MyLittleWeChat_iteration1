@@ -32,12 +32,15 @@ const { proxy } = getCurrentInstance();
 import { useContactStateStore } from '@/stores/ContactStateStore';
 const contactInfoStore = useContactStateStore()
 
+import  { useAvatarInfoStore } from '@/stores/AvatarUploadStore';
+const avatarInfoStore  = useAvatarInfoStore()
+
 const formData = ref({});
 const formDataRef = ref();
 const rules = {
   groupName: [{ required: true, message: '请输入群名称' }],
   joinType: [{ required: true, message: '请选择加入权限' }],
-  // avatarFile: [{required: true, message: '请选择头像'}]
+  avatarFile: [{required: true, message: '请选择头像'}]
 };
 
 const emit = defineEmits(['editBack'])
@@ -47,6 +50,11 @@ const submit = async () => {
       return;
     }
     let params = {};
+
+    // if(params.groupId){
+    //   avatarInfoStore.setForceReload(params.groupId, false)
+    // }
+
     Object.assign(params, formData.value);
     let result = await proxy.Request({
       url: proxy.Api.saveGroup,
@@ -63,6 +71,10 @@ const submit = async () => {
     }
     formDataRef.value.resetFields()
     contactInfoStore.setContactReload('MY')
+
+    // if(params.groupId){
+    //   avatarInfoStore.setForceReload(params.groupId, true)
+    // }
   });
 }
 
@@ -75,8 +87,9 @@ defineExpose({
   show
 })
 
-const saveCover = ()=> {
-  
+const saveCover = ({ avatarFile, coverFile }) => {
+  formData.value.avatarFile = avatarFile
+  formData.value.avatarCover = coverFile
 }
 
 </script>
