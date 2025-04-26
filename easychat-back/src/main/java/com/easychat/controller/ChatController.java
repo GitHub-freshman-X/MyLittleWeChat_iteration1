@@ -39,9 +39,6 @@ public class ChatController extends ABaseController {
     private ChatMessageService chatMessageService;
 
     @Resource
-    private ChatSessionUserService chatSessionUserService;
-
-    @Resource
     private Appconfig appConfig;
 
     @RequestMapping("/sendMessage")
@@ -72,7 +69,7 @@ public class ChatController extends ABaseController {
                                  @NotNull MultipartFile cover) {
         TokenUserInfoDto userInfoDto = getTokenUserInfo(request);
         chatMessageService.saveMessageFile(userInfoDto.getUserId(), messageId, file, cover);
-        return getSuccessResponseVO(userInfoDto);
+        return getSuccessResponseVO(null);
     }
 
     @RequestMapping("/downloadFile")

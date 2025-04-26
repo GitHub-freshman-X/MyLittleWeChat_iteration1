@@ -49,7 +49,7 @@ const addUserSetting = async (userId, email)=>{
   sql = "select * from user_setting where user_id=?"
   const userInfo = await queryOne(sql, [userId]);
 
-  const resultServerPort = null;
+  let resultServerPort = null
   let localFileFolder = sysSetting.localFileFolder + userId
   if(userInfo){
     await update("user_setting", {"email": email}, {"userId": userId})
@@ -63,12 +63,13 @@ const addUserSetting = async (userId, email)=>{
       contactNoRead: 0,
       serverPort: serverPort
     })
-    // resultServerPort = serverPort;
+    resultServerPort = serverPort;
   }
 
   // 启动本地服务
   store.setUserData("localServerPort", resultServerPort);
-  store.serUserData("localFileFolder", localFileFolder);
+  store.setUserData("localFileFolder", localFileFolder);
+  console.log("setUserData localFileFolder : " , localFileFolder)
 }
 
 export {

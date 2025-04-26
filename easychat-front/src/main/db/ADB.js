@@ -7,7 +7,6 @@ import { add_tables, add_index, alter_tables } from "./Tables.js";
 
 const userDir = os.homedir();
 const dbFolder = userDir + (NODE_ENV === "development" ? "/.easychattest/" : "/.easychat/");
-console.log(dbFolder);
 if(!fs.existsSync(dbFolder)){
   fs.mkdirSync(dbFolder);
 }
@@ -75,6 +74,7 @@ const toCamelCase = (str)=>{
 
 
 const queryAll =(sql, params) =>{
+  console.log('queryAll: ', sql)
   return new Promise((resolve, reject) => {
     const stmt = db.prepare(sql);
     stmt.all(params, function(err, row){
@@ -111,7 +111,7 @@ const queryOne = (sql, params) =>{
         resolve({})
       }
       resolve(convertDbObject2BizObj(row))
-      console.log(`执行的sql：${sql}, params:${params}, row:${JSON.stringify(row)}`)
+      console.log(`queryOne : ${sql}, params:${params}, row:${JSON.stringify(row)}`)
     })
     stmt.finalize()
   })
@@ -125,7 +125,7 @@ const run = (sql, params)=>{
         console.error(`执行的sql：${sql}, params:${params}, err:${err}`)
         resolve("操作数据库失败")
       }
-      console.log(`执行的sql：${sql}, params:${params}, 执行记录数：${this.changes}, row:${JSON.stringify(row)}`)
+      // console.log(`执行的sql：${sql}, params:${params}, 执行记录数：${this.changes}, row:${JSON.stringify(row)}`)
       resolve(this.changes)
     })
     stmt.finalize()
@@ -174,6 +174,7 @@ const update = (tableName, data, paramData)=>{
   }
   
   const sql = `update ${tableName} set ${dbColums.join(",")} ${whereColumns.length>0 ? 'where' : ''} ${whereColumns.join(" and ")}`
+  // console.log(`update : ${sql}, params:${params}`)
   return run(sql, params)
 }
 

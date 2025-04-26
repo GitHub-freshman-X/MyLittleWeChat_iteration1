@@ -28,7 +28,7 @@ public class AdminGroupController extends ABaseController{
 
     @RequestMapping("/loadGroup")
     @GlobalInterceptor(checkAdmin = true)
-public ResponseVO loadGroup (GroupInfoQuery query){
+    public ResponseVO loadGroup (GroupInfoQuery query){
 
         query.setOrderBy("creat_time desc");
         query.setQueryMemberConut(true);

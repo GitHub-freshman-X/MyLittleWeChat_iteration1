@@ -54,34 +54,88 @@ const getPageOffset = (pageNo=1, totalCount)=>{
   }
 }
 
-const selectMessageList = (query)=>{
-  return new Promise(async (resolve, reject) => {
-    const { sessionId, pageNo, maxMessageId } = query
-    let sql = "select count(1) from chat_message where session_id = ? and user_id = ?"
-    const tatalCount = await queryCount(sql, [sessionId, store.getUserId()])
-    const {pageTotal, offset, limit} = getPageOffset(pageNo, tatalCount)
+// const selectMessageList = async(query)=>{
+//   return new Promise(async (resolve, reject) => {
+//     // debugger
+//     const { sessionId, pageNo, maxMessageId } = query
+//     let sql = "select count(1) from chat_message where session_id = ? "
+//     const totalCount = await queryCount(sql, sessionId)
 
-    const params = [sessionId, store.getUserId()]
-    sql = "select * from chat_message where session_id = ? and user_id = ?"
-    if(maxMessageId){
-      sql = sql + " and message_id <= ?"
-      params.push(maxMessageId)
+//     // console.log('selectMessageList count: ', totalCount)
+
+//     const {pageTotal, offset, limit} = getPageOffset(pageNo, totalCount)
+
+//     const params = [sessionId]
+//     sql = "select * from chat_message where session_id = ? "
+//     if(maxMessageId){
+//       sql = sql + " and message_id <= ?"
+//       params.push(maxMessageId)
+//     }
+//     params.push(offset)
+//     params.push(limit)
+//     sql = sql + " order by message_id limit ?, ?"
+//     const dataList = await queryAll(sql, params)
+
+//     console.log('selectMessageList: ', sql, params)
+
+//     resolve({
+//       dataList,
+//       pageTotal,
+//       pageNo
+//     })
+
+//   })
+// }
+
+const selectMessageList = async(query)=>{
+  return new Promise(async (resolve, reject) =>{
+    const { sessionId, minMessageId } = query;
+    const pageSize = 20;
+
+    let sql = "select * from chat_message where session_id = ? ";
+    const params = [sessionId];
+
+    // 添加消息ID过滤
+    if(minMessageId){
+      sql += " and message_id < ? ";
+      params.push(minMessageId);
     }
-    params.push(offset)
-    params.push(limit)
-    sql = sql + " order by message_id limit ?, ?"
-    const dataList = await queryAll(sql, params)
-    resolve({
-      dataList,
-      pageTotal,
-      pageNo
-    })
 
+    sql += " order by message_id desc limit ? ";
+    params.push(pageSize);
+
+    try {
+      const dataList = await queryAll(sql, params);
+      const hasMore = dataList.length == pageSize;
+      const newMinMessageId = dataList.length > 0
+        ? dataList[dataList.length - 1].messageId
+        : null;
+      
+      resolve({
+        dataList: dataList.reverse(),
+        hasMore,
+        minMessageId: newMinMessageId,
+      });
+    } catch(error){
+      reject(error);
+    }
   })
 }
+
+const updateMessage = (data, paramData)=>{
+  return update('chat_message', data, paramData)
+}
+
+const selectByMessageId = (messageId)=>{
+  let sql = "select * from chat_message where message_id = ?"
+  return queryOne(sql, messageId)
+}
+
 
 export {
   saveMessageBatch,
   selectMessageList,
   saveMessage,
+  updateMessage, 
+  selectByMessageId
 }

@@ -85,8 +85,8 @@ const topChatSession = (contactId, topType)=>{
   return update("chat_session_user", sessionInfo, paramData)
 }
 
-const updataSessionInfo4Message = async(currentSession,{sessionId,contactName,lastMessage,lastReceiveTime,contactId,memberCount})=>{
-  const params = {lastMessage, lastReceiveTime};
+const updateSessionInfo4Message = async(currentSessionId,{sessionId,contactName,lastMessage,lastReceiveTime,contactId,memberCount})=>{
+  const params = [lastMessage, lastReceiveTime];
   let sql = "update chat_session_user set last_message=?, last_receive_time=?,status =1";
   if(contactName){
     sql = sql + ", contact_name=?"
@@ -112,6 +112,19 @@ const readAll =(contactId)=>{
   return run(sql, [store.getUserId(), contactId]);
 }
 
+const saveOrUpdate4Message = async(currentSessionId, sessionInfo)=>{
+  return new Promise(async (resolve, reject)=>{
+    let sessionData = await selectUserSessionByContactId(sessionInfo.contactId);
+    if(sessionData){
+      updateSessionInfo4Message(currentSessionId, sessionInfo);
+    }else{
+      sessionInfo.noReadCount = 1;
+      await addChatSession(sessionInfo);
+    }
+    resolve()
+  })
+}
+
 
 export{
   saveOrUpdateChatSessionBatch4Init,
@@ -119,6 +132,8 @@ export{
   selectUserSessionList,
   delChatSession,
   topChatSession,
-  updataSessionInfo4Message,
+  updateSessionInfo4Message,
   readAll,
+  saveOrUpdate4Message,
+  selectUserSessionByContactId
 }

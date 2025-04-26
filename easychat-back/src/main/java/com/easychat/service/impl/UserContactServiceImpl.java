@@ -301,7 +301,7 @@ public class UserContactServiceImpl implements UserContactService {
 			if(groupInfo == null||GroupStatusEnum.DISSOLUTION.getStatus().equals(groupInfo)) {
 				throw new BusinessException("群聊不存在或已解散");
 			}
-			receiveUserId = groupInfo.getGroupId();
+			receiveUserId = groupInfo.getGroupOwnerId();
 			joinType =  groupInfo.getJoinType();
 		} else{
 			UserInfo userInfo = userInfoMapper.selectByUserId(contactId);
