@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { saveFile2Local, createCover, saveAs } from './file'
+import { saveFile2Local, createCover, saveAs, saveClipBoardFile } from './file'
 const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
 import {initWs}from './wsClient'
@@ -191,6 +191,13 @@ const onReloadChatSession = ()=>{
   })
 }
 
+const onSaveClipBoardFile = (e)=>{
+  ipcMain.on('onSaveClipBoardFile', async(e, data)=>{
+    const result = await saveClipBoardFile(data)
+    e.sender.send('saveClipBoardFileCallback', result)
+  })
+}
+
 export {
   onLoginOrRegister,
   onLoginSuccess,
@@ -207,4 +214,5 @@ export {
   onOpenNewWindow,
   onSaveAs,
   onReloadChatSession,
+  onSaveClipBoardFile,
 }

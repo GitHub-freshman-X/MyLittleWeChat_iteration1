@@ -1,0 +1,817 @@
+2025-04-25 00:00:33 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:00:33 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:00:33 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:00:33 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@90666e9] was not registered for synchronization because synchronization is not active
+2025-04-25 00:00:33 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:00:33 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@533591474 wrapping com.mysql.cj.jdbc.ConnectionImpl@1f93f314] will not be managed by Spring
+2025-04-25 00:00:33 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:00:33 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:00:33 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:00:33 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@90666e9]
+2025-04-25 00:00:33 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:00:33 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@235f253b]
+2025-04-25 00:00:33 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:12:15 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:12:15 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:12:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:12:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@114c58e4] was not registered for synchronization because synchronization is not active
+2025-04-25 00:12:15 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:12:15 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@325710820 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:12:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:12:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:12:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:12:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@114c58e4]
+2025-04-25 00:12:15 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:12:15 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@31ce1965]
+2025-04-25 00:12:15 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:13:39 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:13:39 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:13:39 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:13:39 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4132766b] was not registered for synchronization because synchronization is not active
+2025-04-25 00:13:39 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:13:39 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1066603614 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:13:39 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:13:39 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:13:39 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:13:39 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4132766b]
+2025-04-25 00:13:39 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:13:39 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@43ad1b60]
+2025-04-25 00:13:39 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:14:07 [WARN][io.netty.channel.DefaultChannelPipeline][onUnhandledInboundException][1152]-> An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:379)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:253)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:750)
+2025-04-25 00:14:07 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelInactive][45]-> 有链接断开...
+2025-04-25 00:14:11 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/account/checkCode", parameters={multipart}
+2025-04-25 00:14:11 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.AccountController#checkCode()
+2025-04-25 00:14:12 [INFO][com.easychat.controller.AccountController][checkCode][52]-> 验证码是17:
+2025-04-25 00:14:12 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:14:12 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@69d50ef1]
+2025-04-25 00:14:12 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:14:22 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/account/login", parameters={multipart}
+2025-04-25 00:14:22 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.AccountController#login(String, String, String, String)
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@278c65eb] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:22 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@138168665 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where email=? 
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> ==> Parameters: test100@qq.com(String)
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> <==      Total: 1
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@278c65eb]
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@eb9c3ef] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:22 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1096870080 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==>  Preparing: SELECT u.* FROM user_contact u WHERE u.user_id = ? and u.status = ? 
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String), 1(Integer)
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> <==      Total: 13
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@eb9c3ef]
+2025-04-25 00:14:22 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:14:22 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@13b93bfd]
+2025-04-25 00:14:22 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:14:22 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] READ: [id: 0xb26109b5, L:/127.0.0.1:5051 - R:/127.0.0.1:63057]
+2025-04-25 00:14:22 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] READ COMPLETE
+2025-04-25 00:14:22 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelActive][40]-> 有新的连接加入....
+2025-04-25 00:14:22 [DEBUG][io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker][handshake][192]-> [id: 0xb26109b5, L:/127.0.0.1:5051 - R:/127.0.0.1:63057] WebSocket version V13 server handshake
+2025-04-25 00:14:22 [DEBUG][io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker][newHandshakeResponse][153]-> WebSocket version 13 server handshake key: 5JRiVDn2HnVc3HsDioxHgw==, response: g/jFFxQ20hIDaO5gfmBrbFa+2Tw=
+2025-04-25 00:14:22 [INFO][com.easychat.websocket.ChannelContextUtils][addContext][69]-> channelId:b26109b5
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@62fd8271] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:22 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@671023178 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==>  Preparing: UPDATE user_info SET last_login_time = ? where user_id=? 
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==> Parameters: 2025-04-25 00:14:22.965(Timestamp), U94232823174(String)
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> <==    Updates: 1
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@62fd8271]
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1692a7a8] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:22 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@418533633 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1692a7a8]
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@aaad0aa] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:22 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@151423408 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> ==>  Preparing: SELECT c.*, u.last_message lastMessage, u.last_receive_time lastReceiveTime, case when SUBSTRING(contact_id,1,1)='G' THEN(select count(1) from user_contact uc where uc.contact_id = c.contact_id) else 0 end memberCount FROM chat_session_user c inner join chat_session u on u.session_id = c.session_id WHERE c.user_id = ? order by last_receive_time desc 
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> <==      Total: 6
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@aaad0aa]
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@439e4464] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:22 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@527295293 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> ==>  Preparing: SELECT c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status FROM chat_message c WHERE send_time>=? and contact_id in (?,? ) 
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> ==> Parameters: 4320000(Long), G75290541011(String), U94232823174(String)
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> <==      Total: 47
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@439e4464]
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@14056509] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:22 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@621391497 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> ==>  Preparing: SELECT count(1) FROM user_contact_apply u WHERE u.receive_user_id = ? and u.status = ? and u.last_apply_time>=? 
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> ==> Parameters: U94232823174(String), 0(Integer), 4320000(Long)
+2025-04-25 00:14:22 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> <==      Total: 1
+2025-04-25 00:14:22 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@14056509]
+2025-04-25 00:14:23 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:14:23 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:14:23 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:23 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@f86cfb4] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:23 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:23 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@66588122 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:23 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:14:23 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:14:23 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:14:23 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@f86cfb4]
+2025-04-25 00:14:23 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:14:23 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@5b2851ae]
+2025-04-25 00:14:23 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/group/loadMyGroup", parameters={multipart}
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/contact/loadContact", parameters={multipart}
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/contact/loadContact", parameters={multipart}
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.GroupInfoController#LoadMyGroup(HttpServletRequest)
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserContactController#loadContact(HttpServletRequest, String)
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserContactController#loadContact(HttpServletRequest, String)
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@402224c5] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@19c68405] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:24 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:24 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@231321229 wrapping com.mysql.cj.jdbc.ConnectionImpl@288cc2ee] will not be managed by Spring
+2025-04-25 00:14:24 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==>  Preparing: SELECT u.* ,g.group_name contactName FROM user_contact u inner join group_info g on u.contact_id = g.group_id and g.group_id != u.user_id WHERE u.user_id = ? and u.contact_type = ? and u.status in(?,?,?) order by last_update_time desc 
+2025-04-25 00:14:24 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String), 1(Integer), 1(Integer), 3(Integer), 5(Integer)
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@4432147 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:24 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==>  Preparing: SELECT u.* ,c.nick_name contactName,c.sex sex FROM user_contact u inner join user_info c on u.contact_id = c.user_id WHERE u.user_id = ? and u.contact_type = ? and u.status in(?,?,?) order by last_update_time desc 
+2025-04-25 00:14:24 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String), 0(Integer), 1(Integer), 3(Integer), 5(Integer)
+2025-04-25 00:14:24 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> <==      Total: 1
+2025-04-25 00:14:24 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> <==      Total: 5
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@19c68405]
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@402224c5]
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@71e1cff0]
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@493da6ca]
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6937f657] was not registered for synchronization because synchronization is not active
+2025-04-25 00:14:24 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1390583346 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:14:24 [DEBUG][com.easychat.mappers.GroupInfoMapper.selectList][debug][159]-> ==>  Preparing: SELECT g.group_id,g.group_name,g.group_owner_id,g.create_time,g.group_notice, g.join_type,g.status FROM group_info g WHERE g.group_owner_id = ? order by create_time desc 
+2025-04-25 00:14:24 [DEBUG][com.easychat.mappers.GroupInfoMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:14:24 [DEBUG][com.easychat.mappers.GroupInfoMapper.selectList][debug][159]-> <==      Total: 1
+2025-04-25 00:14:24 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6937f657]
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@6e34e50c]
+2025-04-25 00:14:24 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:17:45 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:17:45 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:17:45 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:17:45 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3b92989] was not registered for synchronization because synchronization is not active
+2025-04-25 00:17:45 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:17:45 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@464137020 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:17:45 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:17:45 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:17:45 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:17:45 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3b92989]
+2025-04-25 00:17:45 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:17:45 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@7e28418]
+2025-04-25 00:17:45 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:18:22 [WARN][io.netty.channel.DefaultChannelPipeline][onUnhandledInboundException][1152]-> An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:379)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:253)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:750)
+2025-04-25 00:18:22 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelInactive][45]-> 有链接断开...
+2025-04-25 00:18:27 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/account/checkCode", parameters={multipart}
+2025-04-25 00:18:27 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.AccountController#checkCode()
+2025-04-25 00:18:27 [INFO][com.easychat.controller.AccountController][checkCode][52]-> 验证码是0:
+2025-04-25 00:18:27 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:18:27 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@edd2c0b]
+2025-04-25 00:18:27 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/account/login", parameters={multipart}
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.AccountController#login(String, String, String, String)
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59fc02ef] was not registered for synchronization because synchronization is not active
+2025-04-25 00:18:38 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1413704602 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where email=? 
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> ==> Parameters: test100@qq.com(String)
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> <==      Total: 1
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@59fc02ef]
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6bea2a75] was not registered for synchronization because synchronization is not active
+2025-04-25 00:18:38 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@89002000 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==>  Preparing: SELECT u.* FROM user_contact u WHERE u.user_id = ? and u.status = ? 
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String), 1(Integer)
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> <==      Total: 13
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6bea2a75]
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@cc2375c]
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:18:38 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] READ: [id: 0xdbe248f7, L:/127.0.0.1:5051 - R:/127.0.0.1:63451]
+2025-04-25 00:18:38 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] READ COMPLETE
+2025-04-25 00:18:38 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelActive][40]-> 有新的连接加入....
+2025-04-25 00:18:38 [DEBUG][io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker][handshake][192]-> [id: 0xdbe248f7, L:/127.0.0.1:5051 - R:/127.0.0.1:63451] WebSocket version V13 server handshake
+2025-04-25 00:18:38 [DEBUG][io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker][newHandshakeResponse][153]-> WebSocket version 13 server handshake key: vHYA1BzgG6YQJRmUlyPscg==, response: xmu9X8vL6GGJJdoR8ry/qlOAGik=
+2025-04-25 00:18:38 [INFO][com.easychat.websocket.ChannelContextUtils][addContext][69]-> channelId:dbe248f7
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@51922987] was not registered for synchronization because synchronization is not active
+2025-04-25 00:18:38 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@345026001 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==>  Preparing: UPDATE user_info SET last_login_time = ? where user_id=? 
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==> Parameters: 2025-04-25 00:18:38.094(Timestamp), U94232823174(String)
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> <==    Updates: 1
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@51922987]
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@65d085d0] was not registered for synchronization because synchronization is not active
+2025-04-25 00:18:38 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1958695582 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@65d085d0]
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1fcba442] was not registered for synchronization because synchronization is not active
+2025-04-25 00:18:38 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@2127842414 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> ==>  Preparing: SELECT c.*, u.last_message lastMessage, u.last_receive_time lastReceiveTime, case when SUBSTRING(contact_id,1,1)='G' THEN(select count(1) from user_contact uc where uc.contact_id = c.contact_id) else 0 end memberCount FROM chat_session_user c inner join chat_session u on u.session_id = c.session_id WHERE c.user_id = ? order by last_receive_time desc 
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> <==      Total: 6
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1fcba442]
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1125bb43] was not registered for synchronization because synchronization is not active
+2025-04-25 00:18:38 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1393484945 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> ==>  Preparing: SELECT c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status FROM chat_message c WHERE send_time>=? and contact_id in (?,? ) 
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> ==> Parameters: 4320000(Long), G75290541011(String), U94232823174(String)
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> <==      Total: 47
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1125bb43]
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@713e5b4c] was not registered for synchronization because synchronization is not active
+2025-04-25 00:18:38 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1308432779 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> ==>  Preparing: SELECT count(1) FROM user_contact_apply u WHERE u.receive_user_id = ? and u.status = ? and u.last_apply_time>=? 
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> ==> Parameters: U94232823174(String), 0(Integer), 4320000(Long)
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> <==      Total: 1
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@713e5b4c]
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@75ed1887] was not registered for synchronization because synchronization is not active
+2025-04-25 00:18:38 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1392231296 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:18:38 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:18:38 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@75ed1887]
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@1d8c9a92]
+2025-04-25 00:18:38 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:34:28 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:34:28 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:34:28 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:34:28 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2b76beec] was not registered for synchronization because synchronization is not active
+2025-04-25 00:34:28 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:34:28 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@978820847 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:34:28 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:34:28 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:34:28 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:34:28 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2b76beec]
+2025-04-25 00:34:28 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:34:28 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@652bed96]
+2025-04-25 00:34:28 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:34:42 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:34:42 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:34:42 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:34:42 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@40d3e51] was not registered for synchronization because synchronization is not active
+2025-04-25 00:34:42 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:34:42 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1141880068 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:34:42 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:34:42 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1754(Long)
+2025-04-25 00:34:42 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:34:42 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@40d3e51]
+2025-04-25 00:34:42 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:34:47 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:34:47 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:34:47 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:34:47 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@626ade10] was not registered for synchronization because synchronization is not active
+2025-04-25 00:34:47 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:34:47 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@774122649 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:34:47 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:34:47 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1733(Long)
+2025-04-25 00:34:47 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:34:47 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@626ade10]
+2025-04-25 00:34:47 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:34:53 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:34:53 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:34:53 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:34:53 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1894bfb9] was not registered for synchronization because synchronization is not active
+2025-04-25 00:34:53 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:34:53 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@913610184 wrapping com.mysql.cj.jdbc.ConnectionImpl@48978cce] will not be managed by Spring
+2025-04-25 00:34:53 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:34:53 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1732(Long)
+2025-04-25 00:34:53 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:34:53 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1894bfb9]
+2025-04-25 00:34:53 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:35:17 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:35:17 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:35:17 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:35:17 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@940c4a6] was not registered for synchronization because synchronization is not active
+2025-04-25 00:35:17 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:35:17 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@614727599 wrapping com.mysql.cj.jdbc.ConnectionImpl@288cc2ee] will not be managed by Spring
+2025-04-25 00:35:17 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:35:17 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1722(Long)
+2025-04-25 00:35:17 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:35:17 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@940c4a6]
+2025-04-25 00:35:17 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:35:51 [WARN][io.netty.channel.DefaultChannelPipeline][onUnhandledInboundException][1152]-> An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:379)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:253)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:750)
+2025-04-25 00:35:51 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelInactive][45]-> 有链接断开...
+2025-04-25 00:35:55 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/account/checkCode", parameters={multipart}
+2025-04-25 00:35:55 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.AccountController#checkCode()
+2025-04-25 00:35:55 [INFO][com.easychat.controller.AccountController][checkCode][52]-> 验证码是3:
+2025-04-25 00:35:55 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:35:55 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@4bac0113]
+2025-04-25 00:35:55 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/account/login", parameters={multipart}
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.AccountController#login(String, String, String, String)
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@39a6d224] was not registered for synchronization because synchronization is not active
+2025-04-25 00:38:13 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@290035289 wrapping com.mysql.cj.jdbc.ConnectionImpl@295c5eab] will not be managed by Spring
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where email=? 
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> ==> Parameters: test100@qq.com(String)
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> <==      Total: 1
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@39a6d224]
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@361944e5] was not registered for synchronization because synchronization is not active
+2025-04-25 00:38:13 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1799350049 wrapping com.mysql.cj.jdbc.ConnectionImpl@295c5eab] will not be managed by Spring
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==>  Preparing: SELECT u.* FROM user_contact u WHERE u.user_id = ? and u.status = ? 
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String), 1(Integer)
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> <==      Total: 13
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@361944e5]
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@22496998]
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:38:13 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] READ: [id: 0x5197b980, L:/127.0.0.1:5051 - R:/127.0.0.1:49183]
+2025-04-25 00:38:13 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] READ COMPLETE
+2025-04-25 00:38:13 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelActive][40]-> 有新的连接加入....
+2025-04-25 00:38:13 [DEBUG][io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker][handshake][192]-> [id: 0x5197b980, L:/127.0.0.1:5051 - R:/127.0.0.1:49183] WebSocket version V13 server handshake
+2025-04-25 00:38:13 [DEBUG][io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker][newHandshakeResponse][153]-> WebSocket version 13 server handshake key: S0tfeSNWJrx8Qm43gP9eaA==, response: RiBuC3n3Mcg244h2X4bBd7vQ/tE=
+2025-04-25 00:38:13 [INFO][com.easychat.websocket.ChannelContextUtils][addContext][69]-> channelId:5197b980
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@36fa508b] was not registered for synchronization because synchronization is not active
+2025-04-25 00:38:13 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1255748111 wrapping com.mysql.cj.jdbc.ConnectionImpl@295c5eab] will not be managed by Spring
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==>  Preparing: UPDATE user_info SET last_login_time = ? where user_id=? 
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==> Parameters: 2025-04-25 00:38:13.69(Timestamp), U94232823174(String)
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> <==    Updates: 1
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@36fa508b]
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@324fdf0e] was not registered for synchronization because synchronization is not active
+2025-04-25 00:38:13 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1456844740 wrapping com.mysql.cj.jdbc.ConnectionImpl@295c5eab] will not be managed by Spring
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@324fdf0e]
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@65b020c5] was not registered for synchronization because synchronization is not active
+2025-04-25 00:38:13 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@692794578 wrapping com.mysql.cj.jdbc.ConnectionImpl@295c5eab] will not be managed by Spring
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> ==>  Preparing: SELECT c.*, u.last_message lastMessage, u.last_receive_time lastReceiveTime, case when SUBSTRING(contact_id,1,1)='G' THEN(select count(1) from user_contact uc where uc.contact_id = c.contact_id) else 0 end memberCount FROM chat_session_user c inner join chat_session u on u.session_id = c.session_id WHERE c.user_id = ? order by last_receive_time desc 
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> <==      Total: 6
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@65b020c5]
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7a9e5cd6] was not registered for synchronization because synchronization is not active
+2025-04-25 00:38:13 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@516746568 wrapping com.mysql.cj.jdbc.ConnectionImpl@295c5eab] will not be managed by Spring
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> ==>  Preparing: SELECT c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status FROM chat_message c WHERE send_time>=? and contact_id in (?,? ) 
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> ==> Parameters: 4320000(Long), G75290541011(String), U94232823174(String)
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> <==      Total: 47
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7a9e5cd6]
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64ed0908] was not registered for synchronization because synchronization is not active
+2025-04-25 00:38:13 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1813877167 wrapping com.mysql.cj.jdbc.ConnectionImpl@295c5eab] will not be managed by Spring
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> ==>  Preparing: SELECT count(1) FROM user_contact_apply u WHERE u.receive_user_id = ? and u.status = ? and u.last_apply_time>=? 
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> ==> Parameters: U94232823174(String), 0(Integer), 4320000(Long)
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> <==      Total: 1
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@64ed0908]
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6143a406] was not registered for synchronization because synchronization is not active
+2025-04-25 00:38:13 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@167964070 wrapping com.mysql.cj.jdbc.ConnectionImpl@295c5eab] will not be managed by Spring
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:38:13 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:38:13 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6143a406]
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@4a993b70]
+2025-04-25 00:38:13 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:42:09 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:42:09 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:42:09 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:42:09 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@79f97844] was not registered for synchronization because synchronization is not active
+2025-04-25 00:42:09 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:42:09 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1783031770 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:42:09 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:42:09 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:42:09 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:42:09 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@79f97844]
+2025-04-25 00:42:09 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:42:09 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@46ae6a2f]
+2025-04-25 00:42:09 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:43:33 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:43:33 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:43:33 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:43:33 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@b88084] was not registered for synchronization because synchronization is not active
+2025-04-25 00:43:33 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:43:33 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@892474368 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:43:33 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:43:33 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:43:33 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:43:33 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@b88084]
+2025-04-25 00:43:33 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:43:33 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@86b4588]
+2025-04-25 00:43:33 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:43:44 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:43:44 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:43:44 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:43:44 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1c6f4dd7] was not registered for synchronization because synchronization is not active
+2025-04-25 00:43:44 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:43:44 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1145957605 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:43:44 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:43:44 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:43:44 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:43:44 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1c6f4dd7]
+2025-04-25 00:43:44 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:43:44 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@18d71553]
+2025-04-25 00:43:44 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:43:45 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:43:45 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:43:45 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:43:45 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7b7b9a4e] was not registered for synchronization because synchronization is not active
+2025-04-25 00:43:45 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:43:45 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@419410069 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:43:45 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:43:45 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:43:45 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:43:45 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7b7b9a4e]
+2025-04-25 00:43:45 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:43:45 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@67cbeb33]
+2025-04-25 00:43:45 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:43:57 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:43:57 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:43:57 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:43:57 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3b67f7f] was not registered for synchronization because synchronization is not active
+2025-04-25 00:43:57 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:43:57 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1364327588 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:43:57 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:43:57 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:43:57 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:43:57 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3b67f7f]
+2025-04-25 00:43:57 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:43:57 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@132873f3]
+2025-04-25 00:43:57 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:44:01 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:44:01 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:44:01 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:44:01 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@74414555] was not registered for synchronization because synchronization is not active
+2025-04-25 00:44:01 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:44:01 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1339963266 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:44:01 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:44:01 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:44:01 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:44:01 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@74414555]
+2025-04-25 00:44:01 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:44:01 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@52283765]
+2025-04-25 00:44:01 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:44:02 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:44:02 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:44:02 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:44:02 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@fe69744] was not registered for synchronization because synchronization is not active
+2025-04-25 00:44:02 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:44:02 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1545133249 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:44:02 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:44:02 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:44:02 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:44:02 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@fe69744]
+2025-04-25 00:44:02 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:44:02 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@7233900]
+2025-04-25 00:44:02 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:44:16 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:44:16 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:44:16 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:44:16 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2c62acb0] was not registered for synchronization because synchronization is not active
+2025-04-25 00:44:16 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:44:16 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1240951375 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:44:16 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:44:16 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:44:16 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:44:16 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2c62acb0]
+2025-04-25 00:44:16 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:44:16 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@5bc66938]
+2025-04-25 00:44:16 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:44:44 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:44:44 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:44:44 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:44:44 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5e8b3f58] was not registered for synchronization because synchronization is not active
+2025-04-25 00:44:44 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:44:44 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@10595314 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:44:44 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:44:44 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1774(Long)
+2025-04-25 00:44:44 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:44:44 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5e8b3f58]
+2025-04-25 00:44:44 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:44:44 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6e3b8449] was not registered for synchronization because synchronization is not active
+2025-04-25 00:44:44 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:44:44 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1791790908 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:44:44 [DEBUG][com.easychat.mappers.UserContactMapper.selectCount][debug][159]-> ==>  Preparing: SELECT count(1) FROM user_contact u WHERE u.user_id = ? and u.contact_id = ? and u.contact_type = ? and u.status = ? 
+2025-04-25 00:44:44 [DEBUG][com.easychat.mappers.UserContactMapper.selectCount][debug][159]-> ==> Parameters: U94232823174(String), G75290541011(String), 1(Integer), 1(Integer)
+2025-04-25 00:44:44 [DEBUG][com.easychat.mappers.UserContactMapper.selectCount][debug][159]-> <==      Total: 1
+2025-04-25 00:44:44 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6e3b8449]
+2025-04-25 00:44:44 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:45:09 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:45:09 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:45:09 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:45:09 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3686d5b1] was not registered for synchronization because synchronization is not active
+2025-04-25 00:45:09 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:45:09 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@423150876 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:45:09 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:45:09 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1775(Long)
+2025-04-25 00:45:09 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:45:09 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3686d5b1]
+2025-04-25 00:45:09 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:45:09 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1ad24a53] was not registered for synchronization because synchronization is not active
+2025-04-25 00:45:09 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:45:09 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@312902834 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:45:09 [DEBUG][com.easychat.mappers.UserContactMapper.selectCount][debug][159]-> ==>  Preparing: SELECT count(1) FROM user_contact u WHERE u.user_id = ? and u.contact_id = ? and u.contact_type = ? and u.status = ? 
+2025-04-25 00:45:09 [DEBUG][com.easychat.mappers.UserContactMapper.selectCount][debug][159]-> ==> Parameters: U94232823174(String), G75290541011(String), 1(Integer), 1(Integer)
+2025-04-25 00:45:09 [DEBUG][com.easychat.mappers.UserContactMapper.selectCount][debug][159]-> <==      Total: 1
+2025-04-25 00:45:09 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@1ad24a53]
+2025-04-25 00:45:09 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:49:02 [WARN][io.netty.channel.DefaultChannelPipeline][onUnhandledInboundException][1152]-> An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:379)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:253)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:750)
+2025-04-25 00:49:02 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelInactive][45]-> 有链接断开...
+2025-04-25 00:49:06 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/account/checkCode", parameters={multipart}
+2025-04-25 00:49:06 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.AccountController#checkCode()
+2025-04-25 00:49:06 [INFO][com.easychat.controller.AccountController][checkCode][52]-> 验证码是15:
+2025-04-25 00:49:06 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:49:06 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@47ae2a4a]
+2025-04-25 00:49:06 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/account/login", parameters={multipart}
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.AccountController#login(String, String, String, String)
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6a7ca55d] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:15 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1504494846 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where email=? 
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> ==> Parameters: test100@qq.com(String)
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByEmail][debug][159]-> <==      Total: 1
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6a7ca55d]
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2eb75a12] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:15 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1509777497 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==>  Preparing: SELECT u.* FROM user_contact u WHERE u.user_id = ? and u.status = ? 
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String), 1(Integer)
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserContactMapper.selectList][debug][159]-> <==      Total: 13
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@2eb75a12]
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@35dda2e7]
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:49:15 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] READ: [id: 0x0fc6dd19, L:/127.0.0.1:5051 - R:/127.0.0.1:50839]
+2025-04-25 00:49:15 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] READ COMPLETE
+2025-04-25 00:49:15 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelActive][40]-> 有新的连接加入....
+2025-04-25 00:49:15 [DEBUG][io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker][handshake][192]-> [id: 0x0fc6dd19, L:/127.0.0.1:5051 - R:/127.0.0.1:50839] WebSocket version V13 server handshake
+2025-04-25 00:49:15 [DEBUG][io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker][newHandshakeResponse][153]-> WebSocket version 13 server handshake key: GXA7tJ4T8SHKQsluGnZ5Dw==, response: 2p5UpH1jEj7SFPuUJG30pzbZNYc=
+2025-04-25 00:49:15 [INFO][com.easychat.websocket.ChannelContextUtils][addContext][69]-> channelId:0fc6dd19
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7c5c59bd] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:15 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@962512978 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==>  Preparing: UPDATE user_info SET last_login_time = ? where user_id=? 
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> ==> Parameters: 2025-04-25 00:49:15.115(Timestamp), U94232823174(String)
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.updateByUserId][debug][159]-> <==    Updates: 1
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@7c5c59bd]
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@8ad50ca] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:15 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@371356115 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@8ad50ca]
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6ac67f1a] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:15 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@143612296 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> ==>  Preparing: SELECT c.*, u.last_message lastMessage, u.last_receive_time lastReceiveTime, case when SUBSTRING(contact_id,1,1)='G' THEN(select count(1) from user_contact uc where uc.contact_id = c.contact_id) else 0 end memberCount FROM chat_session_user c inner join chat_session u on u.session_id = c.session_id WHERE c.user_id = ? order by last_receive_time desc 
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.ChatSessionUserMapper.selectList][debug][159]-> <==      Total: 6
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@6ac67f1a]
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5d3f0ac5] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:15 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@72909015 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> ==>  Preparing: SELECT c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status FROM chat_message c WHERE send_time>=? and contact_id in (?,? ) 
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> ==> Parameters: 4320000(Long), G75290541011(String), U94232823174(String)
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectList][debug][159]-> <==      Total: 47
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@5d3f0ac5]
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4b9f1aa6] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:15 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1859340338 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> ==>  Preparing: SELECT count(1) FROM user_contact_apply u WHERE u.receive_user_id = ? and u.status = ? and u.last_apply_time>=? 
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> ==> Parameters: U94232823174(String), 0(Integer), 4320000(Long)
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserContactApplyMapper.selectCount][debug][159]-> <==      Total: 1
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4b9f1aa6]
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/userInfo/getUserInfo", parameters={multipart}
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.UserInfoController#getUserInfo(HttpServletRequest)
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4a0e1d8a] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:15 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1628433130 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==>  Preparing: select u.user_id,u.email,u.nick_name,u.join_type,u.sex, u.password,u.personal_signature,u.status,u.create_time,u.last_login_time, u.area_name,u.area_code,u.last_off_time from user_info u where user_id=? 
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> ==> Parameters: U94232823174(String)
+2025-04-25 00:49:15 [DEBUG][com.easychat.mappers.UserInfoMapper.selectByUserId][debug][159]-> <==      Total: 1
+2025-04-25 00:49:15 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4a0e1d8a]
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][writeWithMessageConverters][268]-> Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor][traceDebug][108]-> Writing [com.easychat.entity.vo.ResponseVO@386e9672]
+2025-04-25 00:49:15 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:49:16 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:49:16 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:49:16 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:16 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4a3671b4] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:16 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:16 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1115985885 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:16 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:49:16 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1713(Long)
+2025-04-25 00:49:16 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:49:16 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4a3671b4]
+2025-04-25 00:49:16 [ERROR][com.easychat.controller.ChatController][downloadFile][115]-> 下载文件失败
+com.easychat.exception.BusinessException: 请求参数错误
+2025-04-25 00:49:16 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:49:21 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:49:21 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:49:21 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:21 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3f02740f] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:21 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:21 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1868041326 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:21 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:49:21 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1713(Long)
+2025-04-25 00:49:21 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:49:21 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3f02740f]
+2025-04-25 00:49:21 [ERROR][com.easychat.controller.ChatController][downloadFile][115]-> 下载文件失败
+com.easychat.exception.BusinessException: 请求参数错误
+2025-04-25 00:49:21 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:49:36 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:49:36 [DEBUG][org.springframework.web.servlet.DispatcherServlet][traceDebug][108]-> POST "/api/chat/downloadFile", parameters={multipart}
+2025-04-25 00:49:36 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:49:36 [DEBUG][org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping][getHandler][522]-> Mapped to com.easychat.controller.ChatController#downloadFile(HttpServletRequest, HttpServletResponse, String, Boolean)
+2025-04-25 00:49:36 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:36 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@819254b] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:36 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:36 [DEBUG][org.mybatis.spring.SqlSessionUtils][getSqlSession][97]-> Creating a new SqlSession
+2025-04-25 00:49:36 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@143191780 wrapping com.mysql.cj.jdbc.ConnectionImpl@77a34519] will not be managed by Spring
+2025-04-25 00:49:36 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:49:36 [DEBUG][org.mybatis.spring.SqlSessionUtils][registerSessionHolder][148]-> SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3ecb6956] was not registered for synchronization because synchronization is not active
+2025-04-25 00:49:36 [DEBUG][org.springframework.jdbc.datasource.DataSourceUtils][doGetConnection][116]-> Fetching JDBC Connection from DataSource
+2025-04-25 00:49:36 [DEBUG][org.mybatis.spring.transaction.SpringManagedTransaction][openConnection][87]-> JDBC Connection [HikariProxyConnection@1095319686 wrapping com.mysql.cj.jdbc.ConnectionImpl@52c9d4d5] will not be managed by Spring
+2025-04-25 00:49:36 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==>  Preparing: select c.message_id,c.session_id,c.message_type,c.message_content,c.send_user_id, c.send_user_nick_name,c.send_time,c.contact_id,c.contact_type,c.file_size, c.file_name,c.file_type,c.status from chat_message c where message_id=? 
+2025-04-25 00:49:36 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1714(Long)
+2025-04-25 00:49:36 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> ==> Parameters: 1715(Long)
+2025-04-25 00:49:36 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:49:36 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@819254b]
+2025-04-25 00:49:36 [ERROR][com.easychat.controller.ChatController][downloadFile][115]-> 下载文件失败
+com.easychat.exception.BusinessException: 请求参数错误
+2025-04-25 00:49:36 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:49:36 [DEBUG][com.easychat.mappers.ChatMessageMapper.selectByMessageId][debug][159]-> <==      Total: 1
+2025-04-25 00:49:36 [DEBUG][org.mybatis.spring.SqlSessionUtils][closeSqlSession][191]-> Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@3ecb6956]
+2025-04-25 00:49:36 [ERROR][com.easychat.controller.ChatController][downloadFile][115]-> 下载文件失败
+com.easychat.exception.BusinessException: 请求参数错误
+2025-04-25 00:49:36 [DEBUG][org.springframework.web.servlet.DispatcherServlet][logResult][1131]-> Completed 200 OK
+2025-04-25 00:51:16 [DEBUG][org.springframework.boot.availability.ApplicationAvailabilityBean][onApplicationEvent][77]-> Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC
+2025-04-25 00:51:16 [DEBUG][org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext][doClose][1049]-> Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4a7f959b, started on Thu Apr 24 20:11:01 GMT+08:00 2025
+2025-04-25 00:51:16 [DEBUG][org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertyResolver$DefaultResolver][logKeyFound][115]-> Found key 'spring.liveBeansView.mbeanDomain' in PropertySource 'systemProperties' with value of type String
+2025-04-25 00:51:16 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][stop][365]-> Stopping beans in phase 2147483647
+2025-04-25 00:51:16 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][lambda$doStop$3][238]-> Bean 'webServerGracefulShutdown' completed its stop procedure
+2025-04-25 00:51:16 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][stop][365]-> Stopping beans in phase 2147483646
+2025-04-25 00:51:17 [DEBUG][org.springframework.context.support.DefaultLifecycleProcessor][lambda$doStop$3][238]-> Bean 'webServerStartStop' completed its stop procedure
+2025-04-25 00:51:17 [DEBUG][org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler][shutdown][218]-> Shutting down ExecutorService 'taskScheduler'
+2025-04-25 00:51:17 [DEBUG][org.springframework.jmx.export.annotation.AnnotationMBeanExporter][destroy][452]-> Unregistering JMX-exposed beans on shutdown
+2025-04-25 00:51:17 [DEBUG][org.springframework.jmx.export.annotation.AnnotationMBeanExporter][unregisterBeans][186]-> Unregistering JMX-exposed beans
+2025-04-25 00:51:17 [DEBUG][org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor][shutdown][218]-> Shutting down ExecutorService 'applicationTaskExecutor'
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-16
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-4
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-26
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-24
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 3 thread-local buffer(s) from thread: redisson-netty-6-12
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-14
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-22
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-3
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-6
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-11
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-10
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-8
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-20
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 3 thread-local buffer(s) from thread: redisson-netty-6-27
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-18
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-7
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-19
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-5
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-13
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-21
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-23
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-25
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-17
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-9
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 2 thread-local buffer(s) from thread: redisson-netty-6-15
+2025-04-25 00:51:17 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] INACTIVE
+2025-04-25 00:51:17 [DEBUG][io.netty.handler.logging.LoggingHandler][log][145]-> [id: 0xfa01b37e, L:/0:0:0:0:0:0:0:0:5051] UNREGISTERED
+2025-04-25 00:51:17 [INFO][com.easychat.websocket.netty.HandlerWebSocket][channelInactive][45]-> 有链接断开...
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 33 thread-local buffer(s) from thread: nioEventLoopGroup-3-9
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 33 thread-local buffer(s) from thread: nioEventLoopGroup-3-8
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 28 thread-local buffer(s) from thread: nioEventLoopGroup-3-7
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 33 thread-local buffer(s) from thread: nioEventLoopGroup-3-6
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 33 thread-local buffer(s) from thread: nioEventLoopGroup-3-2
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 33 thread-local buffer(s) from thread: nioEventLoopGroup-3-1
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 33 thread-local buffer(s) from thread: nioEventLoopGroup-3-3
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 33 thread-local buffer(s) from thread: nioEventLoopGroup-3-4
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 33 thread-local buffer(s) from thread: nioEventLoopGroup-3-5
+2025-04-25 00:51:17 [DEBUG][io.netty.buffer.PoolThreadCache][free][247]-> Freed 22 thread-local buffer(s) from thread: lettuce-nioEventLoop-9-1
+2025-04-25 00:51:17 [INFO][com.zaxxer.hikari.HikariDataSource][close][350]-> HikariCPDataSource - Shutdown initiated...
+2025-04-25 00:51:17 [INFO][com.zaxxer.hikari.HikariDataSource][close][352]-> HikariCPDataSource - Shutdown completed.

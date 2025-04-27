@@ -142,6 +142,12 @@ const getLocalFilePath = async(partType, showCover, fileId)=>{
       let fileSuffix = messageInfo.fileName
       fileSuffix = fileSuffix.substring(fileSuffix.lastIndexOf('.'))
       localPath = localFolder + '/' + fileId + fileSuffix
+    }else if(partType=='tmp'){
+      localFolder = localFolder + '/tmp/'
+      if(!fs.existsSync(localFolder)){
+        mkdirs(localFolder)
+      }
+      localPath = localFolder + '/' + fileId
     }
     // console.log('getLocalFilePath: ', localPath)'
     if(showCover){
@@ -300,10 +306,24 @@ const saveAs = async ({partType, fileId})=>{
   fs.copyFileSync(localPath, filePath)
 }
 
+const saveClipBoardFile = async(file)=>{
+  const fileSuffix = file.name.substring(file.name.lastIndexOf('.'))
+  const filePath = await getLocalFilePath('tmp', false, 'tmp' + fileSuffix)
+  let byteArray = file.byteArray
+  const buffer = Buffer.from(byteArray)
+  fs.writeFileSync(filePath, buffer)
+  return {
+    size: byteArray.length,
+    name: file.name,
+    path: filePath
+  }
+}
+
 export {
   saveFile2Local,
   startLocalServer,
   closeLocalServer,
   createCover,
   saveAs,
+  saveClipBoardFile,
 }

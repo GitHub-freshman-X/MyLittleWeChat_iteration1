@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.IOException;
 
 @RestController("AdminSettingController")
-@RequestMapping("/admin")
+@RequestMapping("/account")
 public class AdminSettingController extends ABaseController {
     @Resource
     private RedisComponent redisComponent;

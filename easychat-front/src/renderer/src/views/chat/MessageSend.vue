@@ -58,7 +58,7 @@
 import { getFileType } from '../../utils/Constants'
 import emojiList from '../../utils/Emoji'
 import SearchAdd from '../contact/SearchAdd.vue'
-import { ref, reactive, getCurrentInstance, nextTick, Teleport } from "vue"
+import { ref, reactive, getCurrentInstance, nextTick, Teleport, onMounted, onUnmounted } from "vue"
 const { proxy } = getCurrentInstance()
 import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
@@ -90,7 +90,7 @@ const hidePopover = () => {
   showEmojiPopover.value = false
   showSendMsgPopover.value = false
 }
-const sendEmoji = (item) =>{
+const sendEmoji = (item) => {
   msgContent.value = msgContent.value + item
   showEmojiPopover.value = false
 }
@@ -125,9 +125,9 @@ const sendMessageDo = async (
   }, cleanMsgContent
 ) => {
   //TODO判断文件大小
-  // if(!checkFileSize(messageObj.fileType, messageObj.fileSize, messageObj.fileName)){
-  //   return
-  // }
+  if (!checkFileSize(messageObj.fileType, messageObj.fileSize, messageObj.fileName)) {
+    return
+  }
   if (messageObj.fileSize == 0) {
     proxy.Confirm({
       message: `${messageObj.fileName}是一个空文件无法发送，请重新选择`,
@@ -176,25 +176,25 @@ const sendMessageDo = async (
 }
 
 const uploadRef = ref()
-const uploadFile = (file)=>{
+const uploadFile = (file) => {
   uploadFileDo(file.file);
   uploadRef.value.clearFiles()
 }
 
-const getFileTypeByName = (fileName)=>{
-  const fileSuffix = fileName.substr(fileName.lastIndexOf('.')+1);
+const getFileTypeByName = (fileName) => {
+  const fileSuffix = fileName.substr(fileName.lastIndexOf('.') + 1);
   return getFileType(fileSuffix)
 }
-const uploadFileDo = (file)=>{
+const uploadFileDo = (file) => {
   const fileType = getFileTypeByName(file.name)
   sendMessageDo({
-    messageContent: '[' +getFileType(fileType)+ ']',
+    messageContent: '[' + getFileType(fileType) + ']',
     messageType: 5,
     fileSize: file.size,
-    fileName: file.name, 
+    fileName: file.name,
     filePath: file.path,
     fileType: fileType
-  },false)
+  }, false)
 }
 
 //添加好友
@@ -206,20 +206,104 @@ const addContact = (contactId, code) => {
   })
 }
 
-const openPopover = ()=>{
+const openPopover = () => {
   document.addEventListener('click', hidePopover, false)
 
 }
-const closePopover = ()=>{
+const closePopover = () => {
   document.removeEventListener('click', hidePopover, false)
 }
 
-// const checkFileSize = (fileType, fileSize, fileName)=>{
-//   const SIZE_MB = 1024 * 1024
-//   const settingArray = Object.values(sysSettingStore.getSetting())
-//   console.log('settingArray: ', settingArray)
-// }
+const checkFileSize = (fileType, fileSize, fileName) => {
+  const SIZE_MB = 1024 * 1024
+  const settingArray = Object.values(sysSettingStore.getSetting())
+  const fileSizeNumber = settingArray[fileType]
+  if (fileSize > fileSizeNumber * SIZE_MB) {
+    proxy.Confirm({
+      message: `文件${fileName}超过大小${fileSizeNumber}MB，无法发送`,
+      showCancelBtn: false,
+    })
+    return false
+  }
+  return true
+}
 // checkFileSize()
+
+// 发送文件数量，最多10个
+const fileLimit = 10
+const checkFileLimit = (files) => {
+  if (files.length > fileLimit) {
+    proxy.Confirm({
+      message: `一次最多上传${fileLimit}个文件`,
+      showCancelBtn: false,
+    })
+    return false
+  }
+  return true;
+}
+
+const uploadExceed = (files) => {
+  checkFileLimit(files)
+}
+
+// 拖拽文件
+const dragOverHandler = (e) => {
+  e.preventDefault()
+}
+const dropHandler = (event) => {
+  event.preventDefault()
+  const files = event.dataTransfer.files;
+  if (!checkFileLimit(files)) {
+    return
+  }
+  for (let i = 0; i < files.length; ++i) {
+    uploadFileDo(files[i])
+  }
+}
+
+const pasteFile = async (event) => {
+  let items = event.clipboardData && event.clipboardData.items;
+  const fileData = {}
+  for (const item of items) {
+    if (item.kind != 'file') {
+      break
+    }
+    const file = await item.getAsFile()
+    if (file.path != '') {
+      uploadFileDo(file)
+    } else {
+      const imageFile = new File([file], 'temp.jpg')
+      let fileReader = new FileReader()
+      fileReader.onloadend = function () {
+
+        const byteArray = new Uint8Array(this.result)
+        fileData.byteArray = byteArray
+        fileData.name = imageFile.name
+        window.ipcRenderer.send('saveClipBoardFile', fileData)
+      }
+      fileReader.readAsArrayBuffer(imageFile)
+    }
+  }
+}
+
+onMounted(() => {
+  window.ipcRenderer.on('saveClipBoardFileCallback', (e, file) => {
+    const fileType = 0
+    sendMessageDo({
+      messageContent: '[' + getFileType[fileType] + ']',
+      messageType: 5,
+      fileSize: file.size,
+      fileName: file.name,
+      filePath: file.path,
+      fileType: fileType
+    },
+      false)
+  })
+})
+
+onUnmounted(()=>{
+  window.ipcRenderer.removeAllListeners('saveClipBoardFileCallback')
+})
 
 </script>
 

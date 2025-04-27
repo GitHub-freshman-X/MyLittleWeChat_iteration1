@@ -85,17 +85,18 @@ const getLoginInfo = async () => {
   window.ipcRenderer.send('getLocalStore', result.data.userId + 'localServerPort')
 }
 
-// const getSysSetting = async ()=>{
-//   let result = await proxy.Request({
-//      url: proxy.Api.getSystemSetting,
-//   })
-//   if(!result){
-//     return;
-//   }
-// }
+const getSysSetting = async ()=>{
+  let result = await proxy.Request({
+     url: proxy.Api.getSysSetting,
+  })
+  if(!result){
+    return;
+  }
+  sysSettingStore.setSetting(result.data)
+}
 
 onMounted(() => {
-  // getSysSetting()
+  getSysSetting()
   getLoginInfo()
   window.ipcRenderer.on('getLocalStoreCallback', (e, serverPort) => {
     globalInfoStore.setInfo('localServerPort', serverPort)
