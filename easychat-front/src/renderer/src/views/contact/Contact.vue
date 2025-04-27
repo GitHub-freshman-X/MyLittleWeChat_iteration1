@@ -9,29 +9,24 @@
           </template>
         </el-input>
       </div>
-      <div class="contact-list">
+      <div class="contact-list" v-show="!searchKey">
         <template v-for="item in partList" :key="item.partName">
           <div class="part-title">{{ item.partName }}</div>
           <div class="part-list">
             <div v-for="sub in item.children" :key="sub.name"
-            :class="['part-item', sub.path == route.path ? 'active' : '']"
-            @click="partJump(sub)"
-            >
+              :class="['part-item', sub.path == route.path ? 'active' : '']" @click="partJump(sub)">
               <div :class="['iconfont', sub.icon]" :style="{ background: sub.iconBgColor }"></div>
               <div class="text">{{ sub.name }}</div>
             </div>
             <template v-for="contact in item.contactData" :key="contact.contactId">
-              <div 
-              :class="[
+              <div :class="[
                 'part-item',
-                contact[item.contactId]==route.query.contactId ? 'active' : ''
-              ]"
-              @click="contactDetail(contact, item)"
-              >
-              <!-- <Avatar :userId="contact[item.contactId]" :width="35"></Avatar> -->
-               <Avatar :userId="contact[item.contactId]" :width="35"></Avatar>
-              <div class="text">{{ contact[item.contactName] }}</div>
-            </div>
+                contact[item.contactId] == route.query.contactId ? 'active' : ''
+              ]" @click="contactDetail(contact, item)">
+                <!-- <Avatar :userId="contact[item.contactId]" :width="35"></Avatar> -->
+                <Avatar :userId="contact[item.contactId]" :width="35"></Avatar>
+                <div class="text">{{ contact[item.contactName] }}</div>
+              </div>
             </template>
             <template v-if="item.contactData && item.contactData.length == 0">
               <div class="no-data">{{ item.emptyMsg }}</div>
@@ -39,17 +34,23 @@
           </div>
         </template>
       </div>
+      <div class="search-list" v-show="searchKey">
+        <ContactSearchResult :data="item" v-for="item in searchList" :key="item.searchContactName"
+          @click="searchClickHandler(item)">
+        </ContactSearchResult>
+      </div>
     </template>
     <template #right-content>
       <div class="title-panel drag">{{ rightTitle }}</div>
-        <router-view v-slot="{Component}">
-          <component :is="Component" ref="componentRef"></component>
-        </router-view>
+      <router-view v-slot="{ Component }">
+        <component :is="Component" ref="componentRef"></component>
+      </router-view>
     </template>
   </Layout>
 </template>
 
 <script setup>
+import ContactSearchResult from "./ContactSearchResult.vue"
 import { ref, getCurrentInstance, watch } from "vue"
 const { proxy } = getCurrentInstance();
 
@@ -59,11 +60,6 @@ const route = useRoute()
 
 import { useContactStateStore } from "../../stores/ContactStateStore";
 const contactStateStore = useContactStateStore()
-
-const searchKey = ref()
-const search = () => {
-
-}
 
 const partList = ref([
   {
@@ -122,29 +118,29 @@ const partList = ref([
 ])
 
 const rightTitle = ref()
-const partJump = (data) =>{
-    if(data.showTitle){
-        rightTitle.value = data.name
-    }else{
-        rightTitle.value = null
-    }
+const partJump = (data) => {
+  if (data.showTitle) {
+    rightTitle.value = data.name
+  } else {
+    rightTitle.value = null
+  }
 
-    router.push(data.path)
+  router.push(data.path)
 }
 
-const loadContact = async(contactType)=> {
+const loadContact = async (contactType) => {
   let result = await proxy.Request({
     url: proxy.Api.loadContact,
     params: {
       contactType
     }
   })
-  if(!result) {
+  if (!result) {
     return;
   }
-  if(contactType=='GROUP'){
+  if (contactType == 'GROUP') {
     partList.value[2].contactData = result.data
-  }else if(contactType=='USER'){
+  } else if (contactType == 'USER') {
     partList.value[3].contactData = result.data
   }
   console.log('loadContact')
@@ -152,12 +148,12 @@ const loadContact = async(contactType)=> {
 loadContact('GROUP')
 loadContact('USER')
 
-const loadMyGroup = async()=>{
+const loadMyGroup = async () => {
   let result = await proxy.Request({
-     url:proxy.Api.loadMyGroup,
-     showLoading: false
+    url: proxy.Api.loadMyGroup,
+    showLoading: false
   })
-  if(!result){
+  if (!result) {
     return;
   }
   partList.value[1].contactData = result.data
@@ -165,54 +161,95 @@ const loadMyGroup = async()=>{
 loadMyGroup()
 
 const contactDetail = (contact, part) => {
-  if(part.showTitle){
+  if (part.showTitle) {
     rightTitle.value = contact[part.contactName]
-  }else{
+  } else {
     rightTitle.value = null
   }
   router.push({
     path: part.contactPath,
     query: {
-      contactId : contact[part.contactId]
+      contactId: contact[part.contactId]
     }
   })
 }
 
-watch(() =>contactStateStore.contactReload,
- (newVal, oldVal) => {
-  if(!newVal){
+const searchKey = ref()
+const searchList = ref([])
+const search = () => {
+  if (!searchKey.value) {
     return;
   }
-  switch(newVal){
-    case 'MY':{
-      loadMyGroup()
-      break;
+  searchList.value = []
+  const regex = new RegExp("(" + searchKey.value + ")", 'gi')
+  let allContactList = []
+  partList.value.forEach(item => {
+    if (item.contactData) {
+      allContactList = allContactList.concat(item.contactData)
     }
-    case 'USER':
-    case 'GROUP':{
-      loadContact(newVal)
-      break;
+  })
+  allContactList.forEach((item) => {
+    let contactName = item.groupId ? item.groupName : item.contactName
+    if (contactName.includes(searchKey.value)) {
+      let newData = Object.assign({}, item)
+      if (item.groupId) {
+        newData.searchContactName = newData.groupName.replace(regex, "<span class='highlight'>$1</span>")
+      } else {
+        newData.searchContactName = newData.contactName.replace(regex, "<span class='highlight'>$1</span>")
+      }
+      newData.contactId = item.groupId || item.contactId
+      searchList.value.push(newData)
     }
-    case 'REMOVE_USER':{
-      loadContact('USER')
-      router.push('/contact/blank')
-      rightTitle.value = null
-      break;
+  })
+}
+
+const searchClickHandler = (data) => {
+  searchKey.value = undefined
+  router.push({
+    path: '/chat',
+    query: {
+      chatId: data.contactId,
+      timestamp: new Date().getTime()
     }
-    case 'DISSOLUTION_GROUP':{
-      loadMyGroup()
-      router.push('/contact/blank')
-      rightTitle.value = null
-      break;
+  })
+}
+
+
+watch(() => contactStateStore.contactReload,
+  (newVal, oldVal) => {
+    if (!newVal) {
+      return;
     }
-    case 'LEAVE_GROUP':{
-      loadContact('GROUP')
-      router.push('/contact/blank')
-      rightTitle.value = null
-      break;
+    switch (newVal) {
+      case 'MY': {
+        loadMyGroup()
+        break;
+      }
+      case 'USER':
+      case 'GROUP': {
+        loadContact(newVal)
+        break;
+      }
+      case 'REMOVE_USER': {
+        loadContact('USER')
+        router.push('/contact/blank')
+        rightTitle.value = null
+        break;
+      }
+      case 'DISSOLUTION_GROUP': {
+        loadMyGroup()
+        router.push('/contact/blank')
+        rightTitle.value = null
+        break;
+      }
+      case 'LEAVE_GROUP': {
+        loadContact('GROUP')
+        router.push('/contact/blank')
+        rightTitle.value = null
+        break;
+      }
     }
-  }
- }, { immediate: true, deep: true });
+  }, { immediate: true, deep: true });
 
 </script>
 
@@ -221,11 +258,13 @@ watch(() =>contactStateStore.contactReload,
   height: 25px;
   background: #f7f7f7;
 }
+
 .top-search {
   padding: 0px 10px 9px 10px;
   background: #f7f7f7;
   display: flex;
   align-items: center;
+
   .iconfont {
     font-size: 12px;
   }
@@ -290,12 +329,12 @@ watch(() =>contactStateStore.contactReload,
     .active {
       background: #c4c4c4;
 
-        &:hover {
-          background: #c4c4c4;
-        }
+      &:hover {
+        background: #c4c4c4;
       }
     }
   }
+}
 
 .title-panel {
   width: 100%;
@@ -305,5 +344,15 @@ watch(() =>contactStateStore.contactReload,
   padding-left: 10px;
   font-size: 18px;
   color: #000000;
+}
+
+.search-list {
+  height: calc(100vh - 62px);
+  background: #f7f7f7;
+  overflow: hidden;
+
+  &:hover {
+    overflow: auto;
+  }
 }
 </style>

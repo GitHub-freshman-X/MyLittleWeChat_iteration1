@@ -9,13 +9,18 @@
           </template>
         </el-input>
       </div>
-      <div class="chat-session-list">
+      <div class="chat-session-list" v-if="!searchKey">
         <template v-for="item in chatSessionList" :key="item.contactId">
           <ChatSession :data="item" @click="chatSessionClickHandler(item)"
             @contextmenu.stop="onContextMenu(item, $event)"
             :currentSession="item.contactId == currentChatSession.contactId">
           </ChatSession>
         </template>
+      </div>
+      <div class="search-list" v-show="searchKey">
+        <SearchResult :data="item" v-for="item in searchList" :key="item.searchContactName"
+          @click="searchClickHandler(item)">
+        </SearchResult>
       </div>
     </template>
     <template #right-content>
@@ -80,6 +85,7 @@ import Blank from '@/components/Blank.vue';
 import ContextMenu from '@imengyu/vue3-context-menu'
 import ChatMessageTime from './ChatMessageTime.vue'
 import ChatMessageSys from './ChatMessageSys.vue';
+import SearchResult from './SearchResult.vue';
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import ChatSession from "./ChatSession.vue";
 import { ref, reactive, getCurrentInstance, nextTick, onMounted, onUnmounted, watch } from "vue"
@@ -87,9 +93,6 @@ const { proxy } = getCurrentInstance();
 import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
 const router = useRouter()
-
-const searchKey = ref();
-const search = () => { }
 
 const chatSessionList = ref([]);
 
@@ -358,8 +361,8 @@ const gotoBottom = (behavior = 'smooth') => {
   })
 }
 
-const onReloadChatSession = ()=>{
-  window.ipcRenderer.on('reloadChatSessionCallback', (e, { contactId, chatSessionList })=>{
+const onReloadChatSession = () => {
+  window.ipcRenderer.on('reloadChatSessionCallback', (e, { contactId, chatSessionList }) => {
     sortChatSessionList(chatSessionList)
     chatSessionList.value = chatSessionList
     sendMessage(contactId)
@@ -450,25 +453,49 @@ const showGroupDetail = () => {
   chatGroupDetailRef.value.show(currentChatSession.value.contactId)
 }
 
-const sendMessage = (contactId)=>{
-  let curSession = chatSessionList.value.find(item=>{
+const sendMessage = (contactId) => {
+  let curSession = chatSessionList.value.find(item => {
     return item.contactId == contactId
   })
-  if(!curSession){
-    window.ipcRenderer.send('reloadChatSession', {contactId})
+  if (!curSession) {
+    window.ipcRenderer.send('reloadChatSession', { contactId })
     return;
-  }else{
+  } else {
     chatSessionClickHandler(curSession)
   }
 }
 watch(() => route.query.timestamp,
   (newVal, oldVal) => {
-    if(newVal && route.query.chatId){
+    if (newVal && route.query.chatId) {
       sendMessage(route.query.chatId)
     }
   },
   { immediate: true, deep: true }
 )
+
+const searchKey = ref();
+const searchList = ref([])
+const search = () => {
+  if (!searchKey.value) {
+    return;
+  }
+  searchList.value = []
+  const regex = new RegExp("(" + searchKey.value + ")", 'gi')
+  chatSessionList.value.forEach((item) => {
+    if (item.contactName.includes(searchKey.value) ||
+      item.lastMessage.includes(searchKey.value)) {
+      let newData = Object.assign({}, item)
+      newData.searchContactName = newData.contactName.replace(regex, "<span class='highlight'>$1</span>")
+      newData.searchLastMessage = newData.lastMessage.replace(regex, "<span class='highlight'>$1</span>")
+      searchList.value.push(newData)
+    }
+  })
+}
+
+const searchClickHandler = (data) => {
+  searchKey.value = undefined
+  chatSessionClickHandler(data)
+}
 
 </script>
 
