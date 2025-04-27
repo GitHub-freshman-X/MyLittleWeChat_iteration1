@@ -101,6 +101,16 @@ watch(
   { immediate: true, deep: true }
 )
 
+const sendMessage = ()=>{
+  router.push({
+    path: '/chat',
+    query: {
+      chatId: userInfo.value.userId,
+      timestamp: new Date().getTime()
+    }
+  })
+}
+
 </script>
 
 <style lang="scss" scoped>

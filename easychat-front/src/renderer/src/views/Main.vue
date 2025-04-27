@@ -30,10 +30,11 @@
 
 
 <script setup>
-import { ref, reactive, getCurrentInstance, nextTick, onMounted } from 'vue'
+import { ref, reactive, getCurrentInstance, nextTick, onMounted, watch } from 'vue'
 const { proxy } = getCurrentInstance()
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 
 import { useUserInfoStore } from '../stores/UserInfoStore'
 const userInfoStore = useUserInfoStore()
@@ -41,7 +42,7 @@ const userInfoStore = useUserInfoStore()
 import { useGlobalInfoStore } from '../stores/GlobalInfoStore'
 const globalInfoStore = useGlobalInfoStore()
 
-import  { useSysSettingStore } from '../stores/SysSettingStore'
+import { useSysSettingStore } from '../stores/SysSettingStore'
 const sysSettingStore = useSysSettingStore()
 
 const menuList = ref([
@@ -73,11 +74,11 @@ const changeMenu = (item) => {
   router.push(item.path)
 }
 
-const getLoginInfo = async()=>{
+const getLoginInfo = async () => {
   let result = await proxy.Request({
     url: proxy.Api.getUserInfo
   })
-  if(!result){
+  if (!result) {
     return
   }
   userInfoStore.setInfo(result.data)
@@ -93,13 +94,25 @@ const getLoginInfo = async()=>{
 //   }
 // }
 
-onMounted(()=>{
+onMounted(() => {
   // getSysSetting()
   getLoginInfo()
-  window.ipcRenderer.on('getLocalStoreCallback', (e, serverPort)=>{
+  window.ipcRenderer.on('getLocalStoreCallback', (e, serverPort) => {
     globalInfoStore.setInfo('localServerPort', serverPort)
   })
 })
+
+const menuSelect = (path)=>{
+  currentMenu.value = menuList.value.find(item=>{
+    return path.includes(item.path)
+  })
+}
+
+watch(() => route.path, (newVal, oldVal) => {
+  if(newVal) {
+    menuSelect(newVal)
+  }
+ }, { immediate: true, deep: true });
 
 </script>
 

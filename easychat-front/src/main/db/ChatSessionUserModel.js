@@ -125,6 +125,17 @@ const saveOrUpdate4Message = async(currentSessionId, sessionInfo)=>{
   })
 }
 
+const updateStatus = (contactId)=>{
+  const paramData = {
+    userId: store.getUserId(),
+    contactId
+  }
+  const sessionInfo = {
+    status: 1
+  }
+  return update('chat_session_user', sessionInfo, paramData)
+}
+
 
 export{
   saveOrUpdateChatSessionBatch4Init,
@@ -135,5 +146,6 @@ export{
   updateSessionInfo4Message,
   readAll,
   saveOrUpdate4Message,
-  selectUserSessionByContactId
+  selectUserSessionByContactId, 
+  updateStatus,
 }

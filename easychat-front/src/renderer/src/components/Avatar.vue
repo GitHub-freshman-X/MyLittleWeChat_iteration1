@@ -25,13 +25,19 @@
         </div>
       </template>
     </el-popover>
+    <SearchAdd ref="searchAddRef"></SearchAdd>
   </div>
 </template>
 
 <script setup>
+import SearchAdd from '@/views/contact/SearchAdd.vue';
 import { ref, reactive, getCurrentInstance, nextTick, computed } from 'vue';
 const { proxy } = getCurrentInstance();
 import AvatarBase from './AvatarBase.vue';
+
+import { useRoute, useRouter } from "vue-router"
+const route = useRoute()
+const router = useRouter()
 
 import UserBaseInfo from './UserBaseInfo.vue';
 import { useUserInfoStore } from '@/stores/UserInfoStore';
@@ -74,8 +80,28 @@ const getContactInfo = async () => {
   }
 }
 
-const sendMessage = () => { }
-const addContact = () => { }
+const popoverRef = ref()
+const emit = defineEmits(['closeDrawer'])
+const sendMessage = () => {
+  popoverRef.value.hide()
+  emit('closeDrawer')
+  router.push({
+    path: '/chat',
+    query: {
+      chatId: props.userId,
+      timestamp: new Date().getTime()
+    }
+  })
+}
+
+const searchAddRef = ref()
+const addContact = () => { 
+  popoverRef.value.hide()
+  searchAddRef.value.show({
+    contactId: props.userId,
+    contactType: 'USER',
+  })
+}
 
 </script>
 

@@ -36,6 +36,20 @@ const showDetailHandler = () => {
     return;
   }
   // 查看图片详情
+  window.ipcRenderer.send('newWindow', {
+    windowId: 'media',
+    title: '图片查看',
+    path: '/showMedia',
+    data: {
+      fileList: [{
+        fileId: props.userId,
+        fileType: 0,
+        partType: 'avatar',
+        status: 1,
+        forceGet: true
+      }]
+    }
+  })
 }
 
 </script>

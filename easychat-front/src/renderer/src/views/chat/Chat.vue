@@ -82,7 +82,7 @@ import ChatMessageTime from './ChatMessageTime.vue'
 import ChatMessageSys from './ChatMessageSys.vue';
 import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
 import ChatSession from "./ChatSession.vue";
-import { ref, reactive, getCurrentInstance, nextTick, onMounted, onUnmounted } from "vue"
+import { ref, reactive, getCurrentInstance, nextTick, onMounted, onUnmounted, watch } from "vue"
 const { proxy } = getCurrentInstance();
 import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
@@ -358,12 +358,21 @@ const gotoBottom = (behavior = 'smooth') => {
   })
 }
 
+const onReloadChatSession = ()=>{
+  window.ipcRenderer.on('reloadChatSessionCallback', (e, { contactId, chatSessionList })=>{
+    sortChatSessionList(chatSessionList)
+    chatSessionList.value = chatSessionList
+    sendMessage(contactId)
+  })
+}
+
 onMounted(() => {
   onReceiveMessage()
   onLoadSessionData()
   loadChatSession()
   onLoadChatMessage()
   onAddLocalMessage()
+  onReloadChatSession()
 
 })
 
@@ -372,6 +381,7 @@ onUnmounted(() => {
   window.ipcRenderer.removeAllListeners("loadSessionDataCallback")
   window.ipcRenderer.removeAllListeners("loadChatMessage")
   window.ipcRenderer.removeAllListeners("onAddLocalMessage")
+  window.ipcRenderer.removeAllListeners("reloadChatSessionCallback")
 })
 
 const setTop = (data) => {
@@ -436,9 +446,29 @@ const showMediaDetailHandler = (messageId) => {
 }
 
 const chatGroupDetailRef = ref()
-const showGroupDetail = ()=>{
+const showGroupDetail = () => {
   chatGroupDetailRef.value.show(currentChatSession.value.contactId)
 }
+
+const sendMessage = (contactId)=>{
+  let curSession = chatSessionList.value.find(item=>{
+    return item.contactId == contactId
+  })
+  if(!curSession){
+    window.ipcRenderer.send('reloadChatSession', {contactId})
+    return;
+  }else{
+    chatSessionClickHandler(curSession)
+  }
+}
+watch(() => route.query.timestamp,
+  (newVal, oldVal) => {
+    if(newVal && route.query.chatId){
+      sendMessage(route.query.chatId)
+    }
+  },
+  { immediate: true, deep: true }
+)
 
 </script>
 

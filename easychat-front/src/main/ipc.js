@@ -7,7 +7,7 @@ const NODE_ENV = process.env.NODE_ENV
 import store from "./store"
 import {initWs}from './wsClient'
 import { addUserSetting } from './db/UserSettingModel'
-import { selectUserSessionList, delChatSession, topChatSession, updateSessionInfo4Message, readAll } from './db/ChatSessionUserModel'
+import { selectUserSessionList, delChatSession, topChatSession, updateSessionInfo4Message, readAll, updateStatus } from './db/ChatSessionUserModel'
 import { saveMessage, selectMessageList, updateMessage } from './db/ChatMessageModel'
 import { delWindow, getWindow, saveWindow } from './windowProxy'
 
@@ -183,6 +183,14 @@ const onSaveAs = ()=>{
   })
 }
 
+const onReloadChatSession = ()=>{
+  ipcMain.on('reloadChatSession', async(e, {contactId})=>{
+    await updateStatus(contactId);
+    const chatSessionList = await selectUserSessionList()
+    e.sender.send('reloadChatSessionCallback', {contactId, chatSessionList})
+  })
+}
+
 export {
   onLoginOrRegister,
   onLoginSuccess,
@@ -198,4 +206,5 @@ export {
   onCreateCover,
   onOpenNewWindow,
   onSaveAs,
+  onReloadChatSession,
 }
