@@ -353,7 +353,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 		if (groupInfo == null) {
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
-		if (!userId.equals(groupInfo.getGroupOwnerId())) {
+		if (userId.equals(groupInfo.getGroupOwnerId())) {
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
 

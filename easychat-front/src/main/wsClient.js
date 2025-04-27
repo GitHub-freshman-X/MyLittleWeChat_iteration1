@@ -57,8 +57,14 @@ const createWs = () => {
         sender.send('receiveMessage', message)
         break;
       }
+      // 2: 聊天消息
+      // 5: 图片，视频消息
+      // 9: 好友加入群组
       case 2:
-      case 5:{
+      case 5:
+      case 9:
+      case 11:
+      case 12:{
         if(message.sendUserId==store.getUserId() && message.contactType==1){
           break;
         }
@@ -73,6 +79,9 @@ const createWs = () => {
             sessionInfo.contactName=message.sendUserNickName
           }
           sessionInfo.lastReceiveTime = message.sendTime
+        }
+        if(messageType==9 || messageType==11 || messageType==12){
+          sessionInfo.memberCount = message.memberCount
         }
         await saveOrUpdate4Message(store.getData("currentSessionId"), sessionInfo)
         // 写入本地消息

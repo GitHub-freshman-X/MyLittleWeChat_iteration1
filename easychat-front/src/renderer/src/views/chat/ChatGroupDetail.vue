@@ -31,14 +31,16 @@
           <div class="line"></div>
           <a href="javascript::void(0)" class="leave-btn" @click="dissolutionGroup"
             v-if="userInfoStore.getInfo().userId == groupInfo.groupOwnerId">解散群聊</a>
-          <a href="javascript::void(0)" class="leave-btn" @click="leaveGroup" v-else></a>
+          <a href="javascript::void(0)" class="leave-btn" @click="leaveGroup" v-else>退出群聊</a>
         </div>
       </div>
     </el-drawer>
+    <UserSelect ref="userSelectRef" @callback="addOrRemoveUserCallback"></UserSelect>
   </div>
 </template>
 
 <script setup>
+import UserSelect from "./UserSelect.vue";
 import { ref, reactive, getCurrentInstance, nextTick } from "vue"
 const { proxy } = getCurrentInstance();
 import { useRoute, useRouter } from "vue-router"
@@ -80,6 +82,64 @@ defineExpose({
 const drawerRef = ref()
 const closeDrawerHandler = () => {
   drawerRef.value.close()
+}
+
+const userSelectRef = ref()
+const addUser = async () => {
+  let result = await proxy.Request({
+    url: proxy.Api.loadContact,
+    params: {
+      contactType: 'USER'
+    }
+  })
+  if (!result) {
+    return;
+  }
+  const contactIds = memberList.value.map((item) => item['userId'])
+  let contactList = result.data
+  contactList.forEach((element) => {
+    if (contactIds.includes(element.contactId)) {
+      element.disabled = true
+    }
+  })
+  userSelectRef.value.show({
+    contactList,
+    groupId: groupInfo.value.groupId,
+    opType: 1
+  })
+}
+
+const removeUser = async () => {
+  let contactList = memberList.value.map((item) => item)
+  contactList.forEach((item) => {
+    item.contactId = item.userId
+  })
+  contactList.splice(0, 1)
+  userSelectRef.value.show({ contactList, groupId: groupInfo.value.groupId, opType: 0 })
+}
+
+const addOrRemoveUserCallback = () => {
+  showDrawer.value = false
+}
+
+const leaveGroup = ()=>{
+  proxy.Confirm({
+    message: `确定要退出群聊【${groupInfo.value.groupName}】吗？`,
+    okfun: async()=>{
+      let result = await proxy.Request({
+         url:proxy.Api.leaveGroup,
+         params:{
+          groupId: groupInfo.value.groupId
+         }
+      })
+      if(!result){
+        return;
+      }
+      window.ipcRenderer.send('delChatSession', groupInfo.value.groupId)
+      proxy.Message.success('已退出群聊')
+      drawerRef.value.close()
+    }
+  })
 }
 
 </script>

@@ -1,36 +1,26 @@
 <template>
   <div>
-    <AvatarBase
-      :userId="userId"
-      :width="width"
-      :borderRadius="borderRadius"
-      :showDetail="false"
-      v-if="userId=='Urobot'">
+    <AvatarBase :userId="userId" :width="width" :borderRadius="borderRadius" :showDetail="false"
+      v-if="userId == 'Urobot'">
     </AvatarBase>
-    <el-popover
-      v-else
-      :width="280"
-      placement="right-start"
-      :show-arrow="false"
-      trigger="click"
-      transition="none"
-      :hide-after="0"
-      @show="getContactInfo"
-      ref="popoverRef">
+    <el-popover v-else :width="280" placement="right-start" :show-arrow="false" trigger="click" transition="none"
+      :hide-after="0" @show="getContactInfo" ref="popoverRef">
       <template #reference>
-        <AvatarBase
-          :userId="userId"
-          :width="width"
-          :borderRadius="borderRadius"
-          :showDetail="false">
+        <AvatarBase :userId="userId" :width="width" :borderRadius="borderRadius" :showDetail="false">
         </AvatarBase>
       </template>
       <template #default>
         <div class="popover-user-panel">
           <UserBaseInfo :userInfo="userInfo"></UserBaseInfo>
-          <div class="op-btn" v-if="userId!==userInfoStore.getInfo().userId">
-            <el-button v-if="userInfo.contactStatus == 1" type="primary" @click="sendMessage">发送消息</el-button>
-            <el-button v-else type="primary" @click="addContact">加为好友</el-button>
+          <div class="op-btn" v-if="userId !== userInfoStore.getInfo().userId">
+            <template v-if="userId && userId.startsWith('U')">
+              <el-button v-if="userInfo.contactStatus == 1" type="primary" @click="sendMessage">发送消息</el-button>
+              <el-button v-else type="primary" @click="addContact">加为好友</el-button>
+            </template>
+            <template v-else>
+              <el-button v-if="userInfo.contactStatus == 1" type="primary" @click="sendMessage">发送消息</el-button>
+              <el-button v-else type="primary" @click="addContact">加入群聊</el-button>
+            </template>
           </div>
         </div>
       </template>
@@ -65,27 +55,27 @@ const props = defineProps({
 })
 
 const userInfo = ref({})
-const getContactInfo = async() =>{
+const getContactInfo = async () => {
   userInfo.value.userId = props.userId
-  if(userInfoStore.getInfo().userId == props.userId){
+  if (userInfoStore.getInfo().userId == props.userId) {
     userInfo.value = userInfoStore.getInfo()
-  }else{
+  } else {
     let result = await proxy.Request({
-       url: proxy.Api.getContactInfo,
-       params:{
+      url: proxy.Api.getContactInfo,
+      params: {
         contactId: props.userId
-       },
-       showLoading: false,
+      },
+      showLoading: false,
     })
-    if(!result){
+    if (!result) {
       return;
     }
     userInfo.value = Object.assign({}, result.data)
   }
 }
 
-const sendMessage = () =>{}
-const addContact = () =>{}
+const sendMessage = () => { }
+const addContact = () => { }
 
 </script>
 
