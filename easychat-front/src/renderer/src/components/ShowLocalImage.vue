@@ -1,9 +1,6 @@
 <template>
   <div class="image-panel" @click="showImageHandler">
     <el-image :src="serverUrl" fit="scale-down" :width="width"></el-image>
-    <!-- <template #error>
-      <div class="iconfont icon-image-error"></div>
-    </template> -->
     <div class="play-panel" v-if="showPlay">
       <span class="iconfont icon-video-play"></span>
     </div>

@@ -23,7 +23,6 @@
                 'part-item',
                 contact[item.contactId] == route.query.contactId ? 'active' : ''
               ]" @click="contactDetail(contact, item)">
-                <!-- <Avatar :userId="contact[item.contactId]" :width="35"></Avatar> -->
                 <Avatar :userId="contact[item.contactId]" :width="35"></Avatar>
                 <div class="text">{{ contact[item.contactName] }}</div>
               </div>
@@ -128,6 +127,21 @@ const partJump = (data) => {
   router.push(data.path)
 }
 
+const myGroupIds = ref([])
+const loadMyGroup = async () => {
+  let result = await proxy.Request({
+    url: proxy.Api.loadMyGroup,
+    showLoading: false
+  })
+  if (!result) {
+    return;
+  }
+  result.data = result.data.filter(item => item.status==1)
+  myGroupIds.value = result.data.map(item => item.groupId)
+  // console.log('loadMyGroup', myGroupIds.value)
+  partList.value[1].contactData = result.data
+}
+
 const loadContact = async (contactType) => {
   let result = await proxy.Request({
     url: proxy.Api.loadContact,
@@ -139,26 +153,20 @@ const loadContact = async (contactType) => {
     return;
   }
   if (contactType == 'GROUP') {
+    result.data = result.data.filter(item => item.status==1)
+    result.data = result.data.filter(item => !myGroupIds.value.includes(item.contactId))
     partList.value[2].contactData = result.data
   } else if (contactType == 'USER') {
     partList.value[3].contactData = result.data
   }
-  console.log('loadContact')
 }
-loadContact('GROUP')
-loadContact('USER')
 
-const loadMyGroup = async () => {
-  let result = await proxy.Request({
-    url: proxy.Api.loadMyGroup,
-    showLoading: false
-  })
-  if (!result) {
-    return;
-  }
-  partList.value[1].contactData = result.data
+const initLoad = async () => {
+  await loadMyGroup()
+  await loadContact('GROUP')
+  await loadContact('USER')
 }
-loadMyGroup()
+initLoad()
 
 const contactDetail = (contact, part) => {
   if (part.showTitle) {

@@ -6,6 +6,7 @@
     <el-popover v-else :width="280" placement="right-start" :show-arrow="false" trigger="click" transition="none"
       :hide-after="0" @show="getContactInfo" ref="popoverRef">
       <template #reference>
+        <!-- 在父组件中userId传的是contactId，所以userId既是userId也可能是groupId -->
         <AvatarBase :userId="userId" :width="width" :borderRadius="borderRadius" :showDetail="false">
         </AvatarBase>
       </template>
@@ -18,8 +19,7 @@
               <el-button v-else type="primary" @click="addContact">加为好友</el-button>
             </template>
             <template v-else>
-              <el-button v-if="userInfo.contactStatus == 1" type="primary" @click="sendMessage">发送消息</el-button>
-              <el-button v-else type="primary" @click="addContact">加入群聊</el-button>
+              <el-button type="primary" @click="sendMessage">发送消息</el-button>
             </template>
           </div>
         </div>
@@ -54,9 +54,6 @@ const props = defineProps({
   borderRadius: {
     type: Number,
     default: 0
-  },
-  groupId: {
-    type: String
   }
 })
 
@@ -66,13 +63,24 @@ const getContactInfo = async () => {
   if (userInfoStore.getInfo().userId == props.userId) {
     userInfo.value = userInfoStore.getInfo()
   } else {
-    let result = await proxy.Request({
-      url: proxy.Api.getContactInfo,
-      params: {
-        contactId: props.userId
-      },
-      showLoading: false,
-    })
+    let result = {}
+    if (props.userId && props.userId.startsWith('U')) {
+      result = await proxy.Request({
+        url: proxy.Api.getContactInfo,
+        params: {
+          contactId: props.userId
+        },
+        showLoading: false,
+      })
+    } else if (props.userId && props.userId.startsWith('G')) {
+      result = await proxy.Request({
+        url: proxy.Api.getGroupInfo,
+        params: {
+          groupId: props.userId
+        },
+        showLoading: false,
+      })
+    }
     if (!result) {
       return;
     }
@@ -95,7 +103,7 @@ const sendMessage = () => {
 }
 
 const searchAddRef = ref()
-const addContact = () => { 
+const addContact = () => {
   popoverRef.value.hide()
   searchAddRef.value.show({
     contactId: props.userId,

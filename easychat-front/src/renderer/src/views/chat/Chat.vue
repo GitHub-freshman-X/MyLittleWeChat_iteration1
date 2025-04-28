@@ -189,6 +189,10 @@ const onLoadChatMessage = () => {
       return;
     }
 
+    dataList = dataList.filter(item => {
+      return item.status != 2
+    })
+
     // 按时间排序
     dataList.sort((a, b) => a.messageId - b.messageId);
 

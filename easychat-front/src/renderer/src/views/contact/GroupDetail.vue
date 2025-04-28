@@ -92,11 +92,12 @@ const dissolutionGroup= () => {
   proxy.Confirm({
     message: '确定要删除群聊吗',
     okfun: async()=> {
+      console.log('okfun', groupId)
       contactStateStore.setContactReload(null)
       let result = await proxy.Request({
          url: proxy.Api.dissolutionGroup,
          params:{
-          groupId: groupId.value.groupId
+          groupId: groupId.value
          }
       })
       if(!result){

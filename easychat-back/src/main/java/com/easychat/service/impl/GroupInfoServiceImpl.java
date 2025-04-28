@@ -198,7 +198,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 			}
 
 			if(null==avatarFile){
-				//throw new BusinessException(ResponseCodeEnum.CODE_600);
+				throw new BusinessException(ResponseCodeEnum.CODE_600);
 			}
 
 			groupInfo.setCreateTime(curDate);
@@ -272,6 +272,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 
 			chatSessionUserService.updateRedundanceInfo(contactNameUpdate, groupInfo.getGroupId());
 
+
 		}
 
 		if(null==avatarCover){ return;}
@@ -291,7 +292,7 @@ public class  GroupInfoServiceImpl implements GroupInfoService {
 	@Transactional(rollbackFor =Exception.class)
 	public void dissolutionGroup(String groupOwnerId,String groupId) {
 		GroupInfo dbInfo=this.groupInfoMapper.selectByGroupId(groupId);
-		if (dbInfo==null||dbInfo.getGroupOwnerId().equals(groupOwnerId)){
+		if (dbInfo==null||!dbInfo.getGroupOwnerId().equals(groupOwnerId)){
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
 		GroupInfo updateInfo=new GroupInfo();

@@ -9,6 +9,7 @@ import com.easychat.entity.enums.PageSize;
 import com.easychat.entity.enums.ResponseCodeEnum;
 import com.easychat.entity.enums.UserContacTypeEnum;
 import com.easychat.entity.enums.UserContactStatusEnum;
+import com.easychat.entity.po.GroupInfo;
 import com.easychat.entity.po.UserContactApply;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.query.UserContactApplyQuery;
@@ -184,6 +185,10 @@ public class UserContactController extends ABaseController{
 	@RequestMapping("/getContactInfo")
 	@GlobalInterceptor
 	public ResponseVO getContactInfo(HttpServletRequest request, @NotNull String contactId) {
+//		if(contactId!=null && contactId.startsWith("G")){
+//			GroupInfo groupInfo = getGroupInfoByGroupId(contactId);
+//		}
+
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
 		UserInfo userInfo = userInfoService.getUserInfoByUserId(contactId);
 		UserInfoVO userInfoVO = CopyTools.copy(userInfo,UserInfoVO.class);
