@@ -217,7 +217,7 @@ const closePopover = () => {
 const checkFileSize = (fileType, fileSize, fileName) => {
   const SIZE_MB = 1024 * 1024
   const settingArray = Object.values(sysSettingStore.getSetting())
-  const fileSizeNumber = settingArray[fileType]
+  const fileSizeNumber = settingArray[fileType+2]
   if (fileSize > fileSizeNumber * SIZE_MB) {
     proxy.Confirm({
       message: `文件${fileName}超过大小${fileSizeNumber}MB，无法发送`,

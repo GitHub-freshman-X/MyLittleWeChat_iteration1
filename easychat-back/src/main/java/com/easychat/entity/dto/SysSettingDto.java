@@ -13,11 +13,11 @@ public class SysSettingDto implements Serializable {
     //群组最大人数
     private Integer maxGroupMemberCount = 500;
     //图片大小
-    private Integer maxImageSize = 2;
+    private Integer maxImageSize = 1024;
     //视频大小
-    private Integer maxVideoSize = 5;
+    private Integer maxVideoSize = 1024;
     //文件大小
-    private Integer maxFileSize = 5;
+    private Integer maxFileSize = 1024;
     //文件大小
     private String robotUid = Constants.ROBOT_UID;
     private String robotNickName = "EasyChat";

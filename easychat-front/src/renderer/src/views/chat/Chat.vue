@@ -189,10 +189,6 @@ const onLoadChatMessage = () => {
       return;
     }
 
-    dataList = dataList.filter(item => {
-      return item.status != 2
-    })
-
     // 按时间排序
     dataList.sort((a, b) => a.messageId - b.messageId);
 
@@ -285,6 +281,7 @@ const setSessionSelect = ({ contactId, sessionId }) => {
 // }
 
 const sendMessage4LocalHandler = (messageObj) => {
+  console.log('sendMessage4LocalHandler', chatSessionList)
   messageList.value.push(messageObj)
   const chatSession = chatSessionList.value.find((item) => {
     return item.sessionId == messageObj.sessionId
